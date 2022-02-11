@@ -1,19 +1,21 @@
-import { AButton, ATextInput, Container, DismissKeyboard } from '@atoms';
+import {
+  AButton,
+  ATextInput,
+  Container,
+  DismissKeyboard,
+  Wrapper,
+} from '@components';
 import React from 'react';
-import { View } from 'react-native';
 
-const LoginScreen = () => {
+export const LoginScreen = () => {
   return (
     <DismissKeyboard>
       <Container>
-        <View style={{ margin: 16 }}>
+        <Wrapper style={{ margin: 16 }} childStyle={{ marginTop: 8 }}>
           <ATextInput label="입력" />
-
-          <AButton title="알림" />
-        </View>
+          <AButton title="알림" style={{ marginTop: 16 }} />
+        </Wrapper>
       </Container>
     </DismissKeyboard>
   );
 };
-
-export default LoginScreen;

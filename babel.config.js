@@ -19,14 +19,12 @@ module.exports = {
           '.json',
         ],
         alias: {
-          '@atoms': './src/components/atoms',
-          '@templates': './src/components/templates',
           '@components': './src/components',
-          '@screens': './src/screens',
-
-          '@api': './src/api',
           '@hooks': './src/hooks',
           '@navigators': './src/navigators',
+          '@screens': './src/screens',
+          '@services': './src/services',
+          '@stores': './src/stores',
           '@styles': './src/styles',
           '@utils': './src/utils',
           '@': './src',

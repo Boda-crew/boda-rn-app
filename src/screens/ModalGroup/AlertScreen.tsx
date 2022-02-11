@@ -3,7 +3,7 @@ import { useNavigation } from '@react-navigation/native';
 import React, { useEffect } from 'react';
 import { Animated, Button, Text, View } from 'react-native';
 
-const AlertScreen = () => {
+export const AlertScreen = () => {
   const nav = useNavigation();
 
   const { onAppear, animationStyle } = useAlertAnimation();
@@ -26,5 +26,3 @@ const AlertScreen = () => {
     </View>
   );
 };
-
-export default AlertScreen;

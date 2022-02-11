@@ -5,9 +5,7 @@ type keyType = 'authToken';
 export const setItemAsync = async (key: keyType, value: any) => {
   try {
     await AsyncStorage.setItem(key, JSON.stringify(value));
-  } catch (e) {
-    // console.log(e);
-  }
+  } catch (e) {}
 };
 
 export const getItemAsync = async (key: keyType) => {
@@ -17,16 +15,12 @@ export const getItemAsync = async (key: keyType) => {
     if (jsonString == null) return undefined;
 
     obj = JSON.parse(jsonString);
-  } catch (e) {
-    // console.log(e);
-  }
+  } catch (e) {}
   return obj;
 };
 
 export const deleteItemAsync = async (key: keyType) => {
   try {
     await AsyncStorage.removeItem(key);
-  } catch (e) {
-    // console.log(e);
-  }
+  } catch (e) {}
 };

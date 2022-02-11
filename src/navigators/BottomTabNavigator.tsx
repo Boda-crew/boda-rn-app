@@ -1,5 +1,5 @@
 import React from 'react';
-import BolierScreen from '@screens/BolierScreen';
+import { BolierScreen } from '@screens';
 import { BottomTabParamList } from '@types';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 

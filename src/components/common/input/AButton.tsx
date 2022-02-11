@@ -10,8 +10,8 @@ import { palette } from '@styles';
 interface ContentProps {
   disabled?: boolean | null;
   pressed?: boolean;
-  kind: keyof typeof kinds;
-  size: keyof typeof sizes;
+  kind?: keyof typeof kinds;
+  size?: keyof typeof sizes;
   color?: keyof typeof palette;
   backgroundColor?: keyof typeof palette;
 }
@@ -29,7 +29,7 @@ interface ButtonProps extends PressableProps, ContentProps {
  * @default activeOpacity 0.6, titleSize 16, weight 'bold', height 56,
  * @containerStyle
  */
-const AButton = ({
+export const AButton = ({
   title,
   loading,
   kind,
@@ -69,7 +69,7 @@ const Wrapper = styled.View<ContentProps>(
     alignItems: 'center',
     justifyContent: 'center',
   },
-  ({ pressed, disabled, kind, size, backgroundColor }) => ({
+  ({ pressed, disabled, kind = 'primary', size = 'nomal', backgroundColor }) => ({
     ...kinds[kind].wrapper,
     ...sizes[size].wrapper,
     ...(backgroundColor && { backgroundColor }),
@@ -78,7 +78,7 @@ const Wrapper = styled.View<ContentProps>(
 );
 
 const Title = styled.Text<ContentProps>(
-  ({ pressed, disabled, kind, size, color }) => ({
+  ({ pressed, disabled, kind = 'primary', size = 'nomal', color }) => ({
     ...kinds[kind].title,
     ...sizes[size].title,
     ...(color && { color }),
@@ -88,28 +88,46 @@ const Title = styled.Text<ContentProps>(
 
 const kinds = {
   primary: {
-    wrapper: css({ backgroundColor: palette.blue3 }),
-    title: css({ color: palette.white }),
+    wrapper: css`
+      background-color: ${palette.blue3};
+    `,
+    title: css`
+      color: ${palette.white};
+    `,
   },
   secondary: {
-    wrapper: css({ backgroundColor: palette.grey2 }),
-    title: css({ color: palette.grey4 }),
+    wrapper: css`
+      background-color: ${palette.grey2};
+    `,
+    title: css`
+      color: ${palette.grey4};
+    `,
   },
   outline: {
-    wrapper: css({
-      backgroundColor: 'transparent',
-      borderWidth: 1,
-      borderColor: palette.blue3,
-    }),
-    title: css({ color: palette.blue3 }),
+    wrapper: css`
+      background-color: transparent;
+      /* borderWidth: 1, */
+      /* borderColor: palette.blue3, */
+    `,
+    title: css`
+      color: ${palette.blue3};
+    `,
   },
   ghost: {
-    wrapper: css({ backgroundColor: 'transparent' }),
-    title: css({ color: palette.blue3 }),
+    wrapper: css`
+      background-color: transparent;
+    `,
+    title: css`
+      color: ${palette.blue3};
+    `,
   },
   danger: {
-    wrapper: css({ backgroundColor: palette.red3 }),
-    title: css({ color: palette.white }),
+    wrapper: css`
+      background-color: ${palette.red3};
+    `,
+    title: css`
+      color: ${palette.white};
+    `,
   },
 };
 
@@ -142,11 +160,3 @@ const sizes = {
     `,
   },
 };
-
-AButton.defaultProps = {
-  activeOpacity: 0.8,
-  kind: 'primary',
-  size: 'nomal',
-};
-
-export default AButton;

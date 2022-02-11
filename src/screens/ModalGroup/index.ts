@@ -1,1 +1,1 @@
-export { default as AlertScreen } from './AlertScreen';
+export * from './AlertScreen';

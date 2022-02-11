@@ -1,1 +1,1 @@
-export * as LocalStorage from './LocalStorage';
+export * from './timeHelper';

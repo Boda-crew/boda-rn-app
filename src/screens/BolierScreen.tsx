@@ -4,7 +4,7 @@ import { Text } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { css } from '@emotion/native';
 import { RootParamList } from '@types';
-import { AButton } from '@/components/atoms/input';
+import { AButton } from '@components';
 
 interface Props {
   route: {
@@ -12,7 +12,7 @@ interface Props {
   };
 }
 
-const BolierScreen = ({ route: { name } }: Props) => {
+export const BolierScreen = ({ route: { name } }: Props) => {
   const nav = useNavigation<NavigationProp<RootParamList>>();
   return (
     <SafeAreaView
@@ -28,5 +28,3 @@ const BolierScreen = ({ route: { name } }: Props) => {
     </SafeAreaView>
   );
 };
-
-export default BolierScreen;

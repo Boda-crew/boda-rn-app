@@ -1,11 +1,9 @@
-import onFetch from '../onFetch';
+import { _axios } from '../AxiosService';
 
 const route = '/users';
 
 export const read_users = () => {
-  return onFetch<{
-    name: string;
-  }>({
+  return _axios<{ name: string }>({
     url: `${route}`,
     method: 'GET',
   });

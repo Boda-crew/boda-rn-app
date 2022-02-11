@@ -1,4 +1,4 @@
-import { LoginScreen } from '@screens/PublicGroup';
+import { LoginScreen } from '@screens';
 import React from 'react';
 import Root from '../Root';
 

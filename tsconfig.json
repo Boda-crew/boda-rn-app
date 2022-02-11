@@ -22,14 +22,12 @@
     "typeRoots": ["./node_modules/@types", "./@types"],
     "baseUrl": "./src",
     "paths": {
-      "@atoms": ["./components/atoms"],
-      "@templates": ["./components/templates"],
       "@components": ["./components"],
-      "@screens/*": ["./screens/*"],
-
-      "@api": ["./api"],
       "@hooks": ["./hooks"],
       "@navigators": ["./navigators"],
+      "@screens": ["./screens"],
+      "@services": ["./services"],
+      "@stores": ["./stores"],
       "@styles": ["./styles"],
       "@utils": ["./utils"],
       "@/*": ["./*"]

@@ -1,5 +1,6 @@
 import React from 'react';
-import BolierScreen from '@screens/BolierScreen';
+import { BolierScreen } from '@screens';
+
 import Root from '../Root';
 import BottomTabNavigator from '../BottomTabNavigator';
 
