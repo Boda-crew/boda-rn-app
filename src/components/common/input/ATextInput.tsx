@@ -64,6 +64,7 @@ const Input = styled.TextInput`
   font-size: 18px;
   margin: 8px 8px 8px 16px;
   background: transparent;
+  padding: 0;
 `;
 
 const ErrorLabel = styled.Text`

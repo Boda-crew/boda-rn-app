@@ -1,10 +1,9 @@
 import { useNavigation } from '@react-navigation/native';
 import React from 'react';
-import { Alert, Text } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { AButton, Wrapper } from '@components';
-import { css } from '@emotion/native';
+import { Text } from 'react-native';
+import { AButton, Container, Wrapper } from '@components';
 import FastImage from 'react-native-fast-image';
+import { useAuthActions } from '@stores';
 
 interface Props {
   route: {
@@ -14,15 +13,18 @@ interface Props {
 
 export const BolierScreen = ({ route: { name } }: Props) => {
   const nav = useNavigation();
+  const { logout } = useAuthActions();
+
+  const random = Math.floor(Math.random() * 10);
 
   return (
-    <SafeAreaView>
+    <Container>
       <Wrapper
         style={{ alignItems: 'center' }}
         gapStyle={{ marginTop: 8, justifyContent: 'center' }}
       >
         <Text>{name}</Text>
-        <AButton kind="outline" disabled title="돌아가기" onPress={nav.goBack} />
+        <AButton kind="outline" title="로그아웃" onPress={logout} />
         <AButton
           title="경고창"
           onPress={() => nav.navigate('Alert', { text: '정말 확인 하시겠습니까?' })}
@@ -31,13 +33,13 @@ export const BolierScreen = ({ route: { name } }: Props) => {
         <FastImage
           style={{ width: 200, height: 200 }}
           source={{
-            uri: 'https://unsplash.it/400/400?image=1',
+            uri: `https://unsplash.it/400/400?image=${random}`,
             headers: { Authorization: 'someAuthToken' },
             priority: FastImage.priority.normal,
           }}
           resizeMode={FastImage.resizeMode.contain}
         />
       </Wrapper>
-    </SafeAreaView>
+    </Container>
   );
 };
