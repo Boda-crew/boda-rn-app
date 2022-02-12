@@ -1,4 +1,4 @@
-package com.app;
+package com.boda.app;
 
 import com.facebook.react.ReactActivity;
 
