@@ -2,13 +2,13 @@ import { AuthService, StorageService } from '@services';
 import { User } from '@types';
 import { atom, useSetRecoilState } from 'recoil';
 
-export const authUser = atom<User | null>({
-  key: 'authUser',
+export const authStore = atom<User | null>({
+  key: 'authStore',
   default: null,
 });
 
 export const useBootAuth = () => {
-  const setAuthUser = useSetRecoilState(authUser);
+  const setAuthUser = useSetRecoilState(authStore);
 
   const boostAuth = async () => {
     const token = await StorageService.getItemAsync('authToken');
@@ -23,12 +23,12 @@ export const useBootAuth = () => {
 };
 
 export const useAuthActions = () => {
-  const setAuthUser = useSetRecoilState(authUser);
+  const setAuthUser = useSetRecoilState(authStore);
 
-  const login = async () => {
+  const login = async ({ id }: { id: string; pw: string }) => {
     const token = ''; // API: login
     AuthService.setAuthToken(token);
-    setAuthUser(null);
+    setAuthUser({ id, name: '테스트' });
   };
 
   const logout = async () => {

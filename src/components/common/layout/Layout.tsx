@@ -20,15 +20,15 @@ export const WINDOW_WIDTH = width;
 
 interface WrapperProps extends ViewProps {
   children?: React.ReactNode;
-  childStyle?: ViewStyleProps;
+  gapStyle?: ViewStyleProps;
 }
 
-export const Wrapper = ({ childStyle, children, ...viewProps }: WrapperProps) => (
+export const Wrapper = ({ gapStyle, children, ...viewProps }: WrapperProps) => (
   <View {...viewProps}>
-    {React.Children.map(children, child => {
+    {React.Children.map(children, (child, index) => {
       const element = child as any;
       return React.cloneElement(element, {
-        style: [element.props.style, childStyle],
+        style: [element.props.style, index && gapStyle],
       });
     })}
   </View>

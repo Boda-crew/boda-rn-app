@@ -14,6 +14,7 @@ interface Props {
 
 export const BolierScreen = ({ route: { name } }: Props) => {
   const nav = useNavigation<NavigationProp<RootParamList>>();
+
   return (
     <SafeAreaView
       style={css`

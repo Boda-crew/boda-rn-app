@@ -1,17 +1,18 @@
 import styled from '@emotion/native';
 import { palette, theme } from '@styles';
 import { ViewStyleProps } from '@types';
-import React, { useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { TextInput, TextInputProps, View } from 'react-native';
 
-interface ATextInputProps extends TextInputProps {
+interface ATextInputProps extends Omit<TextInputProps, 'onChange'> {
   label?: string;
-  error?: string;
+  error?: string | boolean;
   containerStyle?: ViewStyleProps;
+  onChange: (value: string) => void;
 }
 
 export const ATextInput = React.forwardRef<TextInput, ATextInputProps>(
-  ({ label, error, ...props }, ref) => {
+  ({ label, error, onChange, ...props }, ref) => {
     const [isFocus, setIsFocus] = useState(false);
 
     const color = useMemo(() => {
@@ -21,21 +22,22 @@ export const ATextInput = React.forwardRef<TextInput, ATextInputProps>(
     }, [error, isFocus]);
 
     return (
-      <View style={{}}>
-        {label && <Label>{label}</Label>}
+      <View>
+        {!!label && <Label>{label}</Label>}
         <InputWrapper borderColor={color}>
           <Input
             ref={ref}
             autoCapitalize="none"
             autoCorrect={false}
-            onFocus={() => setIsFocus(true)}
-            onBlur={() => setIsFocus(false)}
             placeholderTextColor={palette.grey4}
             selectionColor={color}
+            onChangeText={onChange}
             {...props}
+            onFocus={() => setIsFocus(true)}
+            onBlur={() => setIsFocus(false)}
           />
         </InputWrapper>
-        {error && <ErrorLabel>{error}</ErrorLabel>}
+        {!!error && <ErrorLabel>{error}</ErrorLabel>}
       </View>
     );
   },

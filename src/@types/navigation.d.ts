@@ -18,6 +18,7 @@ declare module '@types' {
 
   type BottomTabParamList = {
     Landing: undefined;
+    About: undefined;
   };
 
   type ModalPararmList = {

@@ -1,14 +1,9 @@
 import { usePreventAndroidExit } from '@hooks';
 import { RootNavigator } from '@navigators';
+import { useBootAuth } from '@stores';
 import React, { useEffect } from 'react';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { QueryClient, QueryClientProvider } from 'react-query';
-import { RecoilRoot } from 'recoil';
-import { useBootAuth } from './stores';
 
-const queryClient = new QueryClient();
-
-const App = () => {
+export const App = () => {
   const { boostAuth } = useBootAuth();
 
   useEffect(() => {
@@ -19,14 +14,5 @@ const App = () => {
 
   usePreventAndroidExit();
 
-  return (
-    <RecoilRoot>
-      <QueryClientProvider client={queryClient}>
-        <SafeAreaProvider>
-          <RootNavigator />
-        </SafeAreaProvider>
-      </QueryClientProvider>
-    </RecoilRoot>
-  );
+  return <RootNavigator />;
 };
-export default App;
