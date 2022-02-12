@@ -53,7 +53,7 @@ const InputWrapper = styled.View<{ borderColor?: string }>`
   flex-direction: row;
   align-items: center;
   border-radius: 12px;
-  border-width: 0.5px;
+  border-width: 1px;
   border-color: ${({ borderColor }) =>
     borderColor ? borderColor + '70' : 'transparent'};
   background-color: ${theme.colors.card};

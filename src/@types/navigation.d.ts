@@ -1,4 +1,4 @@
-import { NavigatorScreenParams } from '@react-navigation/native';
+import { NavigatorScreenParams, RouteProp } from '@react-navigation/native';
 
 declare module '@types' {
   /**
@@ -22,10 +22,28 @@ declare module '@types' {
   };
 
   type ModalPararmList = {
-    Alert: undefined;
+    Alert: {
+      text?: string;
+      confirmText?: string;
+      onConfirm?: () => void;
+    };
   };
 
   /**
    * route
    */
+  type PublicRouteProps<RouteName extends keyof PublicParamList> = RouteProp<
+    PublicParamList,
+    RouteName
+  >;
+
+  type PrivateRouteProps<RouteName extends keyof PrivateParamList> = RouteProp<
+    PrivateParamList,
+    RouteName
+  >;
+
+  type ModalRouteProps<RouteName extends keyof ModalPararmList> = RouteProp<
+    ModalPararmList,
+    RouteName
+  >;
 }

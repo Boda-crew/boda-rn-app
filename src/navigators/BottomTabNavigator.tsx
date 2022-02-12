@@ -38,7 +38,7 @@ export default BottomTabNavigator;
 
 const tabName: { [key in keyof BottomTabParamList]: string } = {
   Landing: '랜딩페이지',
-  About: 'About',
+  About: '내 정보',
 };
 
 const iconName: { [key in keyof BottomTabParamList]: [string, string] } = {

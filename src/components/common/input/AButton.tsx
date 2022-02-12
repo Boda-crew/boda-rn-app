@@ -14,6 +14,7 @@ interface ContentProps {
   size?: keyof typeof sizes;
   color?: keyof typeof palette;
   backgroundColor?: keyof typeof palette;
+  noBorderRadius?: boolean;
 }
 
 interface ButtonProps extends PressableProps, ContentProps {
@@ -36,6 +37,7 @@ export const AButton = ({
   size,
   color,
   backgroundColor,
+  noBorderRadius,
   ...props
 }: ButtonProps) => {
   const disabled = props.disabled || loading;
@@ -50,6 +52,7 @@ export const AButton = ({
           size,
           color,
           backgroundColor,
+          noBorderRadius,
         };
         return (
           <Wrapper {...contentProps}>
@@ -63,17 +66,24 @@ export const AButton = ({
 
 const Wrapper = styled.View<ContentProps>(
   {
-    borderRadius: 8,
     paddingHorizontal: 8,
     overflow: 'hidden',
     alignItems: 'center',
     justifyContent: 'center',
   },
-  ({ pressed, disabled, kind = 'primary', size = 'nomal', backgroundColor }) => ({
+  ({
+    pressed,
+    disabled,
+    noBorderRadius,
+    kind = 'primary',
+    size = 'nomal',
+    backgroundColor,
+  }) => ({
     ...kinds[kind].wrapper,
     ...sizes[size].wrapper,
     ...(backgroundColor && { backgroundColor }),
     opacity: disabled ? 0.7 : pressed ? 0.9 : 1,
+    ...(!noBorderRadius && { borderRadius: 8 }),
   }),
 );
 
