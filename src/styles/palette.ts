@@ -1,15 +1,15 @@
 export type PaletteColor = keyof typeof palette;
 
-export const palette = {
+export const colors = {
   white: 'white',
   black: 'black',
   backdrop: '#00000020',
 
-  grey0: '#F6F6F9',
-  grey1: '#EEEEF2',
-  grey2: '#DBDADF',
-  grey3: '#A5A4A9',
-  grey4: '#65636A',
+  gray0: '#F6F6F9',
+  gray1: '#EEEEF2',
+  gray2: '#DBDADF',
+  gray3: '#A5A4A9',
+  gray4: '#65636A',
 
   blue1: '#DEE9FF',
   blue2: '#8DB6F4',
@@ -30,4 +30,21 @@ export const palette = {
   yellow1: '#FFEFCC',
 
   purple3: '#A181FF',
+};
+
+export const theme = {
+  dark: false,
+  colors: {
+    primary: colors.blue3,
+    background: colors.white,
+    card: colors.gray0,
+    text: colors.black,
+    border: '#d8d8d8',
+    notification: colors.red3,
+  },
+};
+
+export const palette = {
+  ...theme.colors,
+  ...colors,
 };

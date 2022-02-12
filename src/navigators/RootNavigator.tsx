@@ -1,10 +1,13 @@
-import { theme } from '@styles';
 import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import Root from './Root';
-import { ModalGroup, PrivateGroup, PublicGroup } from './Groups';
 import { useRecoilValue } from 'recoil';
+import { NavigationContainer } from '@react-navigation/native';
+import { theme } from '@styles';
 import { authStore } from '@stores';
+
+import { Root } from './config';
+import { PrivateGroup } from './PrivateGroup';
+import { PublicGroup } from './PublicGroup';
+import { ModalGroup } from './ModalGroup';
 
 export const RootNavigator = () => {
   const auth = useRecoilValue(authStore);

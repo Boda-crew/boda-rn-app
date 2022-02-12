@@ -13,7 +13,7 @@ interface AScrollViewProps extends ScrollViewProps {
   /**
    * 하단 컨탠츠가 가려 질 수 있어 padding를 추가해준다.
    */
-  bottomSpaces: keyof typeof bottomSpaces;
+  bottomSpace?: keyof typeof bottomSpaces;
   refreshing?: boolean;
   onRefresh?: () => void;
   children: React.ReactNode;
@@ -24,7 +24,7 @@ interface AScrollViewProps extends ScrollViewProps {
  * @refreshing RefreshControl 사용 및 refreshing 값
  */
 export const AScrollView = React.forwardRef<ScrollView, AScrollViewProps>(
-  (props, ref) => {
+  ({ bottomSpace = 'quad', refreshing, onRefresh, ...props }, ref) => {
     return (
       <ScrollView
         keyboardShouldPersistTaps="handled"
@@ -34,18 +34,15 @@ export const AScrollView = React.forwardRef<ScrollView, AScrollViewProps>(
         scrollEventThrottle={16}
         nestedScrollEnabled
         refreshControl={
-          props.refreshing === undefined ? undefined : (
-            <RefreshControl
-              refreshing={props.refreshing}
-              onRefresh={props.onRefresh}
-            />
+          refreshing === undefined ? undefined : (
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
           )
         }
         ref={ref}
         {...props}
         style={[props.style]}
         contentContainerStyle={[
-          bottomSpaces[props.bottomSpaces],
+          bottomSpaces[bottomSpace],
           props.contentContainerStyle,
         ]}
       />

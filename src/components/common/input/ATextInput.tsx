@@ -29,7 +29,7 @@ export const ATextInput = React.forwardRef<TextInput, ATextInputProps>(
             ref={ref}
             autoCapitalize="none"
             autoCorrect={false}
-            placeholderTextColor={palette.grey4}
+            placeholderTextColor={palette.gray4}
             selectionColor={color}
             onChangeText={onChange}
             {...props}

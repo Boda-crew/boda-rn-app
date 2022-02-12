@@ -17,8 +17,10 @@ declare module '@types' {
   };
 
   type BottomTabParamList = {
-    Landing: undefined;
-    About: undefined;
+    Notice: undefined;
+    Study: undefined;
+    Notification: undefined;
+    Account: undefined;
   };
 
   type ModalPararmList = {

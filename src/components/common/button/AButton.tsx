@@ -107,17 +107,17 @@ const kinds = {
   },
   secondary: {
     wrapper: css`
-      background-color: ${palette.grey2};
+      background-color: ${palette.gray2};
     `,
     title: css`
-      color: ${palette.grey4};
+      color: ${palette.gray4};
     `,
   },
   outline: {
     wrapper: css`
       background-color: transparent;
-      /* borderWidth: 1, */
-      /* borderColor: palette.blue3, */
+      border-width: 1px;
+      border-color: ${palette.blue3};
     `,
     title: css`
       color: ${palette.blue3};

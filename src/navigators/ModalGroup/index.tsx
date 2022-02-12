@@ -2,7 +2,7 @@ import { forStackFade } from '@hooks';
 import { AlertScreen } from '@screens';
 import { palette } from '@styles';
 import React from 'react';
-import Root from '../Root';
+import { Root } from '../config';
 
 export const ModalGroup = () => {
   return (
