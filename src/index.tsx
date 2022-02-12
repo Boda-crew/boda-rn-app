@@ -2,7 +2,10 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { RecoilRoot } from 'recoil';
 import React from 'react';
+import { LogBox } from 'react-native';
 import { App } from './App';
+
+LogBox.ignoreLogs(['RNReactNativeHapticFeedback']);
 
 const queryClient = new QueryClient();
 

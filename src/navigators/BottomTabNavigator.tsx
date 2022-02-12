@@ -1,8 +1,10 @@
 import React from 'react';
+import { TouchableOpacity } from 'react-native';
 import { BolierScreen } from '@screens';
 import { BottomTabParamList } from '@types';
 import { Ionicons } from '@components';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { onHaptic } from '@utils';
 
 const ButtomTab = createBottomTabNavigator<BottomTabParamList>();
 
@@ -11,8 +13,18 @@ const BottomTabNavigator = () => {
     <ButtomTab.Navigator
       screenOptions={({ route: { name } }) => ({
         title: tabName[name],
+        tabBarButton: props => (
+          <TouchableOpacity
+            {...props}
+            activeOpacity={0.8}
+            onPress={e => {
+              onHaptic();
+              props.onPress?.(e);
+            }}
+          />
+        ),
         tabBarIcon: ({ focused, color }) => (
-          <Ionicons name={iconName[name][focused ? 0 : 1]} color={color} size={22} />
+          <Ionicons name={iconName[name][focused ? 0 : 1]} color={color} size={24} />
         ),
       })}
     >
