@@ -13,7 +13,7 @@ export interface ATextProps {
 export const AText = styled.Text<ATextProps>(
   {},
   ({
-    size = 14,
+    size = 16,
     color = 'black',
     pcolor,
     weight = '400',

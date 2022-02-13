@@ -1,6 +1,7 @@
 import React from 'react';
 import { AText, Badge, ListItem, Pill, Row, Wrapper } from '@components';
 import { ViewStyleProps } from '@types';
+import { useNavigation } from '@react-navigation/native';
 
 interface Props {
   isPrimary?: boolean;
@@ -9,8 +10,12 @@ interface Props {
 }
 
 export const NoticeItem = ({ isPrimary, hideAcademy, style }: Props) => {
+  const nav = useNavigation();
+
+  const navToNoticeDetail = () => nav.navigate('NoticeDetail');
+
   return (
-    <ListItem style={style}>
+    <ListItem style={style} onPress={navToNoticeDetail}>
       <Badge
         theme={isPrimary ? 'primaryRed' : 'default'}
         title={'3/31'}

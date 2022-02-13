@@ -9,6 +9,7 @@ import {
   ViewProps,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { palette } from '@styles';
 
 // -------------------------------------------------
 
@@ -60,3 +61,8 @@ interface BlankProps {
 export const Blank = ({ height, width }: BlankProps) => (
   <View style={{ height, width }} />
 );
+
+export const Separator = styled.View`
+  height: 20px;
+  background-color: ${palette.gray1};
+`;

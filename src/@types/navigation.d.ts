@@ -13,6 +13,8 @@ declare module '@types' {
 
   type PrivateParamList = {
     HomeTab: NavigatorScreenParams<BottomTabParamList>;
+    NoticeDetail: undefined;
+    CommentDetail: undefined;
     Setting: undefined;
   };
 

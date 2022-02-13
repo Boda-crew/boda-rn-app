@@ -3,10 +3,6 @@ import { Pressable, PressableProps } from 'react-native';
 import styled, { css } from '@emotion/native';
 import { palette } from '@styles';
 
-/**
- * TouchableOpacity의 기본 activeOpacity
- */
-
 interface ContentProps {
   disabled?: boolean | null;
   pressed?: boolean;
@@ -27,7 +23,7 @@ interface ButtonProps extends PressableProps, ContentProps {
  * @kind
  * @size
  * @loading 로딩중이면 disable되며 spinner가 돌아가게 된다.
- * @default activeOpacity 0.6, titleSize 16, weight 'bold', height 56,
+ * @default titleSize 16, weight 'bold', height 48,
  * @containerStyle
  */
 export const AButton = ({
