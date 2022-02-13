@@ -18,6 +18,10 @@ export const WINDOW_WIDTH = width;
 
 // -------------------------------------------------
 
+export const Container = styled(SafeAreaView)`
+  flex: 1;
+`;
+
 interface WrapperProps extends ViewProps {
   children?: React.ReactNode;
   gapStyle?: ViewStyleProps;
@@ -27,6 +31,8 @@ export const Wrapper = ({ gapStyle, children, ...viewProps }: WrapperProps) => (
   <View {...viewProps}>
     {React.Children.map(children, (child, index) => {
       const element = child as any;
+      if (!element) return;
+
       return React.cloneElement(element, {
         style: [element.props.style, index && gapStyle],
       });
@@ -41,12 +47,16 @@ export const Row = styled.View`
 
 // -------------------------------------------------
 
-export const Container = styled(SafeAreaView)`
-  flex: 1;
-`;
-
-export const DismissKeyboard = (props: { children: React.ReactNode }) => (
+export const DismissKeyboard = ({ children }: { children: React.ReactNode }) => (
   <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-    {props.children}
+    {children}
   </TouchableWithoutFeedback>
+);
+
+interface BlankProps {
+  height?: number;
+  width?: number;
+}
+export const Blank = ({ height, width }: BlankProps) => (
+  <View style={{ height, width }} />
 );

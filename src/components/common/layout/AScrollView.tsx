@@ -40,7 +40,6 @@ export const AScrollView = React.forwardRef<ScrollView, AScrollViewProps>(
         }
         ref={ref}
         {...props}
-        style={[props.style]}
         contentContainerStyle={[
           bottomSpaces[bottomSpace],
           props.contentContainerStyle,

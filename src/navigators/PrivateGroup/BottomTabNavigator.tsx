@@ -28,6 +28,8 @@ export const BottomTabNavigator = () => {
         tabBarStyle: {
           position: 'absolute',
           borderTopColor: 'transparent',
+          backgroundColor: '#ffffff90',
+          height: 80,
           paddingTop: 4,
           elevation: 0, // for android
         },
@@ -52,7 +54,7 @@ const TabBarBackground = () => {
   return (
     <BlurView
       blurType="light"
-      blurAmount={20}
+      blurAmount={32}
       style={[
         StyleSheet.absoluteFill,
         { borderColor: palette.gray1, borderRadius: 24, borderWidth: 1 },
