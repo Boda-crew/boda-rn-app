@@ -14,6 +14,7 @@ import {
 import { BottomTabParamList } from '@types';
 import { Icon, IconName } from '@components';
 import { onHaptic } from '@utils';
+import { palette } from '@styles';
 
 const ButtomTab = createBottomTabNavigator<BottomTabParamList>();
 
@@ -26,10 +27,13 @@ export const BottomTabNavigator = () => {
         tabBarLabelStyle: { fontSize: 12 },
         tabBarStyle: {
           position: 'absolute',
+          borderTopColor: 'transparent',
+          paddingTop: 4,
           elevation: 0, // for android
         },
+        tabBarInactiveTintColor: palette.gray3,
         tabBarIcon: ({ focused, color }) => (
-          <Icon name={iconName[name][focused ? 0 : 1]} color={color} />
+          <Icon name={iconName[name]} color={focused ? color : color + '90'} />
         ),
         tabBarButton: TabBarButton,
         tabBarBackground: TabBarBackground,
@@ -46,7 +50,14 @@ export const BottomTabNavigator = () => {
 
 const TabBarBackground = () => {
   return (
-    <BlurView blurType="light" blurAmount={20} style={StyleSheet.absoluteFill} />
+    <BlurView
+      blurType="light"
+      blurAmount={20}
+      style={[
+        StyleSheet.absoluteFill,
+        { borderColor: palette.gray1, borderRadius: 24, borderWidth: 1 },
+      ]}
+    />
   );
 };
 
@@ -70,9 +81,9 @@ const tabName: { [key in keyof BottomTabParamList]: string } = {
   Account: '계정',
 };
 
-const iconName: { [key in keyof BottomTabParamList]: [IconName, IconName] } = {
-  Notice: ['announcement', 'announcement-outline'],
-  Study: ['report', 'report-outline'],
-  Notification: ['alert', 'alert-outline'],
-  Account: ['person', 'person-outline'],
+const iconName: { [key in keyof BottomTabParamList]: IconName } = {
+  Notice: 'announcement',
+  Study: 'report',
+  Notification: 'alert',
+  Account: 'person',
 };
