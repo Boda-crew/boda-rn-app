@@ -1,5 +1,3 @@
-import { ViewStyleProps } from '@types';
-import styled from '@emotion/native';
 import React from 'react';
 import {
   Dimensions,
@@ -8,7 +6,8 @@ import {
   View,
   ViewProps,
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { SafeAreaView, SafeAreaViewProps } from 'react-native-safe-area-context';
+import { ViewStyleProps } from '@types';
 import { palette } from '@styles';
 
 // -------------------------------------------------
@@ -19,9 +18,13 @@ export const WINDOW_WIDTH = width;
 
 // -------------------------------------------------
 
-export const Container = styled(SafeAreaView)`
-  flex: 1;
-`;
+export const Container = ({ style, ...props }: SafeAreaViewProps) => (
+  <SafeAreaView {...props} style={[{ flex: 1 }, style]} />
+);
+
+export const Row = ({ style, ...props }: ViewProps) => (
+  <View {...props} style={[{ flexDirection: 'row', alignItems: 'center' }, style]} />
+);
 
 interface WrapperProps extends ViewProps {
   children?: React.ReactNode;
@@ -41,28 +44,23 @@ export const Wrapper = ({ gapStyle, children, ...viewProps }: WrapperProps) => (
   </View>
 );
 
-export const Row = styled.View`
-  flex-direction: row;
-  align-items: center;
-`;
-
-// -------------------------------------------------
-
 export const DismissKeyboard = ({ children }: { children: React.ReactNode }) => (
   <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
     {children}
   </TouchableWithoutFeedback>
 );
 
+// -------------------------------------------------
+
 interface BlankProps {
   height?: number;
   width?: number;
+  style?: ViewStyleProps;
 }
-export const Blank = ({ height, width }: BlankProps) => (
-  <View style={{ height, width }} />
+export const Blank = ({ height, width, style }: BlankProps) => (
+  <View style={[{ height, width }, style]} />
 );
 
-export const Separator = styled.View`
-  height: 20px;
-  background-color: ${palette.gray1};
-`;
+export const Separator = ({ style, ...props }: ViewProps) => (
+  <View {...props} style={[{ height: 20, backgroundColor: palette.gray1 }, style]} />
+);

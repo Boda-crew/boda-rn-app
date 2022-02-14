@@ -9,11 +9,13 @@ import {
   FlatList,
   RefreshControl,
   Easing,
+  StyleSheet,
+  NativeSyntheticEvent,
+  NativeScrollEvent,
 } from 'react-native';
-import styled from '@emotion/native';
 import { palette } from '@styles';
 import { ViewStyleProps } from '@types';
-import { AScrollView, AText, ATouchableOpacity } from '../atoms';
+import { AText, ATouchableOpacity } from '../atoms';
 
 const { width, height } = Dimensions.get('screen');
 
@@ -32,9 +34,9 @@ interface SegmentedInnerView {
 interface Props {
   views: SegmentedInnerView[];
   selectedIdx: number;
-  setSelectedIdx: (newIndex: number) => void;
   refreshing?: boolean;
   style?: ViewStyleProps;
+  setSelectedIdx: (newIndex: number) => void;
 }
 
 export const SegmentedTab = ({ selectedIdx, setSelectedIdx, ...props }: Props) => {
@@ -69,6 +71,9 @@ export const SegmentedTab = ({ selectedIdx, setSelectedIdx, ...props }: Props) =
     });
   }, [props.views]);
 
+  const isIndicatorVisible =
+    measures.length > 0 && measures.length === props.views.length;
+
   /* indicator x 위치 */
   const onScrollTab = (index: number) => {
     tabContainerRef.current?.scrollTo({
@@ -78,73 +83,65 @@ export const SegmentedTab = ({ selectedIdx, setSelectedIdx, ...props }: Props) =
     });
   };
 
-  const onPress = (index: number) => {
-    flatlistRef.current?.scrollToIndex({ index });
+  const onScrollFlatList = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
+    const { x } = e.nativeEvent.contentOffset;
+    scrollX.setValue(x);
+    const index = Math.floor((x + width / 2) / width);
+    if (index !== selectedIdx) {
+      setSelectedIdx(index);
+      onScrollTab(index);
+    }
+  };
+
+  // props
+
+  const getTabTitleProps = (index: number) => ({
+    ref: tabTextRefs[index],
+    index,
+    inputRange,
+    selected: index === selectedIdx,
+    scrollX,
+    onPress: () => flatlistRef.current?.scrollToIndex({ index }),
+  });
+
+  const indicatorProps = {
+    inputRange,
+    measures,
+    scrollX,
   };
 
   return (
     <>
-      <TabContainer ref={tabContainerRef} horizontal style={props.style}>
-        {props.views.map((v, idx) => (
-          <ATouchableOpacity
-            key={idx}
-            onPress={() => onPress(idx)}
-            style={{ marginHorizontal: 16 }}
-          >
-            <TabText
-              idx={idx}
-              ref={tabTextRefs[idx]}
-              inputRange={inputRange}
-              selected={idx === selectedIdx}
-              scrollX={scrollX}
-            >
-              {v.name}
-            </TabText>
-          </ATouchableOpacity>
+      <ScrollView
+        ref={tabContainerRef}
+        horizontal
+        bounces={false}
+        style={[styles.scroll, props.style]}
+      >
+        {props.views.map((v, index) => (
+          <TabTitle key={index} {...getTabTitleProps(index)}>
+            {v.name}
+          </TabTitle>
         ))}
-        {measures.length > 0 && measures.length === props.views.length && (
-          <Indicator inputRange={inputRange} measures={measures} scrollX={scrollX} />
-        )}
-      </TabContainer>
+        {isIndicatorVisible && <Indicator {...indicatorProps} />}
+      </ScrollView>
 
       <Animated.FlatList
-        refreshControl={<RefreshControl refreshing={!!props.refreshing} />}
+        ref={flatlistRef}
         data={props.views}
         keyExtractor={item => item.name}
-        ref={flatlistRef}
         horizontal
+        bounces={false}
         showsHorizontalScrollIndicator={false}
         pagingEnabled
-        onScroll={({ nativeEvent: { contentOffset } }) => {
-          const { x } = contentOffset;
-          scrollX.setValue(x);
-          const index = Math.floor((x + width / 2) / width);
-          if (index !== selectedIdx) {
-            setSelectedIdx(index);
-            onScrollTab(index);
-          }
-        }}
-        bounces={false}
-        // 🐞.. item마다 height가 다르지만 최대 긴 height로 고정된다.
+        onScroll={onScrollFlatList}
+        contentContainerStyle={{ marginTop: 24 }}
+        refreshControl={<RefreshControl refreshing={!!props.refreshing} />}
         renderItem={({ item }) => (
-          <View
-            style={{
-              width,
-              minHeight: height - 190 - 163,
-            }}
-          >
-            {item.child}
-          </View>
+          <View style={{ width, minHeight: height - 190 - 163 }}>{item.child}</View>
         )}
         ListEmptyComponent={() => (
-          <AText
-            pcolor="gray3"
-            style={{
-              width,
-              textAlign: 'center',
-              marginVertical: 15,
-            }}
-          >
+          <AText pcolor="gray3" style={styles.emptyText}>
             뷰가 없습니다.
           </AText>
         )}
@@ -153,24 +150,31 @@ export const SegmentedTab = ({ selectedIdx, setSelectedIdx, ...props }: Props) =
   );
 };
 
-const TabContainer = styled(AScrollView)`
-  flex-direction: row;
-  height: 42px;
-  border-bottom-width: 1px;
-  border-bottom-color: ${palette.gray2};
-`;
+const styles = StyleSheet.create({
+  scroll: {
+    flexDirection: 'row',
+    height: 40,
+    borderBottomWidth: 1,
+    borderBottomColor: palette.gray2,
+  },
+  emptyText: {
+    marginLeft: 24,
+    marginVertical: 16,
+  },
+});
 
 /*
   TabText 
 */
 interface TabTextProps {
-  idx: number;
+  index: number;
   inputRange: number[];
   selected: boolean;
   children: string;
   scrollX: Animated.Value;
+  onPress: () => void;
 }
-const TabText = React.forwardRef<Text, TabTextProps>((props, ref) => {
+const TabTitle = React.forwardRef<Text, TabTextProps>((props, ref) => {
   const color =
     props.inputRange.length === 1
       ? palette.primary
@@ -178,21 +182,23 @@ const TabText = React.forwardRef<Text, TabTextProps>((props, ref) => {
         props.scrollX.interpolate({
           inputRange: props.inputRange,
           outputRange: props.inputRange.map(v =>
-            v === props.idx * width ? palette.primary : palette.gray3,
+            v === props.index * width ? palette.primary : palette.gray3,
           ),
         });
 
   return (
-    <Animated.Text
-      ref={ref}
-      style={{
-        fontSize: 22,
-        fontWeight: props.selected ? '700' : '400',
-        color,
-      }}
-    >
-      {props.children}
-    </Animated.Text>
+    <ATouchableOpacity onPress={props.onPress} style={{ marginLeft: 24 }}>
+      <Animated.Text
+        ref={ref}
+        style={{
+          fontSize: 22,
+          fontWeight: props.selected ? '700' : '400',
+          color,
+        }}
+      >
+        {props.children}
+      </Animated.Text>
+    </ATouchableOpacity>
   );
 });
 
@@ -226,7 +232,7 @@ const Indicator = ({ inputRange, measures, scrollX }: IndicatorProps) => {
       style={{
         height: 2,
         position: 'absolute',
-        bottom: 0,
+        bottom: -1,
         left: 0,
         width: indicatorWidth,
         transform: [{ translateX: indicatorX }],

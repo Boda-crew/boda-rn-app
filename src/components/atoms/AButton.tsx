@@ -1,21 +1,16 @@
 import React from 'react';
-import { Pressable, PressableProps } from 'react-native';
-import styled, { css } from '@emotion/native';
-import { palette } from '@styles';
+import { Pressable, PressableProps, StyleSheet, View } from 'react-native';
+import { palette, PaletteColor } from '@styles';
+import { AText } from './AText';
 
-interface ContentProps {
-  disabled?: boolean | null;
-  pressed?: boolean;
-  kind?: keyof typeof kinds;
-  size?: keyof typeof sizes;
-  color?: keyof typeof palette;
-  backgroundColor?: keyof typeof palette;
-  noBorderRadius?: boolean;
-}
-
-interface ButtonProps extends PressableProps, ContentProps {
+interface ButtonProps extends PressableProps {
   title: string;
   loading?: boolean;
+  kind?: ButtonKind;
+  size?: ButtonSize;
+  color?: PaletteColor;
+  backgroundColor?: PaletteColor;
+  noBorderRadius?: boolean;
 }
 
 /**
@@ -29,8 +24,8 @@ interface ButtonProps extends PressableProps, ContentProps {
 export const AButton = ({
   title,
   loading,
-  kind,
-  size,
+  kind = 'primary',
+  size = 'medium',
   color,
   backgroundColor,
   noBorderRadius,
@@ -41,128 +36,80 @@ export const AButton = ({
   return (
     <Pressable {...props} disabled={disabled}>
       {({ pressed }) => {
-        const contentProps = {
-          disabled,
-          pressed,
-          kind,
-          size,
-          color,
-          backgroundColor,
-          noBorderRadius,
-        };
         return (
-          <Wrapper {...contentProps}>
-            <Title {...contentProps}>{loading ? '로딩중...' : title}</Title>
-          </Wrapper>
+          <View
+            style={{
+              paddingHorizontal: 8,
+              overflow: 'hidden',
+              alignItems: 'center',
+              justifyContent: 'center',
+              ...kinds[kind].wrapper,
+              ...sizes[size].wrapper,
+              ...(backgroundColor && { backgroundColor: palette[backgroundColor] }),
+              ...(!noBorderRadius && { borderRadius: 8 }),
+              opacity: disabled ? 0.7 : pressed ? 0.9 : 1,
+            }}
+          >
+            <AText
+              pcolor={color}
+              weight="700"
+              style={{
+                ...kinds[kind].title,
+                ...sizes[size].title,
+                opacity: disabled ? 0.7 : pressed ? 0.6 : 1,
+              }}
+            >
+              {loading ? '로딩중...' : title}
+            </AText>
+          </View>
         );
       }}
     </Pressable>
   );
 };
 
-const Wrapper = styled.View<ContentProps>(
-  {
-    paddingHorizontal: 8,
-    overflow: 'hidden',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  ({
-    pressed,
-    disabled,
-    noBorderRadius,
-    kind = 'primary',
-    size = 'nomal',
-    backgroundColor,
-  }) => ({
-    ...kinds[kind].wrapper,
-    ...sizes[size].wrapper,
-    ...(backgroundColor && { backgroundColor }),
-    opacity: disabled ? 0.7 : pressed ? 0.9 : 1,
-    ...(!noBorderRadius && { borderRadius: 8 }),
-  }),
-);
-
-const Title = styled.Text<ContentProps>(
-  ({ pressed, disabled, kind = 'primary', size = 'nomal', color }) => ({
-    ...kinds[kind].title,
-    ...sizes[size].title,
-    ...(color && { color }),
-    opacity: disabled ? 0.7 : pressed ? 0.6 : 1,
-  }),
-);
-
+export type ButtonKind = keyof typeof kinds;
 const kinds = {
-  primary: {
-    wrapper: css`
-      background-color: ${palette.blue3};
-    `,
-    title: css`
-      color: ${palette.white};
-    `,
-  },
-  secondary: {
-    wrapper: css`
-      background-color: ${palette.gray2};
-    `,
-    title: css`
-      color: ${palette.gray4};
-    `,
-  },
-  outline: {
-    wrapper: css`
-      background-color: transparent;
-      border-width: 1px;
-      border-color: ${palette.blue3};
-    `,
-    title: css`
-      color: ${palette.blue3};
-    `,
-  },
-  ghost: {
-    wrapper: css`
-      background-color: transparent;
-    `,
-    title: css`
-      color: ${palette.blue3};
-    `,
-  },
-  danger: {
-    wrapper: css`
-      background-color: ${palette.red3};
-    `,
-    title: css`
-      color: ${palette.white};
-    `,
-  },
+  primary: StyleSheet.create({
+    wrapper: { backgroundColor: palette.blue3 },
+    title: { color: palette.white },
+  }),
+  secondary: StyleSheet.create({
+    wrapper: { backgroundColor: palette.gray2 },
+    title: { color: palette.gray4 },
+  }),
+  outline: StyleSheet.create({
+    wrapper: {
+      backgroundColor: 'transparent',
+      borderWidth: 1,
+      borderColor: palette.blue3,
+    },
+    title: {
+      color: palette.blue3,
+    },
+  }),
+  ghost: StyleSheet.create({
+    wrapper: { backgroundColor: 'transparent' },
+    title: { color: palette.blue3 },
+  }),
+  danger: StyleSheet.create({
+    wrapper: { backgroundColor: palette.red3 },
+    title: { color: palette.white },
+  }),
 };
 
+export type ButtonSize = keyof typeof sizes;
 const sizes = {
-  small: {
-    wrapper: css`
-      height: 32px;
-      border-radius: 12px;
-    `,
-    title: css`
-      font-size: 14px;
-    `,
-  },
-  nomal: {
-    wrapper: css`
-      height: 48px;
-    `,
-    title: css`
-      font-size: 16px;
-      font-weight: bold;
-    `,
-  },
-  large: {
-    wrapper: css`
-      height: 56px;
-    `,
-    title: css`
-      font-size: 18px;
-      font-weight: 900;
-    `,
-  },
+  small: StyleSheet.create({
+    wrapper: { height: 32, borderRadius: 12 },
+    title: { fontSize: 14 },
+  }),
+  medium: StyleSheet.create({
+    wrapper: { height: 48 },
+    title: { fontSize: 16 },
+  }),
+  large: StyleSheet.create({
+    wrapper: { height: 56 },
+    title: { fontSize: 18 },
+  }),
 };

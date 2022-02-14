@@ -1,4 +1,3 @@
-import { css } from '@emotion/native';
 import React from 'react';
 import {
   KeyboardAvoidingView,
@@ -67,12 +66,7 @@ const bottomSpaces = StyleSheet.create({
 export const KeyboardAvoidScroll = React.forwardRef<ScrollView, AScrollViewProps>(
   (props: AScrollViewProps, ref) => (
     <AScrollView ref={ref} {...props}>
-      <KeyboardAvoidingView
-        behavior={'position'}
-        style={css`
-          flex: 1;
-        `}
-      >
+      <KeyboardAvoidingView behavior="position" style={{ flex: 1 }}>
         {props.children}
       </KeyboardAvoidingView>
     </AScrollView>

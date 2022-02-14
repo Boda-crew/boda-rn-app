@@ -1,7 +1,8 @@
-import styled from '@emotion/native';
+import React from 'react';
+import { Text, TextProps } from 'react-native';
 import { palette, PaletteColor } from '@styles';
 
-export interface ATextProps {
+export interface ATextProps extends TextProps {
   size?: number;
   color?: string;
   pcolor?: PaletteColor;
@@ -10,21 +11,28 @@ export interface ATextProps {
   isUnderline?: boolean;
 }
 
-export const AText = styled.Text<ATextProps>(
-  {},
-  ({
-    size = 16,
-    color = 'black',
-    pcolor,
-    weight = '400',
-    isCenter,
-    isUnderline,
-  }) => ({
-    fontSize: size,
-    lineHeight: size + 6,
-    color: pcolor ? palette[pcolor] : color,
-    fontWeight: weight,
-    ...(isCenter && { alignSelf: 'center', textAlign: 'center' }),
-    ...(isUnderline && { textDecorationLine: 'underline' }),
-  }),
+export const AText = ({
+  size = 16,
+  weight = '400',
+  color = 'black',
+  pcolor,
+  isCenter,
+  isUnderline,
+  style,
+  ...props
+}: ATextProps) => (
+  <Text
+    {...props}
+    style={[
+      {
+        fontSize: size,
+        fontWeight: weight,
+        lineHeight: size + 6,
+        color: pcolor ? palette[pcolor] : color,
+        ...(isCenter && { alignSelf: 'center', textAlign: 'center' }),
+        ...(isUnderline && { textDecorationLine: 'underline' }),
+      },
+      style,
+    ]}
+  />
 );

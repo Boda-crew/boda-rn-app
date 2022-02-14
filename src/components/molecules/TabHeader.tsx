@@ -29,7 +29,7 @@ export const TabHeader = ({
           backgroundColor: 'white',
           flexDirection: vertical ? 'column' : 'row',
           alignItems: vertical ? 'flex-start' : 'flex-end',
-          paddingHorizontal: 26,
+          paddingHorizontal: 24,
           paddingBottom: 8,
           borderBottomWidth: 1,
           borderBottomColor,

@@ -1,6 +1,5 @@
 import React from 'react';
-import { View } from 'react-native';
-import { css } from '@emotion/native';
+import { StyleSheet, View } from 'react-native';
 import { palette } from '@styles';
 import { ViewStyleProps } from '@types';
 import { AText, Icon, IconName } from '../atoms';
@@ -70,24 +69,24 @@ const themes = {
 
 export type BadgeSize = keyof typeof sizes;
 const sizes = {
-  medium: {
-    background: css`
-      width: 88px;
-      height: 88px;
-      border-radius: 24px;
-    `,
-    title: css`
-      font-size: 20px;
-    `,
-  },
-  small: {
-    background: css`
-      width: 64px;
-      height: 64px;
-      border-radius: 18px;
-    `,
-    title: css`
-      font-size: 16px;
-    `,
-  },
+  medium: StyleSheet.create({
+    background: {
+      width: 88,
+      height: 88,
+      borderRadius: 24,
+    },
+    title: {
+      fontSize: 20,
+    },
+  }),
+  small: StyleSheet.create({
+    background: {
+      width: 64,
+      height: 64,
+      borderRadius: 18,
+    },
+    title: {
+      fontSize: 16,
+    },
+  }),
 };
