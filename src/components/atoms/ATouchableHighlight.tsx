@@ -6,16 +6,14 @@ interface Props extends TouchableHighlightProps {
   center?: boolean;
 }
 
-export const ATouchableHighlight = ({
-  center,
-  underlayColor,
-  children,
-  ...props
-}: Props) => {
+/**
+ * @underlayColor palette.gray1
+ */
+export const ATouchableHighlight = ({ center, children, ...props }: Props) => {
   return (
     <TouchableHighlight
+      underlayColor={palette.gray1}
       {...props}
-      underlayColor={underlayColor || palette.gray1}
       style={[
         {
           backgroundColor: palette.background,

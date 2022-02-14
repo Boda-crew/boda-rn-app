@@ -1,7 +1,7 @@
 import React from 'react';
 import { Animated, ViewProps } from 'react-native';
 import { palette } from '@styles';
-import { AText } from './AText';
+import { AText } from '../atoms';
 
 interface Props extends ViewProps {
   title: string;

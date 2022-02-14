@@ -7,7 +7,7 @@ import {
   ScrollViewProps,
   StyleSheet,
 } from 'react-native';
-import { WINDOW_HEIGHT } from './Layout';
+import { WINDOW_HEIGHT } from './Layouts';
 
 interface AScrollViewProps extends ScrollViewProps {
   /**

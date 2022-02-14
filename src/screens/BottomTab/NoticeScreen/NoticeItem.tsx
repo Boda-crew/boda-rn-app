@@ -1,5 +1,5 @@
 import React from 'react';
-import { AText, Badge, ListItem, Pill, Row, Wrapper } from '@components';
+import { AText, Badge, OpacityListItem, Pill, Row, Wrapper } from '@components';
 import { ViewStyleProps } from '@types';
 import { useNavigation } from '@react-navigation/native';
 
@@ -15,7 +15,7 @@ export const NoticeItem = ({ isPrimary, hideAcademy, style }: Props) => {
   const navToNoticeDetail = () => nav.navigate('NoticeDetail');
 
   return (
-    <ListItem style={style} onPress={navToNoticeDetail}>
+    <OpacityListItem style={style} onPress={navToNoticeDetail}>
       <Badge
         theme={isPrimary ? 'primaryRed' : 'default'}
         title={'3/31'}
@@ -37,6 +37,6 @@ export const NoticeItem = ({ isPrimary, hideAcademy, style }: Props) => {
           {/* {v.comments.length} */}
         </AText>
       </Wrapper>
-    </ListItem>
+    </OpacityListItem>
   );
 };

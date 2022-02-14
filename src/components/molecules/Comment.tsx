@@ -1,13 +1,13 @@
 import React from 'react';
 import { View } from 'react-native';
 import { ViewStyleProps } from '@types';
-import { AText, Row } from '../common';
+import { AText, ATouchableOpacity, Row } from '../atoms';
 
 interface Props {
   style?: ViewStyleProps;
 }
 
-export const ReplyItem = ({ style }: Props) => {
+export const Comment = ({ style }: Props) => {
   return (
     <View style={style}>
       <Row>
@@ -17,6 +17,14 @@ export const ReplyItem = ({ style }: Props) => {
         <AText pcolor="gray3" style={{ marginLeft: 8 }}>
           {'5분전'}
         </AText>
+        <AText pcolor="gray3"> · </AText>
+        <ATouchableOpacity>
+          <AText pcolor="gray3">수정</AText>
+        </ATouchableOpacity>
+        <AText pcolor="gray3"> · </AText>
+        <ATouchableOpacity>
+          <AText pcolor="red3">삭제</AText>
+        </ATouchableOpacity>
       </Row>
 
       <AText pcolor="gray4" style={{ marginTop: 8 }}>

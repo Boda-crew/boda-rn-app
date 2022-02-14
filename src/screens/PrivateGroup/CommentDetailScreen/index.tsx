@@ -1,6 +1,6 @@
 import React from 'react';
 import { View } from 'react-native';
-import { AScrollView, AText, CommentItem, Container, ReplyItem } from '@components';
+import { AScrollView, AText, Comment, CommentItem, Container } from '@components';
 import { palette } from '@styles';
 
 export const CommentDetailScreen = () => {
@@ -18,7 +18,7 @@ export const CommentDetailScreen = () => {
         </View>
 
         {[...new Array(10)].map((v, i) => (
-          <ReplyItem
+          <Comment
             key={i}
             style={{
               paddingVertical: 24,

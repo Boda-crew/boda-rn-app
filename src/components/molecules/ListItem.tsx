@@ -1,8 +1,7 @@
 import React from 'react';
-import styled from '@emotion/native';
 import { palette } from '@styles';
 import { ViewStyleProps } from '@types';
-import { Icon } from '../display/Icons';
+import { ATouchableOpacity, Icon } from '../atoms';
 
 interface ListItemProps {
   hasArrow?: boolean;
@@ -11,8 +10,13 @@ interface ListItemProps {
   onPress?: () => void;
 }
 
-export const ListItem = ({ children, hasArrow, ...props }: ListItemProps) => (
-  <Touchable activeOpacity={0.7} {...props}>
+export const OpacityListItem = ({
+  children,
+  hasArrow,
+  style,
+  ...props
+}: ListItemProps) => (
+  <ATouchableOpacity {...props} style={[{ flexDirection: 'row' }, style]}>
     {children}
     {hasArrow && (
       <Icon
@@ -21,9 +25,5 @@ export const ListItem = ({ children, hasArrow, ...props }: ListItemProps) => (
         style={{ marginLeft: 'auto' }}
       />
     )}
-  </Touchable>
+  </ATouchableOpacity>
 );
-
-const Touchable = styled.TouchableOpacity({
-  flexDirection: 'row',
-});

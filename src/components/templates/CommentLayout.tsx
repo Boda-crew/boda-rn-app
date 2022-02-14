@@ -1,9 +1,9 @@
 import React from 'react';
 import { View } from 'react-native';
 import { palette } from '@styles';
-import { Row, AText, ATouchableOpacity } from '../common';
-import { CommentItem } from '../domains';
 import { useNavigation } from '@react-navigation/native';
+import { AText, ATouchableOpacity, Row } from '../atoms';
+import { CommentItem } from '../organisms';
 
 interface Props {
   comments: any[];
@@ -41,16 +41,16 @@ export const CommentLayout = ({ comments }: Props) => {
           //     );
           //   })
           .map((_, idx) => (
-            <ATouchableOpacity key={idx} onPress={navToCommentDetail}>
-              <CommentItem
-                style={{
-                  paddingVertical: 24,
-                  marginHorizontal: 24,
-                  borderTopWidth: idx ? 1 : 0,
-                  borderColor: palette.gray1,
-                }}
-              />
-            </ATouchableOpacity>
+            <CommentItem
+              key={idx}
+              onPressReply={navToCommentDetail}
+              style={{
+                paddingVertical: 24,
+                marginHorizontal: 24,
+                borderTopWidth: idx ? 1 : 0,
+                borderColor: palette.gray1,
+              }}
+            />
           ))}
       </View>
     </View>

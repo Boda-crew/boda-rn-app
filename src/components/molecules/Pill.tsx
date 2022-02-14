@@ -1,8 +1,8 @@
 import React from 'react';
 import { View } from 'react-native';
-import { AText } from './AText';
 import { ViewStyleProps } from '@types';
 import { palette, PaletteColor } from '@styles';
+import { AText } from '../atoms';
 
 interface PillTextProps {
   title: string;

@@ -1,15 +1,11 @@
 import React from 'react';
-import { TouchableHighlight, TouchableHighlightProps } from 'react-native';
-import { AText, Icon } from '@components';
+import { TouchableHighlightProps } from 'react-native';
 import { palette } from '@styles';
+import { AText, ATouchableHighlight, Icon } from '../atoms';
 
-export const PillButton = ({
-  style,
-  children,
-  ...props
-}: TouchableHighlightProps) => {
+export const PillButton = ({ style, ...props }: TouchableHighlightProps) => {
   return (
-    <TouchableHighlight
+    <ATouchableHighlight
       underlayColor={palette.gray1}
       {...props}
       style={[
@@ -25,9 +21,7 @@ export const PillButton = ({
         },
         style,
       ]}
-    >
-      <>{children}</>
-    </TouchableHighlight>
+    />
   );
 };
 
@@ -35,7 +29,7 @@ interface CommentButtonProps extends TouchableHighlightProps {
   cnt: number;
 }
 
-export const CommentButton = ({ cnt, ...props }: CommentButtonProps) => {
+export const ReplyButton = ({ cnt, ...props }: CommentButtonProps) => {
   return (
     <PillButton {...props}>
       <Icon name="comment" />

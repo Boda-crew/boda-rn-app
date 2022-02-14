@@ -4,6 +4,7 @@ import {
   AText,
   Blank,
   Container,
+  SegmentedTab,
   TabHeader,
   Wrapper,
 } from '@components';
@@ -19,6 +20,21 @@ export const NoticeScreen = () => {
       <AScrollView stickyHeaderIndices={[1]} onScroll={onScrollY}>
         <Blank height={16} />
         <TabHeader title="공지" subTitle={'사과학원'} scrollY={scrollY} />
+
+        <SegmentedTab
+          selectedIdx={0}
+          setSelectedIdx={e => console.log(e)}
+          views={[
+            {
+              name: '전체',
+              child: <AText>전체</AText>,
+            },
+            {
+              name: '사과학원',
+              child: <AText>사과학원</AText>,
+            },
+          ]}
+        />
 
         <Wrapper style={{ paddingHorizontal: 26 }} gapStyle={{ marginTop: 30 }}>
           {noticeList.map((_, index) => (

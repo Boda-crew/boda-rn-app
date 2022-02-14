@@ -1,10 +1,9 @@
 import React from 'react';
+import { View } from 'react-native';
 import { css } from '@emotion/native';
 import { palette } from '@styles';
 import { ViewStyleProps } from '@types';
-import { AText } from './AText';
-import { Icon, IconName } from './Icons';
-import { View } from 'react-native';
+import { AText, Icon, IconName } from '../atoms';
 
 interface Props {
   theme?: BadgeTheme;
