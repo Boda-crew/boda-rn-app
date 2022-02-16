@@ -5,6 +5,7 @@ export * from './ATextInput';
 export * from './ATouchableHighlight';
 export * from './ATouchableOpacity';
 export * from './AView';
+export * from './CustomLayouts';
+export * from './CustomTexts';
 export * from './HeaderButtons';
 export * from './Icons';
-export * from './Layouts';

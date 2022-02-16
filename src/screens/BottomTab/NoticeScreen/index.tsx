@@ -1,5 +1,11 @@
 import React, { useState } from 'react';
-import { AText, Container, SegmentedTab, Wrapper } from '@components';
+import {
+  Container,
+  HelpText,
+  ScreenTitle,
+  SegmentedTab,
+  Wrapper,
+} from '@components';
 import { NoticeItem } from './NoticeItem';
 
 export const NoticeScreen = () => {
@@ -9,9 +15,7 @@ export const NoticeScreen = () => {
 
   return (
     <Container>
-      <AText size={30} weight="700" ml="s06">
-        공지
-      </AText>
+      <ScreenTitle ml="s06">공지</ScreenTitle>
 
       <SegmentedTab
         selectedIdx={tabIndex}
@@ -39,7 +43,7 @@ const NoticeList = ({ noticeList }: { noticeList: any[] }) => {
         <NoticeItem key={index} isPrimary={!index} />
       ))}
 
-      {!noticeList.length && <AText pcolor="gray3">아직 공지가 없습니다</AText>}
+      {!noticeList.length && <HelpText>아직 공지가 없습니다</HelpText>}
     </Wrapper>
   );
 };

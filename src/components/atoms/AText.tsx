@@ -1,8 +1,8 @@
 import React from 'react';
 import { Text, TextProps } from 'react-native';
 import { getSpaceStyle, palette, PaletteColor, SpaceProps } from '@styles';
-
 export interface ATextProps extends TextProps, Omit<SpaceProps, 'style'> {
+  type?: '';
   size?: number;
   color?: string;
   pcolor?: PaletteColor;
@@ -12,8 +12,8 @@ export interface ATextProps extends TextProps, Omit<SpaceProps, 'style'> {
 }
 
 export const AText = ({
-  size = 16,
-  weight = '400',
+  size,
+  weight,
   color = 'black',
   pcolor,
   isCenter,
@@ -24,10 +24,9 @@ export const AText = ({
     {...props}
     style={[
       {
-        fontSize: size,
-        fontWeight: weight,
-        lineHeight: size + 6,
         color: pcolor ? palette[pcolor] : color,
+        ...(weight && { fontWeight: weight }),
+        ...(size && { fontSize: size, lineHeight: size + 6 }),
         ...(isCenter && { alignSelf: 'center', textAlign: 'center' }),
         ...(isUnderline && { textDecorationLine: 'underline' }),
       },

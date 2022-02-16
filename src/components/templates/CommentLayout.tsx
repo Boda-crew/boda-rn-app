@@ -2,7 +2,7 @@ import React from 'react';
 import { View } from 'react-native';
 import { palette } from '@styles';
 import { useNavigation } from '@react-navigation/native';
-import { AText, AView, Row } from '../atoms';
+import { AText, AView, HeaderTitle, Row } from '../atoms';
 import { CommentItem } from '../organisms';
 
 interface Props {
@@ -17,12 +17,10 @@ export const CommentLayout = ({ comments }: Props) => {
   return (
     <AView pv="s08">
       <Row ph="s06">
-        <AText size={22} weight="700">
+        <HeaderTitle>
           댓글
-        </AText>
-        <AText size={22} weight="700" pcolor={'primary'} ml="s02">
-          {'2'}
-        </AText>
+          <AText pcolor={'primary'}>{' 2'}</AText>
+        </HeaderTitle>
       </Row>
 
       {/* <KeyboardTextInput

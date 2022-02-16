@@ -1,7 +1,7 @@
 import React from 'react';
 import { Animated } from 'react-native';
 import { palette } from '@styles';
-import { AText, AViewProps } from '../atoms';
+import { AText, AViewProps, ScreenTitle } from '../atoms';
 
 interface Props extends AViewProps {
   title: string;
@@ -38,9 +38,7 @@ export const TabHeader = ({
         props.style,
       ]}
     >
-      <AText size={30} weight="700">
-        {title}
-      </AText>
+      <ScreenTitle>{title}</ScreenTitle>
 
       <Animated.View
         style={{

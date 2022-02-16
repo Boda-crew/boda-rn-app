@@ -15,7 +15,13 @@ import {
 } from 'react-native';
 import { getSpaceStyle, palette, SpaceProps } from '@styles';
 import { MeasureType, ViewStyleProps } from '@types';
-import { AScrollView, AText, ATouchableOpacity, WINDOW_WIDTH } from '../atoms';
+import {
+  AScrollView,
+  AText,
+  ATouchableOpacity,
+  HelpText,
+  WINDOW_WIDTH,
+} from '../atoms';
 
 interface SegmentedInnerView {
   name: string;
@@ -137,9 +143,7 @@ export const SegmentedTab = ({
           </AScrollView>
         )}
         ListEmptyComponent={() => (
-          <AText pcolor="gray3" style={styles.emptyText}>
-            뷰가 없습니다.
-          </AText>
+          <HelpText style={styles.emptyText}>뷰가 없습니다.</HelpText>
         )}
       />
     </>

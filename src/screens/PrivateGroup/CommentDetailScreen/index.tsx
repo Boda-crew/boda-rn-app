@@ -6,6 +6,7 @@ import {
   Comment,
   CommentItem,
   Container,
+  HeaderTitle,
 } from '@components';
 import { palette } from '@styles';
 
@@ -14,9 +15,9 @@ export const CommentDetailScreen = () => {
     <Container>
       <AScrollView>
         <AView p="s06">
-          <AText size={22} weight="700">
-            답글 {3}
-          </AText>
+          <HeaderTitle weight="700">
+            답글 <AText pcolor="primary">{3}</AText>
+          </HeaderTitle>
         </AView>
 
         <AView p="s06" bc="gray0">
