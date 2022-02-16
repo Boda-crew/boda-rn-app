@@ -1,24 +1,22 @@
 import React from 'react';
 import { View } from 'react-native';
-import { ViewStyleProps } from '@types';
-import { palette, PaletteColor } from '@styles';
-import { AText } from '../atoms';
+import { palette, PaletteColor, SpaceProps } from '@styles';
+import { AText, AView } from '../atoms';
 
-interface PillTextProps {
+interface PillTextProps extends SpaceProps {
   title: string;
   color?: PaletteColor;
   backgroundColor?: PaletteColor;
-  style?: ViewStyleProps;
 }
 
 export const Pill = ({
   title,
   color = 'black',
   backgroundColor = 'gray1',
-  style,
+  ...props
 }: PillTextProps) => {
   return (
-    <View style={[{ flexDirection: 'row' }, style]}>
+    <AView {...props} style={[{ flexDirection: 'row' }, props.style]}>
       <View
         style={{
           backgroundColor: palette[backgroundColor],
@@ -32,6 +30,6 @@ export const Pill = ({
           {title}
         </AText>
       </View>
-    </View>
+    </AView>
   );
 };

@@ -1,9 +1,9 @@
 import React from 'react';
 import { Pressable, PressableProps, StyleSheet, View } from 'react-native';
-import { palette, PaletteColor } from '@styles';
+import { getSpaceStyle, palette, PaletteColor, SpaceProps } from '@styles';
 import { AText } from './AText';
 
-interface ButtonProps extends PressableProps {
+interface ButtonProps extends Omit<PressableProps, 'style'>, SpaceProps {
   title: string;
   loading?: boolean;
   kind?: ButtonKind;
@@ -34,7 +34,7 @@ export const AButton = ({
   const disabled = props.disabled || loading;
 
   return (
-    <Pressable {...props} disabled={disabled}>
+    <Pressable {...props} style={getSpaceStyle(props)} disabled={disabled}>
       {({ pressed }) => {
         return (
           <View

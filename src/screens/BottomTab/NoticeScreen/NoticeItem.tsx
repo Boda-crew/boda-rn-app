@@ -24,14 +24,14 @@ export const NoticeItem = ({ isPrimary, hideAcademy, style }: Props) => {
       />
       <Wrapper style={{ marginLeft: 24 }}>
         <Row>
-          {!hideAcademy && <Pill title={'사과학원'} style={{ marginRight: 8 }} />}
+          {!hideAcademy && <Pill title={'사과학원'} mr="s03" />}
           <Pill title={'사과나무반'} />
         </Row>
 
-        <AText weight="700" size={18} style={{ marginTop: 8 }}>
+        <AText weight="700" size={18} mt="s03">
           차량시간 변경
         </AText>
-        <AText pcolor="gray3" size={16} style={{ marginTop: 4 }}>
+        <AText pcolor="gray3" size={16} mt="s02">
           오전 10:15 · 정재훈 · 댓글 2
           {/* {Time.formatClock(v.created_date)} · {v.writer.human_name} · 댓글{' '} */}
           {/* {v.comments.length} */}

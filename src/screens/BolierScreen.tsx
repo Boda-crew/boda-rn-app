@@ -21,7 +21,7 @@ export const BolierScreen = ({ route: { name } }: Props) => {
     <Container>
       <Wrapper
         style={{ alignItems: 'center' }}
-        gapStyle={{ marginTop: 8, justifyContent: 'center' }}
+        gapStyle={{ mt: 's03', justifyContent: 'center' }}
       >
         <Text>{name}</Text>
         <AButton kind="outline" title="로그아웃" onPress={logout} />

@@ -1,22 +1,15 @@
 import React from 'react';
 import { palette } from '@styles';
-import { ViewStyleProps } from '@types';
-import { ATouchableOpacity, Icon } from '../atoms';
+import { ATouchableOpacity, AViewProps, Icon } from '../atoms';
 
-interface ListItemProps {
+interface ListItemProps extends AViewProps {
   hasArrow?: boolean;
-  style?: ViewStyleProps;
   children: JSX.Element | JSX.Element[];
   onPress?: () => void;
 }
 
-export const OpacityListItem = ({
-  children,
-  hasArrow,
-  style,
-  ...props
-}: ListItemProps) => (
-  <ATouchableOpacity {...props} style={[{ flexDirection: 'row' }, style]}>
+export const OpacityListItem = ({ children, hasArrow, ...props }: ListItemProps) => (
+  <ATouchableOpacity {...props} style={[{ flexDirection: 'row' }, props.style]}>
     {children}
     {hasArrow && (
       <Icon

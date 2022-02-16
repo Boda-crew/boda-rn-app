@@ -8,7 +8,8 @@ import {
 } from 'react-native';
 import { SafeAreaView, SafeAreaViewProps } from 'react-native-safe-area-context';
 import { ViewStyleProps } from '@types';
-import { palette } from '@styles';
+import { getSpaceStyle, palette, SpaceProps } from '@styles';
+import { AView, AViewProps } from './AView';
 
 // -------------------------------------------------
 
@@ -18,30 +19,32 @@ export const WINDOW_WIDTH = width;
 
 // -------------------------------------------------
 
-export const Container = ({ style, ...props }: SafeAreaViewProps) => (
-  <SafeAreaView {...props} style={[{ flex: 1 }, style]} />
+export const Container = (props: SafeAreaViewProps & SpaceProps) => (
+  <SafeAreaView {...props} style={[{ flex: 1 }, getSpaceStyle(props)]} />
 );
 
-export const Row = ({ style, ...props }: ViewProps) => (
-  <View {...props} style={[{ flexDirection: 'row', alignItems: 'center' }, style]} />
+export const Row = ({ style, ...props }: AViewProps) => (
+  <AView
+    {...props}
+    style={[{ flexDirection: 'row', alignItems: 'center' }, style]}
+  />
 );
 
-interface WrapperProps extends ViewProps {
-  children?: React.ReactNode;
-  gapStyle?: ViewStyleProps;
+interface WrapperProps extends AViewProps {
+  gapStyle?: ViewStyleProps & SpaceProps;
 }
 
-export const Wrapper = ({ gapStyle, children, ...viewProps }: WrapperProps) => (
-  <View {...viewProps}>
+export const Wrapper = ({ gapStyle, children, ...props }: WrapperProps) => (
+  <AView {...props}>
     {React.Children.map(children, (child, index) => {
       const element = child as any;
       if (!element) return;
 
       return React.cloneElement(element, {
-        style: [element.props.style, index && gapStyle],
+        style: [element.props.style, gapStyle && index && getSpaceStyle(gapStyle)],
       });
     })}
-  </View>
+  </AView>
 );
 
 export const DismissKeyboard = ({ children }: { children: React.ReactNode }) => (
@@ -52,15 +55,17 @@ export const DismissKeyboard = ({ children }: { children: React.ReactNode }) => 
 
 // -------------------------------------------------
 
-interface BlankProps {
+interface BlankProps extends SpaceProps {
   height?: number;
   width?: number;
-  style?: ViewStyleProps;
 }
-export const Blank = ({ height, width, style }: BlankProps) => (
-  <View style={[{ height, width }, style]} />
+export const Blank = ({ height, width, ...props }: BlankProps) => (
+  <View style={[{ height, width }, getSpaceStyle(props)]} />
 );
 
-export const Separator = ({ style, ...props }: ViewProps) => (
-  <View {...props} style={[{ height: 20, backgroundColor: palette.gray1 }, style]} />
+export const Separator = (props: ViewProps & SpaceProps) => (
+  <View
+    {...props}
+    style={[{ height: 20, backgroundColor: palette.gray1 }, getSpaceStyle(props)]}
+  />
 );

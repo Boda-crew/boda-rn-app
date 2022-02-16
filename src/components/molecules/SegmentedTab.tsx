@@ -13,29 +13,19 @@ import {
   NativeSyntheticEvent,
   NativeScrollEvent,
 } from 'react-native';
-import { palette } from '@styles';
-import { ViewStyleProps } from '@types';
-import { AScrollView, AText, ATouchableOpacity } from '../atoms';
-
-const { width, height } = Dimensions.get('screen');
-
-type MeasureType = {
-  x: number;
-  y: number;
-  width: number;
-  height: number;
-};
+import { getSpaceStyle, palette, SpaceProps } from '@styles';
+import { MeasureType, ViewStyleProps } from '@types';
+import { AScrollView, AText, ATouchableOpacity, WINDOW_WIDTH } from '../atoms';
 
 interface SegmentedInnerView {
   name: string;
   child: JSX.Element[] | JSX.Element;
 }
 
-interface Props {
+interface Props extends SpaceProps {
   views: SegmentedInnerView[];
   refreshing?: boolean;
   selectedIdx: number;
-  style?: ViewStyleProps;
   setSelectedIdx: (newIndex: number) => void;
 }
 
@@ -55,7 +45,7 @@ export const SegmentedTab = ({
   const tabTextRefs = [...Array(MAX_TAB_INDEX)].map(_ => useRef<Text>(null));
 
   // animation variable
-  const inputRange = views.map((_, i) => i * width);
+  const inputRange = views.map((_, i) => i * WINDOW_WIDTH);
   const scrollX = useRef(new Animated.Value(0)).current;
 
   /* indicator 길이 구하기 */
@@ -83,7 +73,7 @@ export const SegmentedTab = ({
   /* indicator x 위치 */
   const scrollToTap = (index: number) => {
     tabContainerRef.current?.scrollTo({
-      x: measures.splice(0, index).reduce((ac, { x }) => ac + x, 0) - width,
+      x: measures.splice(0, index).reduce((ac, { x }) => ac + x, 0) - WINDOW_WIDTH,
     });
   };
 
@@ -91,7 +81,7 @@ export const SegmentedTab = ({
     const { x } = e.nativeEvent.contentOffset;
     scrollX.setValue(x);
 
-    const targetIndex = Math.floor((x + width / 2) / width);
+    const targetIndex = Math.floor((x + WINDOW_WIDTH / 2) / WINDOW_WIDTH);
     if (targetIndex !== selectedIdx) {
       setSelectedIdx(targetIndex);
       scrollToTap(targetIndex);
@@ -121,7 +111,7 @@ export const SegmentedTab = ({
         ref={tabContainerRef}
         horizontal
         bounces={false}
-        style={[styles.scroll, props.style]}
+        style={[styles.scroll, getSpaceStyle(props)]}
       >
         {views.map((v, index) => (
           <TabTitle key={index} {...getTabTitleProps(index)}>
@@ -142,7 +132,9 @@ export const SegmentedTab = ({
         onScroll={onScrollFlatList}
         refreshControl={<RefreshControl refreshing={!!refreshing} />}
         renderItem={({ item }) => (
-          <AScrollView style={{ flex: 1, width }}>{item.child}</AScrollView>
+          <AScrollView style={{ flex: 1, width: WINDOW_WIDTH }}>
+            {item.child}
+          </AScrollView>
         )}
         ListEmptyComponent={() => (
           <AText pcolor="gray3" style={styles.emptyText}>
@@ -186,7 +178,7 @@ const TabTitle = React.forwardRef<Text, TabTextProps>((props, ref) => {
         props.scrollX.interpolate({
           inputRange: props.inputRange,
           outputRange: props.inputRange.map(v =>
-            v === props.index * width ? palette.primary : palette.gray3,
+            v === props.index * WINDOW_WIDTH ? palette.primary : palette.gray3,
           ),
         });
 

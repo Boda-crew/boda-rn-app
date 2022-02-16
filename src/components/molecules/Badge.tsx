@@ -2,16 +2,15 @@ import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { palette } from '@styles';
 import { ViewStyleProps } from '@types';
-import { AText, Icon, IconName } from '../atoms';
+import { AText, AView, AViewProps, Icon, IconName } from '../atoms';
 
-interface Props {
+interface Props extends AViewProps {
   theme?: BadgeTheme;
   size?: BadgeSize;
   iconName?: IconName;
   iconSize?: { width: number; height: number };
   title?: string;
   isCircle?: boolean;
-  style?: ViewStyleProps;
 }
 
 export const Badge = ({
@@ -26,7 +25,8 @@ export const Badge = ({
   const { backgroundColor, color } = themes[theme];
 
   return (
-    <View
+    <AView
+      {...props}
       style={[
         sizes[size].background,
         { alignItems: 'center', justifyContent: 'center', backgroundColor },
@@ -53,7 +53,7 @@ export const Badge = ({
           </AText>
         )}
       </View>
-    </View>
+    </AView>
   );
 };
 

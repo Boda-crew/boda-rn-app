@@ -9,14 +9,14 @@ export const NoticeScreen = () => {
 
   return (
     <Container>
-      <AText size={30} weight="700" style={{ marginLeft: 24 }}>
+      <AText size={30} weight="700" ml="s06">
         공지
       </AText>
 
       <SegmentedTab
         selectedIdx={tabIndex}
         setSelectedIdx={setTabIndex}
-        style={{ marginTop: 20 }}
+        mt="s05"
         views={[
           {
             name: '전체',
@@ -34,10 +34,7 @@ export const NoticeScreen = () => {
 
 const NoticeList = ({ noticeList }: { noticeList: any[] }) => {
   return (
-    <Wrapper
-      style={{ paddingHorizontal: 24, paddingTop: 16 }}
-      gapStyle={{ marginTop: 32 }}
-    >
+    <Wrapper ph="s06" pt="s05" gapStyle={{ mt: 's07' }}>
       {noticeList.map((_, index) => (
         <NoticeItem key={index} isPrimary={!index} />
       ))}

@@ -1,15 +1,20 @@
-import { palette } from '@styles';
+import { getSpaceStyle, palette, SpaceProps } from '@styles';
 import React from 'react';
 import { TouchableHighlightProps, TouchableHighlight } from 'react-native';
 
-interface Props extends TouchableHighlightProps {
-  center?: boolean;
-}
+export type ATouchableHighlightProps = Omit<TouchableHighlightProps, 'style'> &
+  SpaceProps & {
+    center?: boolean;
+  };
 
 /**
  * @underlayColor palette.gray1
  */
-export const ATouchableHighlight = ({ center, children, ...props }: Props) => {
+export const ATouchableHighlight = ({
+  center,
+  children,
+  ...props
+}: ATouchableHighlightProps) => {
   return (
     <TouchableHighlight
       underlayColor={palette.gray1}
@@ -24,7 +29,7 @@ export const ATouchableHighlight = ({ center, children, ...props }: Props) => {
           justifyContent: 'center',
         },
         props.disabled && { opacity: 0.3 },
-        props.style,
+        getSpaceStyle(props),
       ]}
     >
       <>{children}</>

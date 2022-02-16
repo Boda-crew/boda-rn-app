@@ -1,26 +1,21 @@
-import { useNavigation } from '@react-navigation/native';
 import { ViewStyleProps } from '@types';
 import React from 'react';
-import { View } from 'react-native';
-import { Wrapper } from '../atoms';
+import { AView, AViewProps, Wrapper } from '../atoms';
 import { Comment, ReplyButton, LikeButton } from '../molecules';
 
-interface Props {
+interface Props extends AViewProps {
   style?: ViewStyleProps;
   onPressReply?: () => void;
 }
 
-export const CommentItem = ({ style, onPressReply }: Props) => {
+export const CommentItem = ({ onPressReply, ...props }: Props) => {
   return (
-    <View style={style}>
+    <AView {...props}>
       <Comment />
-      <Wrapper
-        style={{ marginTop: 16, flexDirection: 'row' }}
-        gapStyle={{ marginLeft: 8 }}
-      >
+      <Wrapper mt="s05" gapStyle={{ ml: 's03' }} style={{ flexDirection: 'row' }}>
         <LikeButton selected={true} rated={10} onPress={() => console.log('like')} />
         <ReplyButton cnt={3} onPress={onPressReply} />
       </Wrapper>
-    </View>
+    </AView>
   );
 };

@@ -1,28 +1,34 @@
 import React from 'react';
-import { View } from 'react-native';
-import { AScrollView, AText, Comment, CommentItem, Container } from '@components';
+import {
+  AScrollView,
+  AText,
+  AView,
+  Comment,
+  CommentItem,
+  Container,
+} from '@components';
 import { palette } from '@styles';
 
 export const CommentDetailScreen = () => {
   return (
     <Container>
       <AScrollView>
-        <View style={{ padding: 24 }}>
+        <AView p="s06">
           <AText size={22} weight="700">
             답글 {3}
           </AText>
-        </View>
+        </AView>
 
-        <View style={{ padding: 24, backgroundColor: palette.gray0 }}>
+        <AView p="s06" bc="gray0">
           <CommentItem />
-        </View>
+        </AView>
 
         {[...new Array(10)].map((v, i) => (
           <Comment
             key={i}
+            pv="s06"
+            mh="s06"
             style={{
-              paddingVertical: 24,
-              marginHorizontal: 24,
               borderTopColor: palette.gray1,
               borderTopWidth: i ? 1 : 0,
             }}

@@ -1,9 +1,13 @@
 import React from 'react';
-import { TouchableHighlightProps } from 'react-native';
 import { palette } from '@styles';
-import { AText, ATouchableHighlight, Icon } from '../atoms';
+import {
+  AText,
+  ATouchableHighlight,
+  ATouchableHighlightProps,
+  Icon,
+} from '../atoms';
 
-export const PillButton = ({ style, ...props }: TouchableHighlightProps) => {
+export const PillButton = (props: ATouchableHighlightProps) => {
   return (
     <ATouchableHighlight
       underlayColor={palette.gray1}
@@ -19,13 +23,13 @@ export const PillButton = ({ style, ...props }: TouchableHighlightProps) => {
           paddingVertical: 8,
           paddingHorizontal: 16,
         },
-        style,
+        props.style,
       ]}
     />
   );
 };
 
-interface CommentButtonProps extends TouchableHighlightProps {
+interface CommentButtonProps extends ATouchableHighlightProps {
   cnt: number;
 }
 
@@ -40,7 +44,7 @@ export const ReplyButton = ({ cnt, ...props }: CommentButtonProps) => {
   );
 };
 
-interface LikeButtonProps extends TouchableHighlightProps {
+interface LikeButtonProps extends ATouchableHighlightProps {
   rated: number;
   selected?: boolean;
 }
@@ -49,7 +53,7 @@ export const LikeButton = ({ rated, selected, ...props }: LikeButtonProps) => {
   const color = selected ? palette.primary : undefined;
 
   return (
-    <PillButton {...props} style={{ borderColor: color }}>
+    <PillButton {...props} style={[{ borderColor: color }, props.style]}>
       <Icon color={color} name={selected ? 'like' : 'like-outline'} />
       <AText color={color} weight="700" style={{ marginLeft: 6 }}>
         {rated}

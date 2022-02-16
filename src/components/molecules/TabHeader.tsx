@@ -1,9 +1,9 @@
 import React from 'react';
-import { Animated, ViewProps } from 'react-native';
+import { Animated } from 'react-native';
 import { palette } from '@styles';
-import { AText } from '../atoms';
+import { AText, AViewProps } from '../atoms';
 
-interface Props extends ViewProps {
+interface Props extends AViewProps {
   title: string;
   subTitle?: string;
   scrollY: Animated.Value;

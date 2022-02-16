@@ -2,7 +2,7 @@ import {
   CardStyleInterpolators,
   StackNavigationOptions,
 } from '@react-navigation/stack';
-import { theme } from '@styles';
+import { palette } from '@styles';
 import { createStackNavigator } from '@react-navigation/stack';
 import { RootParamList } from '@types';
 import { HeaderLeftBackButton, HeaderLeftCloseButton } from '@components';
@@ -15,11 +15,11 @@ export const headerOptions: StackNavigationOptions = {
   headerTitleAlign: 'center',
   headerTitleStyle: {
     fontSize: 16,
-    color: theme.colors.primary,
+    color: palette.primary,
   },
   headerBackTitleVisible: false,
   headerStyle: {
-    backgroundColor: theme.colors.background,
+    backgroundColor: palette.background,
     shadowOpacity: 0, // for ios
     elevation: 0, // for android
   },

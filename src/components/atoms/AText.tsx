@@ -1,8 +1,8 @@
 import React from 'react';
 import { Text, TextProps } from 'react-native';
-import { palette, PaletteColor } from '@styles';
+import { getSpaceStyle, palette, PaletteColor, SpaceProps } from '@styles';
 
-export interface ATextProps extends TextProps {
+export interface ATextProps extends TextProps, Omit<SpaceProps, 'style'> {
   size?: number;
   color?: string;
   pcolor?: PaletteColor;
@@ -18,7 +18,6 @@ export const AText = ({
   pcolor,
   isCenter,
   isUnderline,
-  style,
   ...props
 }: ATextProps) => (
   <Text
@@ -32,7 +31,7 @@ export const AText = ({
         ...(isCenter && { alignSelf: 'center', textAlign: 'center' }),
         ...(isUnderline && { textDecorationLine: 'underline' }),
       },
-      style,
+      ...getSpaceStyle(props),
     ]}
   />
 );

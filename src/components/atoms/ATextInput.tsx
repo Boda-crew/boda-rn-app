@@ -7,11 +7,11 @@ import {
   TextStyle,
   View,
 } from 'react-native';
-import { palette } from '@styles';
+import { getSpaceStyle, palette, SpaceProps } from '@styles';
 import { ViewStyleProps } from '@types';
 import { AText } from './AText';
 
-interface ATextInputProps extends Omit<TextInputProps, 'onChange'> {
+interface ATextInputProps extends Omit<TextInputProps, 'onChange'>, SpaceProps {
   label?: string;
   error?: string | boolean;
   style?: ViewStyleProps;
@@ -30,7 +30,7 @@ export const ATextInput = React.forwardRef<TextInput, ATextInputProps>(
     }, [error, isFocus]);
 
     return (
-      <View style={style}>
+      <View style={getSpaceStyle(props)}>
         {!!label && (
           <AText weight="700" style={styles.label}>
             {label}
