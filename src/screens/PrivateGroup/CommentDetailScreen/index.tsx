@@ -7,6 +7,7 @@ import {
   CommentItem,
   Container,
   HeaderTitle,
+  WriteCommentForm,
 } from '@components';
 import { palette } from '@styles';
 
@@ -23,6 +24,13 @@ export const CommentDetailScreen = () => {
         <AView p="s06" bc="gray0">
           <CommentItem />
         </AView>
+
+        <WriteCommentForm
+          title="익명 답글 쓰기"
+          onSubmit={e => console.log(e)}
+          mt="s07"
+          mh="s06"
+        />
 
         {[...new Array(10)].map((v, i) => (
           <Comment

@@ -1,9 +1,9 @@
-import React from 'react';
-import { View } from 'react-native';
+import React, { useState } from 'react';
 import { palette } from '@styles';
 import { useNavigation } from '@react-navigation/native';
 import { AText, AView, HeaderTitle, Row } from '../atoms';
-import { CommentItem } from '../organisms';
+import { CommentItem, WriteCommentForm } from '../organisms';
+import { KeyboardTextInput } from '../molecules';
 
 interface Props {
   comments: any[];
@@ -11,6 +11,7 @@ interface Props {
 
 export const CommentLayout = ({ comments }: Props) => {
   const nav = useNavigation();
+  const [editCommentTarget, setEditCommentTarget] = useState<string | undefined>();
 
   const navToCommentDetail = () => nav.navigate('CommentDetail');
 
@@ -23,16 +24,19 @@ export const CommentLayout = ({ comments }: Props) => {
         </HeaderTitle>
       </Row>
 
-      {/* <KeyboardTextInput
+      <WriteCommentForm
         title="익명 댓글 쓰기"
-        style={{ marginTop: 32 }}
-        onSubmit={props.onWrite}
-      /> */}
+        onSubmit={e => console.log(e)}
+        mt="s07"
+        mh="s06"
+      />
 
-      <View>
+      <AView mt="s04">
         {comments.map((_, idx) => (
           <CommentItem
             key={idx}
+            isAuther
+            onEditComment={() => setEditCommentTarget('댓글 편집 테스트')}
             onPressReply={navToCommentDetail}
             pv="s06"
             mh="s06"
@@ -42,7 +46,14 @@ export const CommentLayout = ({ comments }: Props) => {
             }}
           />
         ))}
-      </View>
+      </AView>
+
+      <KeyboardTextInput
+        open={!!editCommentTarget}
+        initText={editCommentTarget}
+        onClose={() => setEditCommentTarget(undefined)}
+        onSubmit={e => console.log(e)}
+      />
     </AView>
   );
 };

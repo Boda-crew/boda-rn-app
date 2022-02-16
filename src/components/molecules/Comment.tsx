@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-  AText,
   ATouchableOpacity,
   AView,
   AViewProps,
@@ -10,24 +9,41 @@ import {
   Row,
 } from '../atoms';
 
-export const Comment = (props: AViewProps) => {
+export interface CommentProps extends AViewProps {
+  isAuther?: boolean;
+  onEditComment?: () => void;
+  onDeleteComment?: () => void;
+}
+
+export const Comment = ({
+  isAuther,
+  onEditComment,
+  onDeleteComment,
+  ...props
+}: CommentProps) => {
   return (
     <AView {...props}>
       <Row>
         <ContentTitle>{'익명 학생'}</ContentTitle>
         <HelpText ml="s03">{'5분전'}</HelpText>
 
-        <HelpText> · </HelpText>
+        {isAuther && (
+          <>
+            <HelpText> · </HelpText>
 
-        <ATouchableOpacity>
-          <HelpText>수정</HelpText>
-        </ATouchableOpacity>
+            <ATouchableOpacity onPress={onEditComment}>
+              <HelpText>수정</HelpText>
+            </ATouchableOpacity>
 
-        <HelpText> · </HelpText>
+            <HelpText> · </HelpText>
 
-        <ATouchableOpacity>
-          <HelpText pcolor="red3">삭제</HelpText>
-        </ATouchableOpacity>
+            <ATouchableOpacity>
+              <HelpText pcolor="red3" onPress={onDeleteComment}>
+                삭제
+              </HelpText>
+            </ATouchableOpacity>
+          </>
+        )}
       </Row>
 
       <ContentText mt="s03">
