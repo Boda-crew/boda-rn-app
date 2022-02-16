@@ -15,7 +15,7 @@ import {
 } from 'react-native';
 import { palette } from '@styles';
 import { ViewStyleProps } from '@types';
-import { AText, ATouchableOpacity } from '../atoms';
+import { AScrollView, AText, ATouchableOpacity } from '../atoms';
 
 const { width, height } = Dimensions.get('screen');
 
@@ -33,25 +33,32 @@ interface SegmentedInnerView {
 
 interface Props {
   views: SegmentedInnerView[];
-  selectedIdx: number;
   refreshing?: boolean;
+  selectedIdx: number;
   style?: ViewStyleProps;
   setSelectedIdx: (newIndex: number) => void;
 }
 
-export const SegmentedTab = ({ selectedIdx, setSelectedIdx, ...props }: Props) => {
+const MAX_TAB_INDEX = 10;
+
+export const SegmentedTab = ({
+  views,
+  refreshing,
+  selectedIdx,
+  setSelectedIdx,
+  ...props
+}: Props) => {
   const [measures, setMeasures] = useState<MeasureType[]>([]);
 
   const flatlistRef = useRef<FlatList<SegmentedInnerView>>(null);
   const tabContainerRef = useRef<ScrollView>(null);
+  const tabTextRefs = [...Array(MAX_TAB_INDEX)].map(_ => useRef<Text>(null));
 
-  // 동적으로 할당하면 hook이랑 충돌 난다.. 최대 10개 수업으로 일단
-  const tabTextRefs = [...Array(10)].map(_ => useRef<Text>(null));
-  // animation
-  const inputRange = props.views.map((_, i) => i * width);
+  // animation variable
+  const inputRange = views.map((_, i) => i * width);
   const scrollX = useRef(new Animated.Value(0)).current;
 
-  /* indicator 길이 */
+  /* indicator 길이 구하기 */
   useEffect(() => {
     // 그냥 tabContainerRef.current 넣으면 타입에러가 발생한다.
     const containerNode = findNodeHandle(tabContainerRef.current);
@@ -64,32 +71,30 @@ export const SegmentedTab = ({ selectedIdx, setSelectedIdx, ...props }: Props) =
         (x, y, width, height) => {
           m.push({ x, y, width, height });
           // 전체 TabText Layout를 구하면 state에 적용한다.
-          if (m.length === props.views.length) setMeasures(m);
+          if (m.length === views.length) setMeasures(m);
         },
-        () => console.log('Measure Layout Fail'),
+        () => console.error('Measure Layout Fail'),
       );
     });
-  }, [props.views]);
+  }, [views]);
 
-  const isIndicatorVisible =
-    measures.length > 0 && measures.length === props.views.length;
+  const isIndicatorVisible = measures.length > 0 && measures.length === views.length;
 
   /* indicator x 위치 */
-  const onScrollTab = (index: number) => {
+  const scrollToTap = (index: number) => {
     tabContainerRef.current?.scrollTo({
-      x:
-        measures.filter((_, idx) => idx <= index).reduce((ac, v) => ac + v.x, 0) -
-        width,
+      x: measures.splice(0, index).reduce((ac, { x }) => ac + x, 0) - width,
     });
   };
 
   const onScrollFlatList = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
     const { x } = e.nativeEvent.contentOffset;
     scrollX.setValue(x);
-    const index = Math.floor((x + width / 2) / width);
-    if (index !== selectedIdx) {
-      setSelectedIdx(index);
-      onScrollTab(index);
+
+    const targetIndex = Math.floor((x + width / 2) / width);
+    if (targetIndex !== selectedIdx) {
+      setSelectedIdx(targetIndex);
+      scrollToTap(targetIndex);
     }
   };
 
@@ -118,7 +123,7 @@ export const SegmentedTab = ({ selectedIdx, setSelectedIdx, ...props }: Props) =
         bounces={false}
         style={[styles.scroll, props.style]}
       >
-        {props.views.map((v, index) => (
+        {views.map((v, index) => (
           <TabTitle key={index} {...getTabTitleProps(index)}>
             {v.name}
           </TabTitle>
@@ -128,17 +133,16 @@ export const SegmentedTab = ({ selectedIdx, setSelectedIdx, ...props }: Props) =
 
       <Animated.FlatList
         ref={flatlistRef}
-        data={props.views}
+        data={views}
         keyExtractor={item => item.name}
         horizontal
         bounces={false}
         showsHorizontalScrollIndicator={false}
         pagingEnabled
         onScroll={onScrollFlatList}
-        contentContainerStyle={{ marginTop: 24 }}
-        refreshControl={<RefreshControl refreshing={!!props.refreshing} />}
+        refreshControl={<RefreshControl refreshing={!!refreshing} />}
         renderItem={({ item }) => (
-          <View style={{ width, minHeight: height - 190 - 163 }}>{item.child}</View>
+          <AScrollView style={{ flex: 1, width }}>{item.child}</AScrollView>
         )}
         ListEmptyComponent={() => (
           <AText pcolor="gray3" style={styles.emptyText}>
