@@ -26,7 +26,10 @@ export const HightlightListItem = ({
   hasArrow,
   ...props
 }: ListItemProps) => (
-  <ATouchableHighlight {...props} style={[{ flexDirection: 'row' }, props.style]}>
+  <ATouchableHighlight
+    {...props}
+    style={[{ flexDirection: 'row', alignItems: 'center' }, props.style]}
+  >
     {children}
     {hasArrow && (
       <Icon
