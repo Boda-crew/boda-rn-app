@@ -9,16 +9,16 @@ interface Props extends CommentProps {
 
 export const CommentItem = ({
   isAuther,
-  onEditComment,
-  onDeleteComment,
+  onPressEdit,
+  onPressDelete,
   onPressLike,
   onPressReply,
   ...props
 }: Props) => {
   const commentProps: CommentProps = {
     isAuther,
-    onEditComment,
-    onDeleteComment,
+    onPressEdit,
+    onPressDelete,
   };
 
   return (

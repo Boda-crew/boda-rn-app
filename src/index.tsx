@@ -6,7 +6,10 @@ import React from 'react';
 import { LogBox } from 'react-native';
 import { App } from './App';
 
-LogBox.ignoreLogs(['RNReactNativeHapticFeedback']);
+LogBox.ignoreLogs([
+  'RNReactNativeHapticFeedback',
+  'Non-serializable values were found in the navigation state',
+]);
 
 const queryClient = new QueryClient();
 

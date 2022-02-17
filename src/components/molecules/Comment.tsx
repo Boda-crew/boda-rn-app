@@ -11,14 +11,14 @@ import {
 
 export interface CommentProps extends AViewProps {
   isAuther?: boolean;
-  onEditComment?: () => void;
-  onDeleteComment?: () => void;
+  onPressEdit?: () => void;
+  onPressDelete?: () => void;
 }
 
 export const Comment = ({
   isAuther,
-  onEditComment,
-  onDeleteComment,
+  onPressEdit,
+  onPressDelete,
   ...props
 }: CommentProps) => {
   return (
@@ -31,16 +31,14 @@ export const Comment = ({
           <>
             <HelpText> · </HelpText>
 
-            <ATouchableOpacity onPress={onEditComment}>
+            <ATouchableOpacity onPress={onPressEdit}>
               <HelpText>수정</HelpText>
             </ATouchableOpacity>
 
             <HelpText> · </HelpText>
 
-            <ATouchableOpacity>
-              <HelpText pcolor="red3" onPress={onDeleteComment}>
-                삭제
-              </HelpText>
+            <ATouchableOpacity onPress={onPressDelete}>
+              <HelpText pcolor="red3">삭제</HelpText>
             </ATouchableOpacity>
           </>
         )}

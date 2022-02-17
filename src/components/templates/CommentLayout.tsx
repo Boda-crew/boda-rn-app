@@ -15,6 +15,14 @@ export const CommentLayout = ({ comments }: Props) => {
 
   const navToCommentDetail = () => nav.navigate('CommentDetail');
 
+  const onPressDelete = () => {
+    nav.navigate('Confirm', {
+      text: '해당 댓글을 삭제하시겠습니까?',
+      isDanger: true,
+      onConfirm: () => console.log('delete comment'),
+    });
+  };
+
   return (
     <AView pv="s08">
       <Row ph="s06">
@@ -36,8 +44,9 @@ export const CommentLayout = ({ comments }: Props) => {
           <CommentItem
             key={idx}
             isAuther
-            onEditComment={() => setEditCommentTarget('댓글 편집 테스트')}
+            onPressEdit={() => setEditCommentTarget('댓글 편집 테스트')}
             onPressReply={navToCommentDetail}
+            onPressDelete={onPressDelete}
             pv="s06"
             mh="s06"
             style={{
