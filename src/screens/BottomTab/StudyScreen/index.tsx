@@ -18,7 +18,7 @@ interface Props {}
 export const StudyScreen = (props: Props) => {
   const nav = useNavigation();
 
-  const navToClasses = () => nav.navigate('Alert', {});
+  const navToClasses = () => nav.navigate('Confirm', { isDanger: true });
 
   return (
     <Container>

@@ -51,12 +51,12 @@ export const AButton = ({
             }}
           >
             <AText
-              pcolor={color}
               weight="700"
               style={{
                 ...kinds[kind].title,
                 ...sizes[size].title,
                 opacity: disabled ? 0.7 : pressed ? 0.6 : 1,
+                ...(color && { color: palette[color] }),
               }}
             >
               {loading ? '로딩중...' : title}

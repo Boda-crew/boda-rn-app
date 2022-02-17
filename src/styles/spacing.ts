@@ -1,6 +1,6 @@
 import { StyleProp, ViewStyle } from 'react-native';
 
-export interface SpaceProps {
+export interface SpaceBaseProps {
   m?: SpaceScale;
   mt?: SpaceScale;
   mr?: SpaceScale;
@@ -18,6 +18,9 @@ export interface SpaceProps {
   pl?: SpaceScale;
   pv?: SpaceScale;
   ph?: SpaceScale;
+}
+
+export interface SpaceProps extends SpaceBaseProps {
   style?: StyleProp<ViewStyle>;
 }
 

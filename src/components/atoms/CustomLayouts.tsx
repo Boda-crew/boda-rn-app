@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import { SafeAreaView, SafeAreaViewProps } from 'react-native-safe-area-context';
 import { ViewStyleProps } from '@types';
-import { getSpaceStyle, palette, SpaceProps } from '@styles';
+import { getSpaceStyle, palette, SpaceBaseProps, SpaceProps } from '@styles';
 import { AView, AViewProps } from './AView';
 
 // -------------------------------------------------
@@ -33,7 +33,7 @@ export const Row = ({ style, ...props }: AViewProps) => (
 interface WrapperProps extends AViewProps {
   fd?: 'row' | 'column';
   ignoreFrist?: boolean;
-  childStyle?: ViewStyleProps & SpaceProps;
+  childStyle?: ViewStyleProps & SpaceBaseProps;
 }
 
 export const Wrapper = ({ fd, childStyle, children, ...props }: WrapperProps) => (
@@ -44,7 +44,11 @@ export const Wrapper = ({ fd, childStyle, children, ...props }: WrapperProps) =>
 
       const isChildStyle = !(props.ignoreFrist && !index) && childStyle;
       return React.cloneElement(element, {
-        style: [element.props.style, isChildStyle && getSpaceStyle(childStyle)],
+        style: [
+          element.props.style,
+          isChildStyle && childStyle,
+          isChildStyle && getSpaceStyle(childStyle),
+        ],
       });
     })}
   </AView>

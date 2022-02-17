@@ -26,9 +26,16 @@ declare module '@types' {
   };
 
   type ModalPararmList = {
-    Alert: {
+    Alert?: {
       text?: string;
       confirmText?: string;
+      onConfirm?: () => void;
+    };
+    Confirm?: {
+      text?: string;
+      cancelText?: string;
+      confirmText?: string;
+      isDanger?: boolean;
       onConfirm?: () => void;
     };
   };

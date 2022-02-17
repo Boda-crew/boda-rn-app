@@ -1,15 +1,14 @@
-import { AButton, WINDOW_WIDTH } from '@components';
-import { useAlertAnimation } from '@hooks';
-import { useNavigation, useRoute } from '@react-navigation/native';
-import { ModalRouteProps } from '@types';
 import React, { useEffect, useMemo } from 'react';
 import { Animated, Text, View } from 'react-native';
+import { useNavigation, useRoute } from '@react-navigation/native';
+import { AButton, WINDOW_WIDTH } from '@components';
+import { useAlertAnimation } from '@hooks';
+import { ModalRouteProps } from '@types';
 
 export const AlertScreen = () => {
   const nav = useNavigation();
-  const {
-    params: { text = '경고', confirmText = '확인', onConfirm },
-  } = useRoute<ModalRouteProps<'Alert'>>();
+  const { params: { text = '경고', confirmText = '확인', onConfirm } = {} } =
+    useRoute<ModalRouteProps<'Alert'>>();
 
   const { animationStyle, onAppear } = useAlertAnimation();
   const width = useMemo(() => WINDOW_WIDTH / 1.618, [WINDOW_WIDTH]);

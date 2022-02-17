@@ -1,7 +1,7 @@
-import { forStackFade } from '@hooks';
-import { AlertScreen } from '@screens';
-import { palette } from '@styles';
 import React from 'react';
+import { forStackFade } from '@hooks';
+import { AlertScreen, ConfirmScreen } from '@screens';
+import { palette } from '@styles';
 import { Root } from '../config';
 
 export const ModalGroup = () => {
@@ -15,6 +15,7 @@ export const ModalGroup = () => {
       }}
     >
       <Root.Screen name="Alert" component={AlertScreen} />
+      <Root.Screen name="Confirm" component={ConfirmScreen} />
     </Root.Group>
   );
 };
