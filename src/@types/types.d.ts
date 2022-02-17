@@ -9,4 +9,6 @@ declare module '@types' {
     width: number;
     height: number;
   };
+
+  type DateValue = string | number | Date;
 }

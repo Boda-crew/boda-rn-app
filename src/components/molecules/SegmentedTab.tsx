@@ -1,10 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import {
-  Dimensions,
   findNodeHandle,
-  Text,
   Animated,
-  View,
+  Text,
   ScrollView,
   FlatList,
   RefreshControl,
@@ -13,12 +11,12 @@ import {
   NativeSyntheticEvent,
   NativeScrollEvent,
 } from 'react-native';
-import { getSpaceStyle, palette, SpaceProps } from '@styles';
-import { MeasureType, ViewStyleProps } from '@types';
+import { palette, SpaceProps } from '@styles';
+import { MeasureType } from '@types';
 import {
   AScrollView,
-  AText,
   ATouchableOpacity,
+  AView,
   HelpText,
   WINDOW_WIDTH,
 } from '../atoms';
@@ -112,12 +110,12 @@ export const SegmentedTab = ({
   };
 
   return (
-    <>
+    <AView {...props} style={{ flex: 1 }}>
       <ScrollView
         ref={tabContainerRef}
         horizontal
         bounces={false}
-        style={[styles.scroll, getSpaceStyle(props)]}
+        style={styles.headerWrapper}
       >
         {views.map((v, index) => (
           <TabTitle key={index} {...getTabTitleProps(index)}>
@@ -136,22 +134,22 @@ export const SegmentedTab = ({
         showsHorizontalScrollIndicator={false}
         pagingEnabled
         onScroll={onScrollFlatList}
+        contentContainerStyle={{ flexGrow: 1 }}
         refreshControl={<RefreshControl refreshing={!!refreshing} />}
         renderItem={({ item }) => (
-          <AScrollView style={{ flex: 1, width: WINDOW_WIDTH }}>
-            {item.child}
-          </AScrollView>
+          <AScrollView style={{ width: WINDOW_WIDTH }}>{item.child}</AScrollView>
         )}
         ListEmptyComponent={() => (
           <HelpText style={styles.emptyText}>뷰가 없습니다.</HelpText>
         )}
       />
-    </>
+    </AView>
   );
 };
 
 const styles = StyleSheet.create({
-  scroll: {
+  headerWrapper: {
+    flexGrow: 0,
     flexDirection: 'row',
     height: 40,
     borderBottomWidth: 1,
