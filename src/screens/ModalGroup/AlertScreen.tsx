@@ -1,8 +1,8 @@
-import { AButton } from '@components';
+import { AButton, WINDOW_WIDTH } from '@components';
 import { useAlertAnimation } from '@hooks';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { ModalRouteProps } from '@types';
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { Animated, Text, View } from 'react-native';
 
 export const AlertScreen = () => {
@@ -12,6 +12,7 @@ export const AlertScreen = () => {
   } = useRoute<ModalRouteProps<'Alert'>>();
 
   const { animationStyle, onAppear } = useAlertAnimation();
+  const width = useMemo(() => WINDOW_WIDTH / 1.618, [WINDOW_WIDTH]);
 
   useEffect(() => {
     onAppear().start();
@@ -30,7 +31,16 @@ export const AlertScreen = () => {
           { backgroundColor: 'white', borderRadius: 8, overflow: 'hidden' },
         ]}
       >
-        <Text style={{ fontSize: 16, fontWeight: '700', padding: 24 }}>{text}</Text>
+        <Text
+          style={{
+            fontSize: 16,
+            fontWeight: '700',
+            padding: 24,
+            width,
+          }}
+        >
+          {text}
+        </Text>
         <AButton title={confirmText} onPress={onPress} noBorderRadius />
       </Animated.View>
     </View>
