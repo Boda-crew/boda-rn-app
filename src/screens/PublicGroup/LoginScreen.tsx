@@ -24,7 +24,7 @@ export const LoginScreen = () => {
   return (
     <DismissKeyboard>
       <Container>
-        <Wrapper m="s05" gapStyle={{ mt: 's05' }}>
+        <Wrapper m="s05" childStyle={{ mt: 's05' }}>
           <Controller
             control={control}
             name="id"

@@ -31,17 +31,20 @@ export const Row = ({ style, ...props }: AViewProps) => (
 );
 
 interface WrapperProps extends AViewProps {
-  gapStyle?: ViewStyleProps & SpaceProps;
+  fd?: 'row' | 'column';
+  ignoreFrist?: boolean;
+  childStyle?: ViewStyleProps & SpaceProps;
 }
 
-export const Wrapper = ({ gapStyle, children, ...props }: WrapperProps) => (
-  <AView {...props}>
+export const Wrapper = ({ fd, childStyle, children, ...props }: WrapperProps) => (
+  <AView {...props} style={[{ flexDirection: fd }, props.style]}>
     {React.Children.map(children, (child, index) => {
       const element = child as any;
       if (!element) return;
 
+      const isChildStyle = !(props.ignoreFrist && !index) && childStyle;
       return React.cloneElement(element, {
-        style: [element.props.style, gapStyle && index && getSpaceStyle(gapStyle)],
+        style: [element.props.style, isChildStyle && getSpaceStyle(childStyle)],
       });
     })}
   </AView>

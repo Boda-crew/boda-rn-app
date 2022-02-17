@@ -24,7 +24,7 @@ export const CommentItem = ({
   return (
     <AView {...props}>
       <Comment {...commentProps} />
-      <Wrapper mt="s05" gapStyle={{ ml: 's03' }} style={{ flexDirection: 'row' }}>
+      <Wrapper mt="s05" fd="row" ignoreFrist childStyle={{ ml: 's03' }}>
         <LikeButton selected={true} rated={10} onPress={onPressLike} />
         <ReplyButton cnt={3} onPress={onPressReply} />
       </Wrapper>

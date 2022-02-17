@@ -38,7 +38,7 @@ export const NotificationScreen = () => {
 
 const NotificationList = ({ notificationList }: { notificationList: any[] }) => {
   return (
-    <Wrapper pl="s06" pt="s06" gapStyle={{ mt: 's07' }}>
+    <Wrapper pl="s06" pt="s06" ignoreFrist childStyle={{ mt: 's07' }}>
       {notificationList.map((_, index) => (
         <NotificationItem key={index} />
       ))}

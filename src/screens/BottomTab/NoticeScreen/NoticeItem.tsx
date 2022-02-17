@@ -32,7 +32,7 @@ export const NoticeItem = ({ isPrimary, hideAcademy, style }: Props) => {
         iconSize={{ width: 18, height: 18 }}
       />
 
-      <Wrapper style={{ marginLeft: 24 }}>
+      <Wrapper ml="s06">
         <Row>
           {!hideAcademy && <Pill title={'사과학원'} mr="s03" />}
           <Pill title={'사과나무반'} />

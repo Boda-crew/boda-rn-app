@@ -38,7 +38,7 @@ export const NoticeScreen = () => {
 
 const NoticeList = ({ noticeList }: { noticeList: any[] }) => {
   return (
-    <Wrapper pl="s06" pt="s05" gapStyle={{ mt: 's07' }}>
+    <Wrapper pl="s06" pt="s05" ignoreFrist childStyle={{ mt: 's07' }}>
       {noticeList.map((_, index) => (
         <NoticeItem key={index} isPrimary={!index} />
       ))}
