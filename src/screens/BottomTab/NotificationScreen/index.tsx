@@ -15,7 +15,9 @@ export const NotificationScreen = () => {
 
   return (
     <Container>
-      <ScreenTitle ml="s06">알림</ScreenTitle>
+      <ScreenTitle mt="s06" ml="s06">
+        알림
+      </ScreenTitle>
 
       <SegmentedTab
         selectedIdx={tabIndex}

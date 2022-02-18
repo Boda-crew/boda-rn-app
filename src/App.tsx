@@ -12,7 +12,5 @@ export const App = () => {
     })();
   }, []);
 
-  usePreventAndroidExit();
-
   return <RootNavigator />;
 };

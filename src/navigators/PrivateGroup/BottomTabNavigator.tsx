@@ -1,10 +1,9 @@
 import React from 'react';
-import { StyleSheet, TouchableOpacity } from 'react-native';
+import { Platform, TouchableOpacity } from 'react-native';
 import {
   BottomTabBarButtonProps,
   createBottomTabNavigator,
 } from '@react-navigation/bottom-tabs';
-import { BlurView } from '@react-native-community/blur';
 import {
   BolierScreen,
   NoticeScreen,
@@ -27,18 +26,20 @@ export const BottomTabNavigator = () => {
         tabBarLabelStyle: { fontSize: 12 },
         tabBarStyle: {
           position: 'absolute',
-          borderTopColor: 'transparent',
-          backgroundColor: '#ffffff90',
-          height: 80,
-          paddingTop: 4,
+          borderColor: palette.gray1,
+          borderWidth: 1,
+          borderTopLeftRadius: 24,
+          borderTopRightRadius: 24,
+          backgroundColor: '#ffffff',
+          height: Platform.OS === 'ios' ? 90 : 70,
+          ...(Platform.OS === 'android' && { paddingBottom: 12 }),
           elevation: 0, // for android
         },
         tabBarInactiveTintColor: palette.gray3,
         tabBarIcon: ({ focused, color }) => (
-          <Icon name={iconName[name]} color={focused ? color : color + '90'} />
+          <Icon name={iconName[name]} color={focused ? color : color + '90'} /> // 연한 회색을 위한 '90'
         ),
         tabBarButton: TabBarButton,
-        tabBarBackground: TabBarBackground,
       })}
       safeAreaInsets={{ left: 24, right: 24 }}
     >
@@ -47,32 +48,6 @@ export const BottomTabNavigator = () => {
       <ButtomTab.Screen name="Notification" component={NotificationScreen} />
       <ButtomTab.Screen name="Account" component={BolierScreen} />
     </ButtomTab.Navigator>
-  );
-};
-
-const TabBarBackground = () => {
-  return (
-    <BlurView
-      blurType="light"
-      blurAmount={32}
-      style={[
-        StyleSheet.absoluteFill,
-        { borderColor: palette.gray1, borderRadius: 24, borderWidth: 1 },
-      ]}
-    />
-  );
-};
-
-const TabBarButton = (props: BottomTabBarButtonProps) => {
-  return (
-    <TouchableOpacity
-      {...props}
-      activeOpacity={0.8}
-      onPress={e => {
-        onHaptic();
-        props.onPress?.(e);
-      }}
-    />
   );
 };
 
@@ -88,4 +63,17 @@ const iconName: { [key in keyof BottomTabParamList]: IconName } = {
   Study: 'report',
   Notification: 'alert',
   Account: 'person',
+};
+
+const TabBarButton = (props: BottomTabBarButtonProps) => {
+  return (
+    <TouchableOpacity
+      {...props}
+      activeOpacity={0.8}
+      onPress={e => {
+        onHaptic('soft');
+        props.onPress?.(e);
+      }}
+    />
+  );
 };

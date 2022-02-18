@@ -22,7 +22,9 @@ export const StudyScreen = (props: Props) => {
 
   return (
     <Container>
-      <ScreenTitle ml="s06">학습</ScreenTitle>
+      <ScreenTitle mt="s06" ml="s06">
+        학습
+      </ScreenTitle>
 
       <HelpText mt="s05" ml="s06">
         자녀의 학습 정보를 한 곳에서 확인하세요
