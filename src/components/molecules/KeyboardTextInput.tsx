@@ -1,9 +1,10 @@
 import { palette } from '@styles';
 import { onHaptic } from '@utils';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   KeyboardAvoidingView,
   Modal,
+  Platform,
   Pressable,
   StyleSheet,
   TextInput,
@@ -24,9 +25,18 @@ export const KeyboardTextInput = ({
   onClose,
   ...props
 }: Props) => {
+  const inputRef = useRef<TextInput>(null);
   const [text, setText] = useState(initText);
 
   useEffect(() => setText(initText), [initText]);
+
+  useEffect(() => {
+    if (open && inputRef.current) {
+      Platform.OS === 'ios'
+        ? inputRef.current?.focus()
+        : setTimeout(() => inputRef.current?.focus(), 40);
+    }
+  }, [open]);
 
   const onSubmit = async () => {
     props.onSubmit(text);
@@ -42,7 +52,7 @@ export const KeyboardTextInput = ({
       <KeyboardAvoidingView behavior="position" style={styles.container}>
         <AView style={styles.inputWrapper}>
           <TextInput
-            autoFocus
+            ref={inputRef}
             autoCapitalize="none"
             placeholder={props.placeholder}
             value={text}
@@ -70,12 +80,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     borderTopWidth: 1,
     borderTopColor: palette.border,
-    paddingVertical: 16,
-    paddingHorizontal: 24,
-    // paddingTop: 15,
-    // paddingRight: 26,
-    // paddingLeft: 24,
-    // paddingBottom: 16,
+    paddingVertical: 8,
+    paddingRight: 16,
+    paddingLeft: 24,
   },
   input: {
     flex: 4,
@@ -85,5 +92,6 @@ const styles = StyleSheet.create({
   iconButton: {
     marginTop: 'auto',
     borderRadius: 50,
+    ...(Platform.OS === 'android' && { marginBottom: 6 }),
   },
 });
