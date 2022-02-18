@@ -42,22 +42,24 @@ export const spaceScale = {
   s13: 160,
 };
 
+export const transferSpaceStyle = (props: SpaceBaseProps) => ({
+  ...(props.m && { margin: spaceScale[props.m] }),
+  ...(props.mt && { marginTop: spaceScale[props.mt] }),
+  ...(props.mr && { marginRight: spaceScale[props.mr] }),
+  ...(props.mb && { marginBottom: spaceScale[props.mb] }),
+  ...(props.ml && { marginLeft: spaceScale[props.ml] }),
+  ...(props.mv && { marginVertical: spaceScale[props.mv] }),
+  ...(props.mh && { marginHorizontal: spaceScale[props.mh] }),
+  ...(props.p && { padding: spaceScale[props.p] }),
+  ...(props.pt && { paddingTop: spaceScale[props.pt] }),
+  ...(props.pr && { paddingRight: spaceScale[props.pr] }),
+  ...(props.pb && { paddingBottom: spaceScale[props.pb] }),
+  ...(props.pl && { paddingLeft: spaceScale[props.pl] }),
+  ...(props.pv && { paddingVertical: spaceScale[props.pv] }),
+  ...(props.ph && { paddingHorizontal: spaceScale[props.ph] }),
+});
+
 export const getSpaceStyle = (props: SpaceProps) => [
-  {
-    ...(props.m && { margin: spaceScale[props.m] }),
-    ...(props.mt && { marginTop: spaceScale[props.mt] }),
-    ...(props.mr && { marginRight: spaceScale[props.mr] }),
-    ...(props.mb && { marginBottom: spaceScale[props.mb] }),
-    ...(props.ml && { marginLeft: spaceScale[props.ml] }),
-    ...(props.mv && { marginVertical: spaceScale[props.mv] }),
-    ...(props.mh && { marginHorizontal: spaceScale[props.mh] }),
-    ...(props.p && { padding: spaceScale[props.p] }),
-    ...(props.pt && { paddingTop: spaceScale[props.pt] }),
-    ...(props.pr && { paddingRight: spaceScale[props.pr] }),
-    ...(props.pb && { paddingBottom: spaceScale[props.pb] }),
-    ...(props.pl && { paddingLeft: spaceScale[props.pl] }),
-    ...(props.pv && { paddingVertical: spaceScale[props.pv] }),
-    ...(props.ph && { paddingHorizontal: spaceScale[props.ph] }),
-  },
+  transferSpaceStyle(props),
   props.style,
 ];

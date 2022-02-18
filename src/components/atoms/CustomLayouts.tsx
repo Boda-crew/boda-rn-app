@@ -8,7 +8,14 @@ import {
 } from 'react-native';
 import { SafeAreaView, SafeAreaViewProps } from 'react-native-safe-area-context';
 import { ViewStyleProps } from '@types';
-import { getSpaceStyle, palette, SpaceBaseProps, SpaceProps } from '@styles';
+import {
+  getSpaceStyle,
+  palette,
+  SpaceBaseProps,
+  SpaceProps,
+  transferSpaceStyle,
+} from '@styles';
+import { extract } from '@utils';
 import { AView, AViewProps } from './AView';
 
 // -------------------------------------------------
@@ -43,11 +50,28 @@ export const Wrapper = ({ fd, childStyle, children, ...props }: WrapperProps) =>
       if (!element) return;
 
       const isChildStyle = !(props.ignoreFrist && !index) && childStyle;
+
       return React.cloneElement(element, {
         style: [
           element.props.style,
-          isChildStyle && childStyle,
-          isChildStyle && getSpaceStyle(childStyle),
+          isChildStyle && transferSpaceStyle(childStyle),
+          isChildStyle &&
+            extract(childStyle, {
+              m: true,
+              mt: true,
+              mr: true,
+              mb: true,
+              ml: true,
+              mv: true,
+              mh: true,
+              p: true,
+              pt: true,
+              pr: true,
+              pb: true,
+              pl: true,
+              pv: true,
+              ph: true,
+            }),
         ],
       });
     })}

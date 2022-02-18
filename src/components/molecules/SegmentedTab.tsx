@@ -20,6 +20,7 @@ import {
   HelpText,
   WINDOW_WIDTH,
 } from '../atoms';
+import { onHaptic } from '@utils';
 
 interface SegmentedInnerView {
   name: string;
@@ -184,8 +185,13 @@ const TabTitle = React.forwardRef<Text, TabTextProps>((props, ref) => {
           ),
         });
 
+  const onPress = () => {
+    props.onPress();
+    onHaptic('soft');
+  };
+
   return (
-    <ATouchableOpacity onPress={props.onPress} style={{ marginLeft: 24 }}>
+    <ATouchableOpacity onPress={onPress} style={{ marginLeft: 24 }}>
       <Animated.Text
         ref={ref}
         style={{
