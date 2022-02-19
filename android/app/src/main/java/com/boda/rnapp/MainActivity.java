@@ -1,5 +1,6 @@
-package com.boda.app;
+package com.boda.rnapp;
 
+import android.os.Bundle;
 import com.facebook.react.ReactActivity;
 import org.devio.rn.splashscreen.SplashScreen;
 

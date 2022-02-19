@@ -1,4 +1,4 @@
-package com.boda.app;
+package com.boda.rnapp;
 
 import android.app.Application;
 import android.content.Context;
@@ -13,9 +13,10 @@ import com.facebook.soloader.SoLoader;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import com.microsoft.codepush.react.CodePush;
+import androidx.multidex.MultiDexApplication;
 
 
-public class MainApplication extends Application implements ReactApplication {
+public class MainApplication extends MultiDexApplication implements ReactApplication {
 
   private final ReactNativeHost mReactNativeHost =
       new ReactNativeHost(this) {
