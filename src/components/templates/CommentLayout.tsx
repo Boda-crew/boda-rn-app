@@ -4,6 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 import { AText, AView, HeaderTitle, Row } from '../atoms';
 import { CommentItem, WriteCommentForm } from '../organisms';
 import { KeyboardTextInput } from '../molecules';
+import { NotiService } from '@services';
 
 interface Props {
   comments: any[];
@@ -20,6 +21,12 @@ export const CommentLayout = ({ comments }: Props) => {
       text: '해당 댓글을 삭제하시겠습니까?',
       isDanger: true,
       onConfirm: () => console.log('delete comment'),
+    });
+  };
+
+  const onSubmitEdit = (text: string) => {
+    NotiService.onDisplayNotification({
+      body: '댓글이 수정되었습니다.',
     });
   };
 
@@ -61,7 +68,7 @@ export const CommentLayout = ({ comments }: Props) => {
         open={!!editCommentTarget}
         initText={editCommentTarget}
         onClose={() => setEditCommentTarget(undefined)}
-        onSubmit={e => console.log(e)}
+        onSubmit={onSubmitEdit}
       />
     </AView>
   );

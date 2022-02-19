@@ -13,6 +13,17 @@ export const requestPushNotificationPermission = async () => {
     authStatus === messaging.AuthorizationStatus.PROVISIONAL;
 };
 
+/*
+ * 앱을 키고 있을 때 발생한 알림에 대한 처리
+ * App.ts의 가장 바깥 훅에 넣어야 한다. cleanup 하는 것을 잊어선 안된다.
+ */
+export const foregroundListener = () =>
+  messaging().onMessage(message =>
+    NotiService.onDisplayNotification(
+      message.notification as { body: string; title: string },
+    ),
+  );
+
 export const onMessageReceived = async (
   message: FirebaseMessagingTypes.RemoteMessage,
 ) => {
@@ -26,12 +37,6 @@ export const onMessageReceived = async (
 
   console.log('[push message] ', message);
 };
-
-/*
- * 앱을 키고 있을 때 발생한 알림에 대한 처리
- * App.ts의 가장 바깥 훅에 넣어야 한다. cleanup 하는 것을 잊어선 안된다.
- */
-export const foregroundListener = () => messaging().onMessage(onMessageReceived);
 
 /**
  * 앱이 백그라운드에 때 발생한 알림에 대한 처리

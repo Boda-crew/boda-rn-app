@@ -7,6 +7,8 @@ import notifee, {
 
 export const backgroundListener = () =>
   notifee.onBackgroundEvent(async ({ type, detail }) => {
+    console.log('[noti background]', type, detail);
+
     const { notification, pressAction } = detail;
     if (!pressAction || !notification?.id) return;
 
@@ -17,14 +19,9 @@ export const backgroundListener = () =>
     }
   });
 
-export const onDisplayNotification = async (
-  noti:
-    | Notification
-    | {
-        title?: string;
-        body?: string;
-      },
-) => {
+export const onDisplayNotification = async (noti: Notification) => {
+  console.log('[noti message]', noti);
+
   const channelId = await notifee.createChannel({
     id: 'default',
     name: 'Default Channel',
@@ -46,6 +43,9 @@ export const onDisplayNotification = async (
   });
 };
 
+/**
+ * 알림을 예약한다.
+ */
 export const onCreateTriggerNotification = async (date: Date) => {
   // Create a time-based trigger
   const trigger: TimestampTrigger = {
