@@ -1,7 +1,7 @@
 import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { Text } from 'react-native';
-import { AButton, Container, Wrapper } from '@components';
+import { AButton, AImage, Container, Wrapper } from '@components';
 import FastImage from 'react-native-fast-image';
 import { useAuthActions } from '@stores';
 
@@ -30,14 +30,14 @@ export const BolierScreen = ({ route: { name } }: Props) => {
           onPress={() => nav.navigate('Alert', { text: '정말 확인 하시겠습니까?' })}
         />
 
-        <FastImage
-          style={{ width: 200, height: 200 }}
+        <AImage
+          height={200}
+          width={200}
+          loadingURI={`https://unsplash.it/400/400?image=${random}`}
           source={{
             uri: `https://unsplash.it/400/400?image=${random}`,
-            headers: { Authorization: 'someAuthToken' },
             priority: FastImage.priority.normal,
           }}
-          resizeMode={FastImage.resizeMode.contain}
         />
       </Wrapper>
     </Container>

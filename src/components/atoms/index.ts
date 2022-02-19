@@ -1,4 +1,5 @@
 export * from './AButton';
+export * from './AImage';
 export * from './AScrollView';
 export * from './AText';
 export * from './ATextInput';
