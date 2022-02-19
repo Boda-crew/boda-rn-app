@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import { RecoilRoot } from 'recoil';
 import React from 'react';
 import { LogBox } from 'react-native';
+import { FCMService, NotiService } from '@services';
 import { App } from './App';
 
 LogBox.ignoreLogs([
@@ -18,6 +19,9 @@ const codePushOptions = {
   updateDialog: true,
   installMode: codePush.InstallMode.IMMEDIATE,
 };
+
+FCMService.backgroundListener();
+NotiService.backgroundListener();
 
 export default codePush(codePushOptions)(() => {
   return (

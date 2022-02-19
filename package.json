@@ -16,6 +16,7 @@
     "release:production": "appcenter codepush release-react -a bepyan/boda-ios -d Production && appcenter codepush release-react -a bepyan/boda-aos -d Production"
   },
   "dependencies": {
+    "@notifee/react-native": "^4.1.0",
     "@react-native-async-storage/async-storage": "^1.15.8",
     "@react-native-community/blur": "^3.6.0",
     "@react-native-community/netinfo": "^8.0.0",

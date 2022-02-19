@@ -2,6 +2,7 @@ import { StorageService } from '@services';
 
 class AuthService {
   authToken: string;
+  userId?: number;
 
   constructor() {
     this.authToken = '';
@@ -27,6 +28,18 @@ class AuthService {
   removeAuthToken() {
     this.authToken = '';
     StorageService.deleteItemAsync('authToken');
+  }
+
+  setUserId(id: number) {
+    this.userId = id;
+  }
+
+  getUserId() {
+    return this.userId;
+  }
+
+  removeUserId() {
+    this.userId = undefined;
   }
 }
 
