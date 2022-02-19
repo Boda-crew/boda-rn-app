@@ -9,7 +9,11 @@
     "start": "react-native start",
     "test": "jest",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
-    "clean:android": "cd android && ./gradlew clean && cd ../"
+    "clean:android": "cd android && ./gradlew clean && cd ../",
+    "check:codepush": "appcenter codepush deployment list --app bepyan/boda-ios -k && appcenter codepush deployment list --app bepyan/boda-aos -k",
+    "check:release": "appcenter codepush deployment list -a bepyan/boda-ios && appcenter codepush deployment list -a bepyan/boda-aos",
+    "release:staging": "appcenter codepush release-react -a bepyan/boda-ios -d Staging && appcenter codepush release-react -a bepyan/boda-aos -d Staging",
+    "release:production": "appcenter codepush release-react -a bepyan/boda-ios -d Production && appcenter codepush release-react -a bepyan/boda-aos -d Production"
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "^1.15.8",
@@ -25,6 +29,7 @@
     "react": "17.0.2",
     "react-hook-form": "^7.27.0",
     "react-native": "0.67.2",
+    "react-native-code-push": "^7.0.4",
     "react-native-dotenv": "^3.2.0",
     "react-native-fast-image": "^8.5.11",
     "react-native-gesture-handler": "2.1.1",

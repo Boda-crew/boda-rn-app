@@ -1,4 +1,5 @@
 import 'react-native-gesture-handler';
+import codePush from 'react-native-code-push';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { RecoilRoot } from 'recoil';
@@ -12,8 +13,13 @@ LogBox.ignoreLogs([
 ]);
 
 const queryClient = new QueryClient();
+const codePushOptions = {
+  // checkFrequency: codePush.CheckFrequency.ON_APP_RESUME,
+  updateDialog: true,
+  installMode: codePush.InstallMode.IMMEDIATE,
+};
 
-export default () => {
+export default codePush(codePushOptions)(() => {
   return (
     <RecoilRoot>
       <QueryClientProvider client={queryClient}>
@@ -23,4 +29,4 @@ export default () => {
       </QueryClientProvider>
     </RecoilRoot>
   );
-};
+});
