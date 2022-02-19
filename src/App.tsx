@@ -1,7 +1,7 @@
-import { usePreventAndroidExit } from '@hooks';
+import React, { useEffect } from 'react';
+import SplashScreen from 'react-native-splash-screen';
 import { RootNavigator } from '@navigators';
 import { useBootAuth } from '@stores';
-import React, { useEffect } from 'react';
 
 export const App = () => {
   const { boostAuth } = useBootAuth();
@@ -9,6 +9,7 @@ export const App = () => {
   useEffect(() => {
     (async () => {
       await boostAuth();
+      SplashScreen.hide();
     })();
   }, []);
 
