@@ -4,7 +4,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { RecoilRoot } from 'recoil';
 import React from 'react';
-import { LogBox } from 'react-native';
+import { LogBox, StatusBar } from 'react-native';
 import { FCMService, NotiService } from '@services';
 import { App } from './App';
 
@@ -28,6 +28,7 @@ export default codePush(codePushOptions)(() => {
     <RecoilRoot>
       <QueryClientProvider client={queryClient}>
         <SafeAreaProvider>
+          <StatusBar barStyle="dark-content" backgroundColor="transparent" />
           <App />
         </SafeAreaProvider>
       </QueryClientProvider>
