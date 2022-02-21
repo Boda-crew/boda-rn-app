@@ -9,16 +9,18 @@ import {
   Row,
   Wrapper,
 } from '@components';
-import { ViewStyleProps } from '@types';
+import { PostDTO, ViewStyleProps } from '@types';
 import { useNavigation } from '@react-navigation/native';
+import { formatClock, formatDate } from '@utils';
 
 interface Props {
+  notice: PostDTO;
   isPrimary?: boolean;
   hideAcademy?: boolean;
   style?: ViewStyleProps;
 }
 
-export const NoticeItem = ({ isPrimary, hideAcademy, style }: Props) => {
+export const NoticeItem = ({ notice, isPrimary, hideAcademy, style }: Props) => {
   const nav = useNavigation();
 
   const navToNoticeDetail = () => nav.navigate('NoticeDetail');
@@ -27,7 +29,7 @@ export const NoticeItem = ({ isPrimary, hideAcademy, style }: Props) => {
     <OpacityListItem style={style} onPress={navToNoticeDetail}>
       <Badge
         theme={isPrimary ? 'primaryRed' : 'default'}
-        title={'3/31'}
+        title={formatDate(notice.createdDateTime)}
         iconName="announcement"
         iconSize={{ width: 18, height: 18 }}
       />
@@ -38,10 +40,10 @@ export const NoticeItem = ({ isPrimary, hideAcademy, style }: Props) => {
           <Pill title={'사과나무반'} />
         </Row>
 
-        <ContentTitle mt="s03">차량시간 변경</ContentTitle>
+        <ContentTitle mt="s03">{notice.title}</ContentTitle>
 
         <HelpText mt="s02">
-          오전 10:15 · 정재훈 · 댓글 2
+          {formatClock(notice.createdDateTime)} · {notice.author} · 댓글 2
           {/* {Time.formatClock(v.created_date)} · {v.writer.human_name} · 댓글{' '} */}
           {/* {v.comments.length} */}
         </HelpText>

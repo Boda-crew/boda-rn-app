@@ -34,7 +34,8 @@ export const formatClock = (target: DateValue) => {
  */
 export const formatDate = (target: DateValue) => {
   const { month, date } = getDateData(target);
-  return `${month}/${date}`;
+  const d = date < 10 ? '0' + date : date;
+  return `${month}/${d}`;
 };
 
 /**

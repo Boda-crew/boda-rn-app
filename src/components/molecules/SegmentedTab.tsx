@@ -32,6 +32,7 @@ interface Props extends SpaceProps {
   refreshing?: boolean;
   selectedIdx: number;
   setSelectedIdx: (newIndex: number) => void;
+  onRefresh?: () => void;
 }
 
 const MAX_TAB_INDEX = 10;
@@ -41,6 +42,7 @@ export const SegmentedTab = ({
   refreshing,
   selectedIdx,
   setSelectedIdx,
+  onRefresh,
   ...props
 }: Props) => {
   const [measures, setMeasures] = useState<MeasureType[]>([]);
@@ -136,9 +138,15 @@ export const SegmentedTab = ({
         pagingEnabled
         onScroll={onScrollFlatList}
         contentContainerStyle={{ flexGrow: 1 }}
-        refreshControl={<RefreshControl refreshing={!!refreshing} />}
         renderItem={({ item }) => (
-          <AScrollView style={{ width: WINDOW_WIDTH }}>{item.child}</AScrollView>
+          <AScrollView
+            refreshControl={
+              <RefreshControl refreshing={!!refreshing} onRefresh={onRefresh} />
+            }
+            style={{ width: WINDOW_WIDTH }}
+          >
+            {item.child}
+          </AScrollView>
         )}
         ListEmptyComponent={() => (
           <HelpText style={styles.emptyText}>뷰가 없습니다.</HelpText>

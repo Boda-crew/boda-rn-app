@@ -7,11 +7,13 @@ import {
   Wrapper,
 } from '@components';
 import { NoticeItem } from './NoticeItem';
+import { PostDTO } from '@types';
+import { useNoticeListState } from '@stores';
 
 export const NoticeScreen = () => {
   const [tabIndex, setTabIndex] = useState(0);
 
-  const noticeList = [...new Array(10)];
+  const { shatteredNotices, isLoading, refetch } = useNoticeListState();
 
   return (
     <Container>
@@ -23,26 +25,22 @@ export const NoticeScreen = () => {
         selectedIdx={tabIndex}
         setSelectedIdx={setTabIndex}
         mt="s05"
-        views={[
-          {
-            name: '전체',
-            child: <NoticeList noticeList={noticeList} />,
-          },
-          {
-            name: '사과학원',
-            child: <NoticeList noticeList={noticeList} />,
-          },
-        ]}
+        refreshing={isLoading}
+        onRefresh={refetch}
+        views={Object.keys(shatteredNotices).map(key => ({
+          name: key,
+          child: <NoticeList noticeList={shatteredNotices[key]} />,
+        }))}
       />
     </Container>
   );
 };
 
-const NoticeList = ({ noticeList }: { noticeList: any[] }) => {
+const NoticeList = ({ noticeList }: { noticeList: PostDTO[] }) => {
   return (
     <Wrapper pl="s06" pt="s05" ignoreFrist childStyle={{ mt: 's07' }}>
-      {noticeList.map((_, index) => (
-        <NoticeItem key={index} isPrimary={!index} />
+      {noticeList.map((notice, index) => (
+        <NoticeItem key={index} notice={notice} isPrimary={!index} />
       ))}
 
       {!noticeList.length && <HelpText>아직 공지가 없습니다</HelpText>}
