@@ -203,7 +203,7 @@ const TabTitle = React.forwardRef<Text, TabTextProps>((props, ref) => {
       <Animated.Text
         ref={ref}
         style={{
-          fontSize: 22,
+          fontSize: 20,
           fontWeight: props.selected ? '700' : '400',
           color,
         }}
