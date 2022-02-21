@@ -18,7 +18,11 @@ interface Props {}
 export const StudyScreen = (props: Props) => {
   const nav = useNavigation();
 
-  const navToClasses = () => nav.navigate('Confirm', { isDanger: true });
+  const navToClasses = () =>
+    nav.navigate('Confirm', {
+      isDanger: true,
+      text: '계좌를 불러오려면 본인인증을 \n진행해주세요',
+    });
 
   return (
     <Container>
