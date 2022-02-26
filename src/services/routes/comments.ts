@@ -19,6 +19,13 @@ export const read_all_comments = () => {
   });
 };
 
+export const read_comments_by_post_id = (postId: number) => {
+  return _axios<CommentDTO[]>({
+    url: `/posts/${postId}/comments`,
+    method: 'GET',
+  });
+};
+
 export const update_comment = (commentId: string, data: CommentRequestDTO) => {
   return _axios<CommentDTO[]>({
     url: `${route}/${commentId}`,

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   AText,
   Badge,
@@ -12,6 +12,8 @@ import {
 import { PostDTO, ViewStyleProps } from '@types';
 import { useNavigation } from '@react-navigation/native';
 import { formatClock, formatDate } from '@utils';
+import { useQuery } from 'react-query';
+import { API } from '@services';
 
 interface Props {
   notice: PostDTO;
@@ -22,6 +24,16 @@ interface Props {
 
 export const NoticeItem = ({ notice, isPrimary, hideAcademy, style }: Props) => {
   const nav = useNavigation();
+  const postId = notice.id;
+  const [commentCnt, setCommentCnt] = useState<number>();
+
+  useQuery(
+    ['read_comments_by_post_id', postId],
+    () => API.read_comments_by_post_id(postId),
+    {
+      onSuccess: ({ data }) => setCommentCnt(data.length),
+    },
+  );
 
   const navToNoticeDetail = () => nav.navigate('NoticeDetail');
 
@@ -45,9 +57,7 @@ export const NoticeItem = ({ notice, isPrimary, hideAcademy, style }: Props) => 
         <ContentTitle mt="s03">{notice.title}</ContentTitle>
 
         <HelpText mt="s02">
-          {formatClock(notice.createdDateTime)} · {notice.author} · 댓글 2
-          {/* {Time.formatClock(v.created_date)} · {v.writer.human_name} · 댓글{' '} */}
-          {/* {v.comments.length} */}
+          {formatClock(notice.createdDateTime)} · {notice.author} · 댓글 {commentCnt}
         </HelpText>
       </Wrapper>
     </OpacityListItem>
