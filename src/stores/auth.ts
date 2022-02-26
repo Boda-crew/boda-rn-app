@@ -2,6 +2,16 @@ import { atom, useSetRecoilState } from 'recoil';
 import { AuthService, StorageService } from '@services';
 import { UserDTO } from '@types';
 
+const fakeUser: UserDTO = {
+  id: 2,
+  name: '테스트',
+  type: '관리자',
+  certified: true,
+  phone: '010-1234-1234',
+  createdDateTime: '',
+  updatedDateTime: '',
+};
+
 export const authStore = atom<UserDTO | null>({
   key: 'authStore',
   default: null,
@@ -16,8 +26,8 @@ export const useBootAuth = () => {
 
     AuthService.setAuthToken(token);
     // API: get whoami
-    setAuthUser(null);
-    AuthService.setUserId(1234);
+    AuthService.setUserId(2);
+    setAuthUser(fakeUser);
   };
 
   return { boostAuth };
@@ -28,17 +38,12 @@ export const useAuthActions = () => {
 
   const login = async ({ phone }: { phone: string }) => {
     // API: login 성공시
+    const userId = 2;
 
     AuthService.setAuthToken(phone);
-    setAuthUser({
-      id: 0,
-      name: '테스트',
-      type: '관리자',
-      certified: true,
-      phone: phone,
-      createdDateTime: '',
-      updatedDateTime: '',
-    });
+    AuthService.setUserId(userId);
+
+    setAuthUser(fakeUser);
   };
 
   const logout = async () => {
