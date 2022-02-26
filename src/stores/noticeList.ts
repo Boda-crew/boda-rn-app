@@ -16,13 +16,13 @@ const shatteredNoticesState = selector<ShatteredNotices>({
   key: 'shatteredNoticesState',
   get: ({ get }) => {
     const noticeList = get(noticeListState);
+
     return noticeList.reduce<ShatteredNotices>(
       (result, notice) => {
-        // const classrooms = notice.classrooms;
-        // if (!classrooms || !classrooms.length) return result;
+        const classrooms = notice.classrooms;
+        if (!classrooms || !classrooms.length) return result;
 
-        // const academyName = classrooms[0].academy.name;
-        const academyName = notice.title; // fake
+        const academyName = classrooms[0].academy.name;
         if (!academyName) return result;
         result['전체'].push(notice);
 
@@ -43,9 +43,7 @@ export const useNoticeListState = () => {
   const shatteredNotices = useRecoilValue(shatteredNoticesState);
 
   const { isLoading, refetch } = useQuery('read_all_posts', API.read_all_posts, {
-    onSuccess: ({ data }) => {
-      setNoticeList(data);
-    },
+    onSuccess: ({ data }) => setNoticeList(data.filter(v => v.type === '공지')),
   });
 
   return {

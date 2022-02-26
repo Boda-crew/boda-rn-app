@@ -36,8 +36,10 @@ export const NoticeItem = ({ notice, isPrimary, hideAcademy, style }: Props) => 
 
       <Wrapper ml="s06">
         <Row>
-          {!hideAcademy && <Pill title={'사과학원'} mr="s03" />}
-          <Pill title={'사과나무반'} />
+          {!hideAcademy && (
+            <Pill title={notice.classrooms[0].academy.name} mr="s03" />
+          )}
+          <Pill title={notice.classrooms[0].name} />
         </Row>
 
         <ContentTitle mt="s03">{notice.title}</ContentTitle>
