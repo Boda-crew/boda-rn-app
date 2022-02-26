@@ -40,6 +40,7 @@ export const spaceScale = {
   s11: 80,
   s12: 96,
   s13: 160,
+  auto: 'auto',
 };
 
 export const transferSpaceStyle = (props: SpaceBaseProps) => ({

@@ -3,60 +3,52 @@ import {
   ATextInput,
   Container,
   DismissKeyboard,
+  StickyBottomView,
   Wrapper,
 } from '@components';
 import { useAuthActions } from '@stores';
+import { filterPhoneInput, regex } from '@utils';
 import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { View } from 'react-native';
 
 export const LoginScreen = () => {
   const { login } = useAuthActions();
   const {
     control,
     handleSubmit,
-    setFocus,
     formState: { errors },
-  } = useForm<{ id: string; pw: string }>();
+  } = useForm<{ phone: string }>();
 
   const onSubmit = handleSubmit(login);
 
   return (
     <DismissKeyboard>
       <Container>
-        <Wrapper m="s05" childStyle={{ mt: 's05' }}>
+        <Wrapper mh="s06" mt="s08">
           <Controller
             control={control}
-            name="id"
-            rules={{ required: true }}
-            render={({ field }) => (
+            name="phone"
+            rules={{ required: true, pattern: regex.number }}
+            render={({ field: { onChange, ...field } }) => (
               <ATextInput
                 {...field}
-                label="아이디"
-                error={errors.id?.type === 'required' && '아이디를 입력해주세요'}
-                onSubmitEditing={() => setFocus('pw')}
+                label="전화번호"
+                autoFocus
+                onChange={text => onChange(filterPhoneInput(text))}
+                error={
+                  errors.phone?.type === 'required' && '전화번호를 입력해주세요'
+                }
+                onSubmitEditing={onSubmit}
+                keyboardType="number-pad"
+                maxLength={13}
               />
             )}
           />
-
-          <View>
-            <Controller
-              control={control}
-              name="pw"
-              rules={{ required: true }}
-              render={({ field }) => (
-                <ATextInput
-                  {...field}
-                  label="비밀번호"
-                  error={errors.pw?.type === 'required' && '비밀번호를 입력해주세요'}
-                  onSubmitEditing={onSubmit}
-                />
-              )}
-            />
-          </View>
-
-          <AButton title="로그인" onPress={onSubmit} />
         </Wrapper>
+
+        <StickyBottomView>
+          <AButton title="로그인" onPress={onSubmit} mt="auto" />
+        </StickyBottomView>
       </Container>
     </DismissKeyboard>
   );

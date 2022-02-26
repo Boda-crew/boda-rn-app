@@ -10,3 +10,4 @@ export * from './CustomLayouts';
 export * from './CustomTexts';
 export * from './HeaderButtons';
 export * from './Icons';
+export * from './StickyBottomView';

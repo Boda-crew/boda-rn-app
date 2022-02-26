@@ -26,15 +26,16 @@ export const useBootAuth = () => {
 export const useAuthActions = () => {
   const setAuthUser = useSetRecoilState(authStore);
 
-  const login = async ({ id }: { id: number; pw: string }) => {
-    const token = ''; // API: login
-    AuthService.setAuthToken(token);
+  const login = async ({ phone }: { phone: string }) => {
+    // API: login 성공시
+
+    AuthService.setAuthToken(phone);
     setAuthUser({
-      id,
+      id: 0,
       name: '테스트',
       type: '관리자',
       certified: true,
-      phone: '',
+      phone: phone,
       createdDateTime: '',
       updatedDateTime: '',
     });
