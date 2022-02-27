@@ -49,13 +49,15 @@ export const LoginScreen = () => {
                 onSubmitEditing={onSubmit}
                 keyboardType="number-pad"
                 maxLength={13}
+                style={{ height: 60 }}
+                inputStyle={{ fontSize: 22, height: 38 }}
               />
             )}
           />
         </Wrapper>
 
         <StickyBottomView>
-          <AButton title="로그인" onPress={onSubmit} mt="auto" />
+          <AButton title="로그인" size="large" onPress={onSubmit} mt="auto" />
         </StickyBottomView>
       </Container>
     </DismissKeyboard>
