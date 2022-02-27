@@ -26,12 +26,10 @@ export const NoticeDetailScreen = () => {
   };
 
   return (
-    <Container>
-      <AScrollView refreshing={isLoading} onRefresh={onRefreshNotice}>
-        <NoticeInfo notice={notice} />
-        <Separator />
-        <CommentLayout comments={commentList} />
-      </AScrollView>
-    </Container>
+    <AScrollView refreshing={isLoading} onRefresh={onRefreshNotice}>
+      <NoticeInfo notice={notice} />
+      <Separator />
+      <CommentLayout comments={commentList} />
+    </AScrollView>
   );
 };

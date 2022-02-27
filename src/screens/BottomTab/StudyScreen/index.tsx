@@ -11,11 +11,8 @@ import {
 export const StudyScreen = () => {
   const nav = useNavigation();
 
-  const navToClasses = () =>
-    nav.navigate('Confirm', {
-      isDanger: true,
-      text: '계좌를 불러오려면 본인인증을 \n진행해주세요',
-    });
+  const navBoiler = () => nav.navigate('Alert', { text: '개발 중에 있습니다.' });
+  const navToAssignment = () => nav.navigate('Assignment');
 
   return (
     <Container>
@@ -32,25 +29,25 @@ export const StudyScreen = () => {
           title="모든 반"
           iconTheme="blue"
           iconName="class"
-          onPress={navToClasses}
+          onPress={navBoiler}
         />
         <NavigateItem
           title="과제"
           iconTheme="green"
           iconName="check"
-          onPress={navToClasses}
+          onPress={navToAssignment}
         />
         <NavigateItem
           title="시험"
           iconTheme="yellow"
           iconName="test-color"
-          onPress={navToClasses}
+          onPress={navBoiler}
         />
         <NavigateItem
           title="보고서"
           iconTheme="red"
           iconName="report-color"
-          onPress={navToClasses}
+          onPress={navBoiler}
         />
       </Wrapper>
     </Container>

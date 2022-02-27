@@ -10,7 +10,7 @@ interface HeaderButtonProps {
 export const HeaderLeftCloseButton = ({ onPress }: HeaderButtonProps) => {
   return (
     <ATouchableOpacity onPress={onPress} style={{ paddingLeft: 16 }}>
-      <EvilIcons name="close" size={24} color={palette.primary} />
+      <EvilIcons name="close" size={24} />
     </ATouchableOpacity>
   );
 };
@@ -18,7 +18,7 @@ export const HeaderLeftCloseButton = ({ onPress }: HeaderButtonProps) => {
 export const HeaderLeftBackButton = ({ onPress }: HeaderButtonProps) => {
   return (
     <ATouchableOpacity onPress={onPress} style={{ paddingLeft: 8 }}>
-      <EvilIcons name="chevron-left" size={40} color={palette.primary} />
+      <EvilIcons name="chevron-left" size={40} />
     </ATouchableOpacity>
   );
 };

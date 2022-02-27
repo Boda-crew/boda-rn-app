@@ -19,26 +19,25 @@ export const CommentDetailScreen = () => {
   } = useRoute<PrivateRouteProps<'CommentDetail'>>();
 
   return (
-    <Container>
-      <AScrollView>
-        <AView p="s06">
-          <HeaderTitle weight="700">
-            답글 <AText pcolor="primary">{3}</AText>
-          </HeaderTitle>
-        </AView>
+    <AScrollView>
+      <AView p="s06">
+        <HeaderTitle weight="700">
+          답글 <AText pcolor="primary">{3}</AText>
+        </HeaderTitle>
+      </AView>
 
-        <AView p="s06" bc="gray0">
-          <CommentItem comment={comment} />
-        </AView>
+      <AView p="s06" bc="gray0">
+        <CommentItem comment={comment} />
+      </AView>
 
-        <WriteCommentForm
-          title="익명 답글 쓰기"
-          onSubmit={e => console.log(e)}
-          mt="s07"
-          mh="s06"
-        />
+      <WriteCommentForm
+        title="익명 답글 쓰기"
+        onSubmit={e => console.log(e)}
+        mt="s07"
+        mh="s06"
+      />
 
-        {/* {[...new Array(10)].map((v, i) => (
+      {/* {[...new Array(10)].map((v, i) => (
           <Comment
             key={i}
             pv="s06"
@@ -49,7 +48,6 @@ export const CommentDetailScreen = () => {
             }}
           />
         ))} */}
-      </AScrollView>
-    </Container>
+    </AScrollView>
   );
 };

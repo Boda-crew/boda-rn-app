@@ -22,10 +22,10 @@ export const NoticeInfo = ({ notice }: Props) => {
     (notice.classrooms.length > 1 ? `외 ${notice.classrooms.length - 1}` : '');
 
   return (
-    <AView mv="s08" mh="s06">
+    <AView mt="s06" mb="s08" mh="s06">
       <ScreenTitle>{notice.title}</ScreenTitle>
 
-      <Row mt="s08">
+      <Row mt="s07">
         <Pill title={academyPillText} />
         <Pill title={classroomPillText} ml="s03" />
       </Row>

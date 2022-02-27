@@ -15,6 +15,10 @@ declare module '@types' {
     HomeTab: NavigatorScreenParams<BottomTabParamList>;
     NoticeDetail: { notice: PostDTO };
     CommentDetail: { comment: CommentDTO };
+
+    Assignment: undefined;
+    AssignmentDetail: { assignment: PostDTO };
+
     Setting: undefined;
   };
 
