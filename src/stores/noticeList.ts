@@ -43,7 +43,16 @@ export const useNoticeListState = () => {
   const shatteredNotices = useRecoilValue(shatteredNoticesState);
 
   const { isLoading, refetch } = useQuery('read_all_posts', API.read_all_posts, {
-    onSuccess: ({ data }) => setNoticeList(data.filter(v => v.type === '공지')),
+    onSuccess: ({ data }) =>
+      setNoticeList(
+        data
+          .filter(v => v.type === '공지')
+          .sort(
+            (a, b) =>
+              new Date(b.createdDateTime).getTime() -
+              new Date(a.createdDateTime).getTime(),
+          ),
+      ),
   });
 
   return {
