@@ -35,10 +35,13 @@ export const AssignmentItem = ({ assignment, isPrimary, style }: Props) => {
         title={formatDate(assignment.createdDateTime)}
       />
 
-      <Wrapper ml="s06">
-        <ContentTitle mt="s02">{assignment.title}</ContentTitle>
-        <ContentText mt="s02">
-          교재: {assignment.textbook || '사과나무 101'}
+      <Wrapper ml="s06" style={{ flex: 1 }}>
+        <ContentTitle mt="s02" numberOfLines={1}>
+          {assignment.content}
+        </ContentTitle>
+
+        <ContentText mt="s02" numberOfLines={1}>
+          교재: {assignment.textbook}
         </ContentText>
 
         <HelpText mt="s03">
