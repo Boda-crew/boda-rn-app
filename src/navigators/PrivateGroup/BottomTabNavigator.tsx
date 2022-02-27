@@ -5,7 +5,7 @@ import {
   createBottomTabNavigator,
 } from '@react-navigation/bottom-tabs';
 import {
-  BolierScreen,
+  AccountScreen,
   NoticeScreen,
   NotificationScreen,
   StudyScreen,
@@ -46,7 +46,7 @@ export const BottomTabNavigator = () => {
       <ButtomTab.Screen name="Notice" component={NoticeScreen} />
       <ButtomTab.Screen name="Study" component={StudyScreen} />
       <ButtomTab.Screen name="Notification" component={NotificationScreen} />
-      <ButtomTab.Screen name="Account" component={BolierScreen} />
+      <ButtomTab.Screen name="Account" component={AccountScreen} />
     </ButtomTab.Navigator>
   );
 };

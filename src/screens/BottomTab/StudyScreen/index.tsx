@@ -1,21 +1,14 @@
 import React from 'react';
 import { useNavigation } from '@react-navigation/native';
 import {
-  Badge,
-  BadgeTheme,
   Container,
-  HeaderTitle,
   HelpText,
-  HightlightListItem,
-  IconName,
+  NavigateItem,
   ScreenTitle,
   Wrapper,
 } from '@components';
-import { ViewStyleProps } from '@types';
 
-interface Props {}
-
-export const StudyScreen = (props: Props) => {
+export const StudyScreen = () => {
   const nav = useNavigation();
 
   const navToClasses = () =>
@@ -61,28 +54,5 @@ export const StudyScreen = (props: Props) => {
         />
       </Wrapper>
     </Container>
-  );
-};
-
-interface NavigateItemProps {
-  title: string;
-  iconTheme?: BadgeTheme;
-  iconName: IconName;
-  style?: ViewStyleProps;
-  onPress: () => void;
-}
-
-const NavigateItem = ({
-  title,
-  iconTheme,
-  iconName,
-  onPress,
-  ...props
-}: NavigateItemProps) => {
-  return (
-    <HightlightListItem hasArrow onPress={onPress} {...props}>
-      <Badge theme={iconTheme} isCircle iconName={iconName} size="small" />
-      <HeaderTitle ml="s06">{title}</HeaderTitle>
-    </HightlightListItem>
   );
 };
