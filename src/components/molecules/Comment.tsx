@@ -1,4 +1,7 @@
 import React from 'react';
+import { CommentDTO } from '@types';
+import { formatDuration } from '@utils';
+import { useAuth } from '@stores';
 import {
   ATouchableOpacity,
   AView,
@@ -8,24 +11,26 @@ import {
   HelpText,
   Row,
 } from '../atoms';
-
 export interface CommentProps extends AViewProps {
-  isAuther?: boolean;
+  comment: CommentDTO;
   onPressEdit?: () => void;
   onPressDelete?: () => void;
 }
 
 export const Comment = ({
-  isAuther,
+  comment,
   onPressEdit,
   onPressDelete,
   ...props
 }: CommentProps) => {
+  const { auth } = useAuth();
+  const isAuther = auth?.id === comment.author;
+
   return (
     <AView {...props}>
       <Row>
         <ContentTitle>{'익명 학생'}</ContentTitle>
-        <HelpText ml="s03">{'5분전'}</HelpText>
+        <HelpText ml="s03">{formatDuration(comment.createdDateTime)}</HelpText>
 
         {isAuther && (
           <>
@@ -44,9 +49,7 @@ export const Comment = ({
         )}
       </Row>
 
-      <ContentText mt="s03">
-        {'6시전 수업은 어떻게 하시나요? 임시 운행하시는 차량이 있나요?'}
-      </ContentText>
+      <ContentText mt="s03">{comment.content}</ContentText>
     </AView>
   );
 };

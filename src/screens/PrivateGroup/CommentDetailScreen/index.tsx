@@ -10,8 +10,14 @@ import {
   WriteCommentForm,
 } from '@components';
 import { palette } from '@styles';
+import { useRoute } from '@react-navigation/native';
+import { PrivateRouteProps } from '@types';
 
 export const CommentDetailScreen = () => {
+  const {
+    params: { comment },
+  } = useRoute<PrivateRouteProps<'CommentDetail'>>();
+
   return (
     <Container>
       <AScrollView>
@@ -22,7 +28,7 @@ export const CommentDetailScreen = () => {
         </AView>
 
         <AView p="s06" bc="gray0">
-          <CommentItem />
+          <CommentItem comment={comment} />
         </AView>
 
         <WriteCommentForm
@@ -32,7 +38,7 @@ export const CommentDetailScreen = () => {
           mh="s06"
         />
 
-        {[...new Array(10)].map((v, i) => (
+        {/* {[...new Array(10)].map((v, i) => (
           <Comment
             key={i}
             pv="s06"
@@ -42,7 +48,7 @@ export const CommentDetailScreen = () => {
               borderTopWidth: i ? 1 : 0,
             }}
           />
-        ))}
+        ))} */}
       </AScrollView>
     </Container>
   );

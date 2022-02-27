@@ -1,4 +1,4 @@
-import { atom, useSetRecoilState } from 'recoil';
+import { atom, useRecoilValue, useSetRecoilState } from 'recoil';
 import { AuthService, StorageService } from '@services';
 import { UserDTO } from '@types';
 
@@ -53,4 +53,9 @@ export const useAuthActions = () => {
   };
 
   return { login, logout };
+};
+
+export const useAuth = () => {
+  const auth = useRecoilValue(authStore);
+  return { auth };
 };

@@ -8,7 +8,7 @@ interface Props extends CommentProps {
 }
 
 export const CommentItem = ({
-  isAuther,
+  comment,
   onPressEdit,
   onPressDelete,
   onPressLike,
@@ -16,7 +16,7 @@ export const CommentItem = ({
   ...props
 }: Props) => {
   const commentProps: CommentProps = {
-    isAuther,
+    comment,
     onPressEdit,
     onPressDelete,
   };

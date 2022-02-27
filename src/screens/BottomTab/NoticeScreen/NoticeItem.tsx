@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
+import { useNavigation } from '@react-navigation/native';
 import {
-  AText,
   Badge,
   ContentTitle,
   HelpText,
@@ -10,10 +10,8 @@ import {
   Wrapper,
 } from '@components';
 import { PostDTO, ViewStyleProps } from '@types';
-import { useNavigation } from '@react-navigation/native';
 import { formatClock, formatDate } from '@utils';
-import { useQuery } from 'react-query';
-import { API } from '@services';
+import { useCommentListQuery } from '@stores';
 
 interface Props {
   notice: PostDTO;
@@ -24,18 +22,11 @@ interface Props {
 
 export const NoticeItem = ({ notice, isPrimary, hideAcademy, style }: Props) => {
   const nav = useNavigation();
-  const postId = notice.id;
   const [commentCnt, setCommentCnt] = useState<number>();
 
-  useQuery(
-    ['read_comments_by_post_id', postId],
-    () => API.read_comments_by_post_id(postId),
-    {
-      onSuccess: ({ data }) => setCommentCnt(data.length),
-    },
-  );
+  useCommentListQuery(notice.id, data => setCommentCnt(data.length));
 
-  const navToNoticeDetail = () => nav.navigate('NoticeDetail');
+  const navToNoticeDetail = () => nav.navigate('NoticeDetail', { notice });
 
   return (
     <OpacityListItem style={style} onPress={navToNoticeDetail}>

@@ -1,20 +1,30 @@
 import React, { useState } from 'react';
-import { palette } from '@styles';
 import { useNavigation } from '@react-navigation/native';
+
+import { palette } from '@styles';
+import { API, NotiService } from '@services';
+import { CommentDTO } from '@types';
+
 import { AText, AView, HeaderTitle, Row } from '../atoms';
 import { CommentItem, WriteCommentForm } from '../organisms';
 import { KeyboardTextInput } from '../molecules';
-import { NotiService } from '@services';
-
+import { useMutation } from 'react-query';
 interface Props {
-  comments: any[];
+  comments: CommentDTO[];
 }
 
 export const CommentLayout = ({ comments }: Props) => {
   const nav = useNavigation();
-  const [editCommentTarget, setEditCommentTarget] = useState<string | undefined>();
+  const [editCommentTarget, setEditCommentTarget] = useState<CommentDTO>();
 
-  const navToCommentDetail = () => nav.navigate('CommentDetail');
+  const editComment = useMutation(async (content: string) => {
+    if (!editCommentTarget) return;
+
+    return API.update_comment(editCommentTarget.id, { content });
+  });
+
+  const navToCommentDetail = (comment: CommentDTO) =>
+    nav.navigate('CommentDetail', { comment });
 
   const onPressDelete = () => {
     nav.navigate('Confirm', {
@@ -35,7 +45,7 @@ export const CommentLayout = ({ comments }: Props) => {
       <Row ph="s06">
         <HeaderTitle>
           댓글
-          <AText pcolor={'primary'}>{' 2'}</AText>
+          <AText pcolor={'primary'}> {comments.length}</AText>
         </HeaderTitle>
       </Row>
 
@@ -47,12 +57,12 @@ export const CommentLayout = ({ comments }: Props) => {
       />
 
       <AView mt="s04">
-        {comments.map((_, idx) => (
+        {comments.map((comment, idx) => (
           <CommentItem
             key={idx}
-            isAuther
-            onPressEdit={() => setEditCommentTarget('댓글 편집 테스트')}
-            onPressReply={navToCommentDetail}
+            comment={comment}
+            onPressEdit={() => setEditCommentTarget(comment)}
+            onPressReply={() => navToCommentDetail(comment)}
             onPressDelete={onPressDelete}
             pv="s06"
             mh="s06"
@@ -66,7 +76,7 @@ export const CommentLayout = ({ comments }: Props) => {
 
       <KeyboardTextInput
         open={!!editCommentTarget}
-        initText={editCommentTarget}
+        initText={editCommentTarget?.content}
         onClose={() => setEditCommentTarget(undefined)}
         onSubmit={onSubmitEdit}
       />

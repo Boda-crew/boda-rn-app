@@ -26,7 +26,7 @@ export const read_comments_by_post_id = (postId: number) => {
   });
 };
 
-export const update_comment = (commentId: string, data: CommentRequestDTO) => {
+export const update_comment = (commentId: number, data: CommentRequestDTO) => {
   return _axios<CommentDTO[]>({
     url: `${route}/${commentId}`,
     method: 'PUT',
@@ -34,7 +34,7 @@ export const update_comment = (commentId: string, data: CommentRequestDTO) => {
   });
 };
 
-export const delete_comment = (commentId: string) => {
+export const delete_comment = (commentId: number) => {
   return _axios<CommentDTO[]>({
     url: `${route}/${commentId}`,
     method: 'DELETE',

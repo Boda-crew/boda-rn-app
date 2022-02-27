@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-  AText,
   AView,
   HeaderTitle,
   ScreenTitle,
@@ -9,31 +8,36 @@ import {
   HelpText,
   ContentText,
 } from '@components';
+import { PostDTO } from '@types';
+import { formatCommon } from '@utils';
 
-interface Props {}
+interface Props {
+  notice: PostDTO;
+}
 
-export const NoticeInfo = (props: Props) => {
+export const NoticeInfo = ({ notice }: Props) => {
+  const academyPillText = notice.classrooms[0].academy.name;
+  const classroomPillText =
+    notice.classrooms[0].name +
+    (notice.classrooms.length > 1 ? `외 ${notice.classrooms.length - 1}` : '');
+
   return (
     <AView mv="s08" mh="s06">
-      <ScreenTitle>{'차량시간 변경'}</ScreenTitle>
+      <ScreenTitle>{notice.title}</ScreenTitle>
 
       <Row mt="s08">
-        <Pill title={'사과학원'} />
-        <Pill title={'사과나무반'} ml="s03" />
+        <Pill title={academyPillText} />
+        <Pill title={classroomPillText} ml="s03" />
       </Row>
 
       <HelpText mt="s04">
-        {'오전 10:15'} · {'장재훈'}
+        {formatCommon(notice.createdDateTime)} · {notice.author}
       </HelpText>
 
       <HeaderTitle weight="700" mt="s07">
         공지 내용
       </HeaderTitle>
-      <ContentText mt="s03">
-        {
-          '안녕하세요, 현재 차량이 정비를 받고있어 이번주 수요일은 차량시간을 오후 6시부터 운행합니다. 불편을 드려서 죄송합니다 😭'
-        }
-      </ContentText>
+      <ContentText mt="s03">{notice.content}</ContentText>
     </AView>
   );
 };
