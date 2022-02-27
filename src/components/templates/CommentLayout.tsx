@@ -1,43 +1,67 @@
 import React, { useState } from 'react';
+import { useMutation, useQueryClient } from 'react-query';
 import { useNavigation } from '@react-navigation/native';
 
 import { palette } from '@styles';
-import { API, NotiService } from '@services';
+import { API } from '@services';
+import { useAuth } from '@stores';
 import { CommentDTO } from '@types';
 
 import { AText, AView, HeaderTitle, Row } from '../atoms';
 import { CommentItem, WriteCommentForm } from '../organisms';
 import { KeyboardTextInput } from '../molecules';
-import { useMutation } from 'react-query';
 interface Props {
   comments: CommentDTO[];
 }
 
 export const CommentLayout = ({ comments }: Props) => {
   const nav = useNavigation();
+  const queryClient = useQueryClient();
+  const { auth } = useAuth();
   const [editCommentTarget, setEditCommentTarget] = useState<CommentDTO>();
 
-  const editComment = useMutation(async (content: string) => {
-    if (!editCommentTarget) return;
+  const refreshCommentList = (postId: number) => {
+    queryClient.invalidateQueries(['read_comments_by_post_id', postId]);
+  };
 
-    return API.update_comment(editCommentTarget.id, { content });
-  });
+  const editComment = useMutation(
+    async (content: string) => {
+      if (!auth || !editCommentTarget) throw Error('잘못된 타겟');
+
+      await API.update_comment(editCommentTarget.postId, editCommentTarget.id, {
+        author: auth.id,
+        content,
+      });
+      return editCommentTarget.postId;
+    },
+    {
+      onSuccess: refreshCommentList,
+    },
+  );
+
+  const deleteComment = useMutation(
+    async (comment: CommentDTO) => {
+      await API.delete_comment(comment.postId, comment.id);
+      return comment.postId;
+    },
+    {
+      onSuccess: refreshCommentList,
+    },
+  );
 
   const navToCommentDetail = (comment: CommentDTO) =>
     nav.navigate('CommentDetail', { comment });
 
-  const onPressDelete = () => {
+  const onPressDelete = (comment: CommentDTO) => {
     nav.navigate('Confirm', {
       text: '해당 댓글을 삭제하시겠습니까?',
       isDanger: true,
-      onConfirm: () => console.log('delete comment'),
+      onConfirm: () => deleteComment.mutate(comment),
     });
   };
 
   const onSubmitEdit = (text: string) => {
-    NotiService.onDisplayNotification({
-      body: '댓글이 수정되었습니다.',
-    });
+    editComment.mutate(text);
   };
 
   return (
@@ -63,7 +87,7 @@ export const CommentLayout = ({ comments }: Props) => {
             comment={comment}
             onPressEdit={() => setEditCommentTarget(comment)}
             onPressReply={() => navToCommentDetail(comment)}
-            onPressDelete={onPressDelete}
+            onPressDelete={() => onPressDelete(comment)}
             pv="s06"
             mh="s06"
             style={{

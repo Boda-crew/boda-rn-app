@@ -1,12 +1,9 @@
 import { CommentDTO, CommentRequestDTO } from '@types';
 import { _axios } from '../AxiosService';
 
-const route = '/comments';
-const postRoute = '/posts';
-
 export const create_comment = (postId: string, data: CommentRequestDTO) => {
   return _axios<CommentDTO>({
-    url: `${postRoute}/${postId}/comments`,
+    url: `/posts/${postId}/comments`,
     method: 'POST',
     data,
   });
@@ -14,7 +11,7 @@ export const create_comment = (postId: string, data: CommentRequestDTO) => {
 
 export const read_all_comments = () => {
   return _axios<CommentDTO[]>({
-    url: `${route}`,
+    url: `/comments`,
     method: 'GET',
   });
 };
@@ -26,17 +23,21 @@ export const read_comments_by_post_id = (postId: number) => {
   });
 };
 
-export const update_comment = (commentId: number, data: CommentRequestDTO) => {
+export const update_comment = (
+  postId: number,
+  commentId: number,
+  data: CommentRequestDTO,
+) => {
   return _axios<CommentDTO[]>({
-    url: `${route}/${commentId}`,
+    url: `/posts/${postId}/comments/${commentId}`,
     method: 'PUT',
     data,
   });
 };
 
-export const delete_comment = (commentId: number) => {
+export const delete_comment = (postsId: number, commentId: number) => {
   return _axios<CommentDTO[]>({
-    url: `${route}/${commentId}`,
+    url: `/posts/${postsId}/comments/${commentId}`,
     method: 'DELETE',
   });
 };

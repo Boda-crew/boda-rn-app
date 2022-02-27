@@ -9,6 +9,7 @@ declare module '@types' {
   }
 
   interface CommentRequestDTO {
+    author: number;
     content: string;
   }
 }
