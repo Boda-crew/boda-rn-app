@@ -1,7 +1,7 @@
 import { CommentDTO, CommentRequestDTO } from '@types';
 import { _axios } from '../AxiosService';
 
-export const create_comment = (postId: string, data: CommentRequestDTO) => {
+export const create_comment = (postId: number, data: CommentRequestDTO) => {
   return _axios<CommentDTO>({
     url: `/posts/${postId}/comments`,
     method: 'POST',

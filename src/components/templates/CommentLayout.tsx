@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
-import { useMutation, useQueryClient } from 'react-query';
 import { useNavigation } from '@react-navigation/native';
 
+import { useCommentQuery } from '@hooks';
 import { palette } from '@styles';
-import { API } from '@services';
-import { useAuth } from '@stores';
 import { CommentDTO } from '@types';
 
 import { AText, AView, HeaderTitle, Row } from '../atoms';
@@ -16,52 +14,35 @@ interface Props {
 
 export const CommentLayout = ({ comments }: Props) => {
   const nav = useNavigation();
-  const queryClient = useQueryClient();
-  const { auth } = useAuth();
   const [editCommentTarget, setEditCommentTarget] = useState<CommentDTO>();
 
-  const refreshCommentList = (postId: number) => {
-    queryClient.invalidateQueries(['read_comments_by_post_id', postId]);
-  };
-
-  const editComment = useMutation(
-    async (content: string) => {
-      if (!auth || !editCommentTarget) throw Error('잘못된 타겟');
-
-      await API.update_comment(editCommentTarget.postId, editCommentTarget.id, {
-        author: auth.id,
-        content,
-      });
-      return editCommentTarget.postId;
-    },
-    {
-      onSuccess: refreshCommentList,
-    },
-  );
-
-  const deleteComment = useMutation(
-    async (comment: CommentDTO) => {
-      await API.delete_comment(comment.postId, comment.id);
-      return comment.postId;
-    },
-    {
-      onSuccess: refreshCommentList,
-    },
-  );
+  const { createCommentMutation, editCommentMutation, deleteCommentMutation } =
+    useCommentQuery();
 
   const navToCommentDetail = (comment: CommentDTO) =>
     nav.navigate('CommentDetail', { comment });
+
+  const onSubmitCreate = (content: string) => {
+    const postId = comments[0].postId;
+    createCommentMutation.mutate({ postId, content });
+  };
 
   const onPressDelete = (comment: CommentDTO) => {
     nav.navigate('Confirm', {
       text: '해당 댓글을 삭제하시겠습니까?',
       isDanger: true,
-      onConfirm: () => deleteComment.mutate(comment),
+      onConfirm: () => deleteCommentMutation.mutate(comment),
     });
   };
 
-  const onSubmitEdit = (text: string) => {
-    editComment.mutate(text);
+  const onSubmitEdit = (content: string) => {
+    if (!editCommentTarget) return;
+
+    editCommentMutation.mutate({
+      commentId: editCommentTarget.id,
+      content,
+      postId: editCommentTarget.postId,
+    });
   };
 
   return (
@@ -75,7 +56,7 @@ export const CommentLayout = ({ comments }: Props) => {
 
       <WriteCommentForm
         title="익명 댓글 쓰기"
-        onSubmit={e => console.log(e)}
+        onSubmit={onSubmitCreate}
         mt="s07"
         mh="s06"
       />
