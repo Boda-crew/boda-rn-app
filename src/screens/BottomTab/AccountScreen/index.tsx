@@ -1,8 +1,10 @@
 import React from 'react';
 import { Container, NavigateItem, ScreenTitle, Wrapper } from '@components';
 import { useAuthActions } from '@stores';
+import { useNavigation } from '@react-navigation/native';
 
 export const AccountScreen = () => {
+  const nav = useNavigation();
   const { logout } = useAuthActions();
 
   return (
@@ -16,7 +18,7 @@ export const AccountScreen = () => {
           title="내 정보"
           iconTheme="blue"
           iconName="person"
-          onPress={() => {}}
+          onPress={() => nav.navigate('Confirm', { isDanger: Math.random() > 0.5 })}
         />
         <NavigateItem
           title="로그아웃"
