@@ -3,6 +3,7 @@ import {
   ATextInput,
   Container,
   DismissKeyboard,
+  ScreenTitle,
   StickyBottomView,
   Wrapper,
 } from '@components';
@@ -24,7 +25,14 @@ export const LoginScreen = () => {
   return (
     <DismissKeyboard>
       <Container>
-        <Wrapper mh="s06" mt="s08">
+        <ScreenTitle mh="s06" mt="s08">
+          편리한
+        </ScreenTitle>
+        <ScreenTitle mh="s06" mt="s03">
+          학원 생활의 시작
+        </ScreenTitle>
+
+        <Wrapper mh="s06" mt="s12">
           <Controller
             control={control}
             name="phone"
