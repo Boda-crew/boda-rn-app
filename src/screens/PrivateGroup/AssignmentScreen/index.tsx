@@ -6,9 +6,12 @@ import {
   SegmentedTab,
   Wrapper,
 } from '@components';
+import { useAssignmentListState } from '@stores';
 
 export const AssignmentScreen = () => {
   const [tabIndex, setTabIndex] = useState(0);
+
+  const { assignmentList } = useAssignmentListState();
 
   return (
     <AView style={{ flex: 1 }}>
@@ -24,20 +27,10 @@ export const AssignmentScreen = () => {
           {
             name: '고수학학원',
             child: (
-              <Wrapper pl="s06" pt="s06" ignoreFrist childStyle={{ mt: 's07' }}>
-                <AssignmentItem
-                  assignment={{
-                    id: 1,
-                    content: '',
-                    classrooms: [],
-                    author: 2,
-                    createdDateTime: new Date(),
-                    updatedDateTime: new Date(),
-                    title: '페이지 40 - 51',
-                    textbook: '나무종류의 이해',
-                    type: '과제',
-                  }}
-                />
+              <Wrapper pt="s06" pl="s06" ignoreFrist childStyle={{ mt: 's07' }}>
+                {assignmentList.map((v, index) => (
+                  <AssignmentItem key={v.id} assignment={v} isPrimary={!index} />
+                ))}
               </Wrapper>
             ),
           },
