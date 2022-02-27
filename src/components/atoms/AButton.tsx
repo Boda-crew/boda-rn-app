@@ -75,7 +75,7 @@ const kinds = {
     title: { color: palette.white },
   }),
   secondary: StyleSheet.create({
-    wrapper: { backgroundColor: palette.gray2 },
+    wrapper: { backgroundColor: palette.gray1 },
     title: { color: palette.gray4 },
   }),
   outline: StyleSheet.create({
