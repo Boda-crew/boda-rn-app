@@ -5,6 +5,7 @@ import {
   BolierScreen,
   CommentDetailScreen,
   NoticeDetailScreen,
+  AssignmentTotalScreen,
 } from '@screens';
 import { headerOptions, Root } from '../config';
 import { BottomTabNavigator } from './BottomTabNavigator';
@@ -21,6 +22,7 @@ export const PrivateGroup = () => {
       <Root.Screen name="CommentDetail" component={CommentDetailScreen} />
 
       <Root.Screen name="Assignment" component={AssignmentScreen} />
+      <Root.Screen name="AssignmentTotal" component={AssignmentTotalScreen} />
       <Root.Screen name="AssignmentDetail" component={AssignmentDetailScreen} />
 
       <Root.Screen name="Setting" component={BolierScreen} />

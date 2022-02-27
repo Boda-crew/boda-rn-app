@@ -1,4 +1,5 @@
 export * from './AssignmentDetailScreen';
 export * from './AssignmentScreen';
-export * from './NoticeDetailScreen';
+export * from './AssignmentTotalScreen';
 export * from './CommentDetailScreen';
+export * from './NoticeDetailScreen';

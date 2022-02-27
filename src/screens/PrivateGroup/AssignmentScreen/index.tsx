@@ -1,20 +1,26 @@
 import React, { useState } from 'react';
+import { useNavigation } from '@react-navigation/native';
 import {
   AButton,
   AssignmentItem,
   AView,
-  ContentTitle,
   HeaderTitle,
   ScreenTitle,
   SegmentedTab,
   Wrapper,
 } from '@components';
 import { useAssignmentListState } from '@stores';
+import { PrivateParamList } from '@types';
 
 export const AssignmentScreen = () => {
+  const nav = useNavigation();
   const [tabIndex, setTabIndex] = useState(0);
 
   const { shatteredAssignments, refetch } = useAssignmentListState();
+
+  const navToAssignmentTotal = (params: PrivateParamList['AssignmentTotal']) => {
+    nav.navigate('AssignmentTotal', params);
+  };
 
   return (
     <AView style={{ flex: 1 }}>
@@ -35,14 +41,13 @@ export const AssignmentScreen = () => {
             child: (
               <>
                 {classroomList.map(classroomName => (
-                  <AView>
+                  <AView key={classroomName}>
                     <HeaderTitle mt="s07" mh="s06">
                       {classroomName}
                     </HeaderTitle>
 
                     <Wrapper
-                      key={classroomName}
-                      pt="s06"
+                      mt="s06"
                       pl="s06"
                       ignoreFrist
                       childStyle={{ mt: 's07' }}
@@ -57,7 +62,15 @@ export const AssignmentScreen = () => {
                           />
                         ))}
                     </Wrapper>
-                    <AButton kind="secondary" title="모두 보기" mt="s07" mh="s06" />
+                    <AButton
+                      kind="secondary"
+                      title="모두 보기"
+                      mt="s07"
+                      mh="s06"
+                      onPress={() =>
+                        navToAssignmentTotal({ academyName, classroomName })
+                      }
+                    />
                   </AView>
                 ))}
               </>

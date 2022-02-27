@@ -17,6 +17,7 @@ declare module '@types' {
     CommentDetail: { comment: CommentDTO };
 
     Assignment: undefined;
+    AssignmentTotal: { academyName: string; classroomName: string };
     AssignmentDetail: { assignment: PostDTO };
 
     Setting: undefined;
