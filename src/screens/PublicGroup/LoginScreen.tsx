@@ -17,10 +17,15 @@ export const LoginScreen = () => {
   const {
     control,
     handleSubmit,
+    setError,
     formState: { errors },
   } = useForm<{ phone: string }>();
 
-  const onSubmit = handleSubmit(login);
+  const onSubmit = (e: React.SyntheticEvent) => {
+    handleSubmit(login)(e).catch(() => {
+      setError('phone', { message: '일치된 전화번호가 없습니다.' });
+    });
+  };
 
   return (
     <DismissKeyboard>
@@ -43,9 +48,7 @@ export const LoginScreen = () => {
                 label="전화번호"
                 autoFocus
                 onChange={text => onChange(filterPhoneInput(text))}
-                error={
-                  errors.phone?.type === 'required' && '전화번호를 입력해주세요'
-                }
+                error={errors.phone?.message}
                 onSubmitEditing={onSubmit}
                 keyboardType="number-pad"
                 maxLength={13}

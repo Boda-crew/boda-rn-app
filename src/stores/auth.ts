@@ -1,16 +1,7 @@
 import { atom, useRecoilValue, useSetRecoilState } from 'recoil';
-import { AuthService, StorageService } from '@services';
+import { API, AuthService, StorageService } from '@services';
 import { UserDTO } from '@types';
 
-const fakeUser: UserDTO = {
-  id: 5,
-  name: '테스트',
-  type: '관리자',
-  certified: true,
-  phone: '010-1234-1234',
-  createdDateTime: '',
-  updatedDateTime: '',
-};
 
 export const authStore = atom<UserDTO | null>({
   key: 'authStore',
@@ -18,16 +9,17 @@ export const authStore = atom<UserDTO | null>({
 });
 
 export const useBootAuth = () => {
-  const setAuthUser = useSetRecoilState(authStore);
+  const { login, logout } = useAuthActions();
 
   const boostAuth = async () => {
     const token = await StorageService.getItemAsync('authToken');
     if (!token) return;
 
-    AuthService.setAuthToken(token);
-    // API: get whoami
-    AuthService.setUserId(fakeUser.id);
-    setAuthUser(fakeUser);
+    try {
+      login({ phone: token });
+    } catch (e) {
+      logout();
+    }
   };
 
   return { boostAuth };
@@ -37,13 +29,11 @@ export const useAuthActions = () => {
   const setAuthUser = useSetRecoilState(authStore);
 
   const login = async ({ phone }: { phone: string }) => {
-    // API: login 성공시
-    const userId = 5;
+    const { data: user } = await API.login_user({ phone });
 
     AuthService.setAuthToken(phone);
-    AuthService.setUserId(fakeUser.id);
-
-    setAuthUser(fakeUser);
+    AuthService.setUserId(user.id);
+    setAuthUser(user);
   };
 
   const logout = async () => {

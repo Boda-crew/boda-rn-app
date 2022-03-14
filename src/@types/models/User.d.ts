@@ -17,6 +17,10 @@ declare module '@types' {
     type: AccountType;
   }
 
+  interface UserLoginDTO {
+    phone: string;
+  }
+
   interface StudentDTO extends UserDTO {
     teacher: UserDTO;
     classrooms: ClassroomDTO[];

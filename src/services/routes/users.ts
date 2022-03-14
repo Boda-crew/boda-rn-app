@@ -3,6 +3,7 @@ import {
   StudentRequestDTO,
   TeacherDTO,
   UserDTO,
+  UserLoginDTO,
   UserRequestDTO,
 } from '@types';
 import { _axios } from '../AxiosService';
@@ -11,13 +12,17 @@ const route = '/users';
 const studentRoute = `${route}/students`;
 const teacherRoute = `${route}/teachers`;
 
-/**
- * users
- */
-
 export const create_user = (data: UserRequestDTO) => {
   return _axios<void>({
     url: `${route}`,
+    method: 'POST',
+    data,
+  });
+};
+
+export const login_user = (data: UserLoginDTO) => {
+  return _axios<UserDTO>({
+    url: `${route}/login`,
     method: 'POST',
     data,
   });
