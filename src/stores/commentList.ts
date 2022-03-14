@@ -2,6 +2,7 @@ import { useQuery } from 'react-query';
 import { atom, useRecoilState } from 'recoil';
 import { API } from '@services';
 import { CommentDTO } from '@types';
+import { compareTime } from '@utils';
 
 export const commentListStore = atom<CommentDTO[]>({
   key: 'commentListStore',
@@ -16,7 +17,15 @@ export const useCommentListQuery = (
     ['read_comments_by_post_id', postId],
     () => API.read_comments_by_post_id(postId),
     {
-      onSuccess: ({ data }) => onSuccess(data),
+      onSuccess: ({ data }) => {
+        const sortedData = [...data].sort((a, b) => {
+          if (a.goodUserIdList.length !== b.goodUserIdList.length)
+            return b.goodUserIdList.length - a.goodUserIdList.length;
+
+          return compareTime(b.createdDateTime, a.createdDateTime);
+        });
+        onSuccess(sortedData);
+      },
     },
   );
 };

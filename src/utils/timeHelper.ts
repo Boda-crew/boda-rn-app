@@ -69,3 +69,7 @@ export const formatDuration = (target: DateValue, now: DateValue = new Date()) =
   const years = Math.floor(day / 365);
   return `${years}년 전`;
 };
+
+export const compareTime = (a: DateValue, b: DateValue) => {
+  return new Date(a).getTime() - new Date(b).getTime();
+};

@@ -11,7 +11,7 @@ export const create_comment = (postId: number, data: CommentRequestDTO) => {
 
 export const create_recomment = (commentId: number, data: CommentRequestDTO) => {
   return _axios<CommentDTO>({
-    url: `/posts/${commentId}/comments`,
+    url: `/comments/${commentId}/re-comments`,
     method: 'POST',
     data,
   });
@@ -58,9 +58,28 @@ export const update_comment = (
   });
 };
 
+export const update_recomment = (
+  commentId: number,
+  recommentId: number,
+  data: CommentRequestDTO,
+) => {
+  return _axios<CommentDTO[]>({
+    url: `/comments/${commentId}/re-comments/${recommentId}`,
+    method: 'PUT',
+    data,
+  });
+};
+
 export const delete_comment = (postsId: number, commentId: number) => {
   return _axios<CommentDTO[]>({
     url: `/posts/${postsId}/comments/${commentId}`,
+    method: 'DELETE',
+  });
+};
+
+export const delete_recomment = (commentId: number, recommentId: number) => {
+  return _axios<CommentDTO[]>({
+    url: `/comments/${commentId}/re-comments/${recommentId}`,
     method: 'DELETE',
   });
 };
