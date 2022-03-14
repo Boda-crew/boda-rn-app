@@ -7,7 +7,9 @@ import { PostDTO } from '@types';
 export const usePostQuery = (props: { post: PostDTO }) => {
   const queryClient = useQueryClient();
   const [post, setPost] = useState(props.post);
+
   const { commentList, isLoading } = useCommentListStore(post.id);
+  const classTeacherIdList = post.classrooms.map(classroom => classroom.teacher.id);
 
   useQuery(['read_post_by_id', post.id], () => API.read_post_by_id(post.id), {
     onSuccess: ({ data }) => setPost(data),
@@ -22,6 +24,7 @@ export const usePostQuery = (props: { post: PostDTO }) => {
 
   return {
     post,
+    classTeacherIdList,
     commentList,
     isLoading,
     onRefreshPost,

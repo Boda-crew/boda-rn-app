@@ -12,6 +12,7 @@ export const NoticeDetailScreen = () => {
   const {
     post: notice,
     commentList,
+    classTeacherIdList,
     isLoading,
     onRefreshPost,
   } = usePostQuery({ post: params.notice });
@@ -20,7 +21,11 @@ export const NoticeDetailScreen = () => {
     <AScrollView refreshing={isLoading} onRefresh={onRefreshPost}>
       <NoticeInfo notice={notice} />
       <Separator />
-      <CommentLayout comments={commentList} />
+      <CommentLayout
+        postId={notice.id}
+        commentList={commentList}
+        classTeacherIdList={classTeacherIdList}
+      />
     </AScrollView>
   );
 };

@@ -9,10 +9,16 @@ import { AText, AView, HeaderTitle, Row } from '../atoms';
 import { CommentItem, WriteCommentForm } from '../organisms';
 import { KeyboardTextInput } from '../molecules';
 interface Props {
-  comments: CommentDTO[];
+  postId: number;
+  commentList: CommentDTO[];
+  classTeacherIdList?: number[];
 }
 
-export const CommentLayout = ({ comments }: Props) => {
+export const CommentLayout = ({
+  postId,
+  commentList,
+  classTeacherIdList,
+}: Props) => {
   const nav = useNavigation();
   const [editCommentTarget, setEditCommentTarget] = useState<CommentDTO>();
 
@@ -27,7 +33,6 @@ export const CommentLayout = ({ comments }: Props) => {
     nav.navigate('CommentDetail', { comment });
 
   const onSubmitCreate = (content: string) => {
-    const postId = comments[0].postId;
     createCommentMutation.mutate({ postId, content });
   };
 
@@ -58,7 +63,7 @@ export const CommentLayout = ({ comments }: Props) => {
       <Row ph="s06">
         <HeaderTitle>
           댓글
-          <AText pcolor={'primary'}> {comments.length}</AText>
+          <AText pcolor={'primary'}> {commentList.length}</AText>
         </HeaderTitle>
       </Row>
 
@@ -70,9 +75,10 @@ export const CommentLayout = ({ comments }: Props) => {
       />
 
       <AView mt="s04">
-        {comments.map((comment, idx) => (
+        {commentList.map((comment, idx) => (
           <CommentItem
             key={idx}
+            isClassTeacher={classTeacherIdList?.includes(comment.author.id)}
             comment={comment}
             onPressEdit={() => setEditCommentTarget(comment)}
             onPressReply={() => navToCommentDetail(comment)}

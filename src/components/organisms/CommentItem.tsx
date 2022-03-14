@@ -10,6 +10,7 @@ interface Props extends CommentProps {
 
 export const CommentItem = ({
   comment,
+  isClassTeacher,
   onPressEdit,
   onPressDelete,
   onPressLike,
@@ -20,6 +21,7 @@ export const CommentItem = ({
 
   const commentProps: CommentProps = {
     comment,
+    isClassTeacher,
     onPressEdit,
     onPressDelete,
   };

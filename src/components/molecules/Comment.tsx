@@ -11,13 +11,16 @@ import {
   HelpText,
   Row,
 } from '../atoms';
+import { Pill } from './Pill';
 export interface CommentProps extends AViewProps {
+  isClassTeacher?: boolean;
   comment: CommentDTO;
   onPressEdit?: () => void;
   onPressDelete?: () => void;
 }
 
 export const Comment = ({
+  isClassTeacher,
   comment,
   onPressEdit,
   onPressDelete,
@@ -30,6 +33,9 @@ export const Comment = ({
     <AView {...props}>
       <Row>
         <ContentTitle>{renderAnonymousUserName(comment.author)}</ContentTitle>
+        {isClassTeacher && (
+          <Pill color="orange3" backgroundColor="yellow1" title="담임" ml="s02" />
+        )}
         <HelpText ml="s03">{formatDuration(comment.createdDateTime)}</HelpText>
 
         {isAuthor && (
