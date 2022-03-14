@@ -20,7 +20,7 @@ export const AssignmentDetailScreen = () => {
 
   return (
     <AScrollView refreshing={isLoading} onRefresh={onRefreshPost}>
-      <AssignmentInfo assingment={assignment} />
+      <AssignmentInfo assignment={assignment} />
       <Separator />
       <CommentLayout
         postId={assignment.id}

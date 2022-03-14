@@ -8,6 +8,6 @@ export const renderAnonymousUserName = (user: UserDTO) => {
   else return user.name;
 };
 
-export const renderAssingmentTitle = (assingment: PostDTO) => {
-  return `${formatDate(assingment.createdDateTime)} 과제`;
+export const renderAssignmentTitle = (assignment: PostDTO) => {
+  return `${formatDate(assignment.createdDateTime)} 과제`;
 };
