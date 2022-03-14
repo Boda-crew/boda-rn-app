@@ -10,12 +10,13 @@ import {
   WriteCommentForm,
 } from '@components';
 import { palette } from '@styles';
-import { useRoute } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { CommentDTO, PrivateRouteProps, ReCommentDTO } from '@types';
 import { useRecommentListStore } from '@stores';
 import { useRecommentQuery } from '@hooks';
 
 export const CommentDetailScreen = () => {
+  const nav = useNavigation();
   const {
     params: { comment },
   } = useRoute<PrivateRouteProps<'CommentDetail'>>();
@@ -42,6 +43,14 @@ export const CommentDetailScreen = () => {
     });
   };
 
+  const onConfirmDelete = (recomment: ReCommentDTO) => {
+    nav.navigate('Confirm', {
+      isDanger: true,
+      text: '정말 답글을 삭제하시겠습니까?',
+      onConfirm: () => deleteRecommentMutation.mutate(recomment),
+    });
+  };
+
   return (
     <AScrollView refreshing={isLoading} onRefresh={refetch}>
       <AView p="s06">
@@ -65,7 +74,7 @@ export const CommentDetailScreen = () => {
         <Comment
           key={i}
           comment={recomment as unknown as CommentDTO}
-          onPressDelete={() => deleteRecommentMutation.mutate(recomment)}
+          onPressDelete={() => onConfirmDelete(recomment)}
           onPressEdit={() => setEditRecommentTarget(recomment)}
           pv="s06"
           mh="s06"
