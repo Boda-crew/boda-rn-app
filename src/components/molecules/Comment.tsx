@@ -1,6 +1,6 @@
 import React from 'react';
 import { CommentDTO } from '@types';
-import { formatDuration } from '@utils';
+import { formatDuration, renderAnonymousUserName } from '@utils';
 import { useAuth } from '@stores';
 import {
   ATouchableOpacity,
@@ -29,7 +29,7 @@ export const Comment = ({
   return (
     <AView {...props}>
       <Row>
-        <ContentTitle>{'익명 학생'}</ContentTitle>
+        <ContentTitle>{renderAnonymousUserName(comment.author)}</ContentTitle>
         <HelpText ml="s03">{formatDuration(comment.createdDateTime)}</HelpText>
 
         {isAuthor && (
