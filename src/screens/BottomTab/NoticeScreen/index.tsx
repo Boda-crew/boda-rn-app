@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import {
+  AText,
   Container,
   HelpText,
   ScreenTitle,
@@ -14,7 +15,7 @@ export const NoticeScreen = () => {
   const [tabIndex, setTabIndex] = useState(0);
 
   const { shatteredNotices, isLoading, refetch } = useNoticeListState();
-  
+
   return (
     <Container>
       <ScreenTitle mt="s06" ml="s06">
@@ -27,10 +28,16 @@ export const NoticeScreen = () => {
         mt="s05"
         refreshing={isLoading}
         onRefresh={refetch}
-        views={Object.keys(shatteredNotices).map(name => ({
-          name,
-          child: <NoticeList name={name} noticeList={shatteredNotices[name]} />,
-        }))}
+        views={
+          !Object.keys(shatteredNotices).length
+            ? [{ name: '', child: <AText>로딩중...</AText> }]
+            : Object.keys(shatteredNotices).map(name => ({
+                name,
+                child: (
+                  <NoticeList name={name} noticeList={shatteredNotices[name]} />
+                ),
+              }))
+        }
       />
     </Container>
   );

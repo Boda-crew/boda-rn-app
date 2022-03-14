@@ -17,24 +17,26 @@ const shatteredNoticesState = selector<ShatteredNotices>({
   get: ({ get }) => {
     const noticeList = get(noticeListState);
 
-    return noticeList.reduce<ShatteredNotices>(
-      (result, notice) => {
-        const classrooms = notice.classrooms;
-        if (!classrooms || !classrooms.length) return result;
+    return !noticeList.length
+      ? {}
+      : noticeList.reduce<ShatteredNotices>(
+          (result, notice) => {
+            const classrooms = notice.classrooms;
+            if (!classrooms || !classrooms.length) return result;
 
-        const academyName = classrooms[0].academy.name;
-        if (!academyName) return result;
-        result['전체'].push(notice);
+            const academyName = classrooms[0].academy.name;
+            if (!academyName) return result;
+            result['전체'].push(notice);
 
-        if (!result[academyName]) {
-          result[academyName] = [];
-        }
+            if (!result[academyName]) {
+              result[academyName] = [];
+            }
 
-        result[academyName].push(notice);
-        return { ...result };
-      },
-      { 전체: [] },
-    );
+            result[academyName].push(notice);
+            return { ...result };
+          },
+          { 전체: [] },
+        );
   },
 });
 
