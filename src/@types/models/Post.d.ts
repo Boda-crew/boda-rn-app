@@ -1,7 +1,7 @@
 declare module '@types' {
   interface PostDTO {
     id: number;
-    author: number;
+    author: UserDTO;
     title: string;
     textbook: string;
     content: string;

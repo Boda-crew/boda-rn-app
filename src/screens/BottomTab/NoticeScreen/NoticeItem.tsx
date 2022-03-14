@@ -23,6 +23,8 @@ interface Props {
 export const NoticeItem = ({ notice, isPrimary, hideAcademy, style }: Props) => {
   const nav = useNavigation();
   const [commentCnt, setCommentCnt] = useState<number>();
+  const classRoom = notice.classrooms[0];
+  const academy = notice.classrooms[0].academy;
 
   useCommentListQuery(notice.id, data => setCommentCnt(data.length));
 
@@ -39,16 +41,15 @@ export const NoticeItem = ({ notice, isPrimary, hideAcademy, style }: Props) => 
 
       <Wrapper ml="s06">
         <Row>
-          {!hideAcademy && (
-            <Pill title={notice.classrooms[0].academy.name} mr="s03" />
-          )}
-          <Pill title={notice.classrooms[0].name} />
+          {!hideAcademy && <Pill title={academy.name} mr="s03" />}
+          <Pill title={classRoom.name} />
         </Row>
 
         <ContentTitle mt="s03">{notice.title}</ContentTitle>
 
         <HelpText mt="s02">
-          {formatClock(notice.createdDateTime)} · {notice.author} · 댓글 {commentCnt}
+          {formatClock(notice.createdDateTime)} · {notice.author.name} · 댓글{' '}
+          {commentCnt}
         </HelpText>
       </Wrapper>
     </OpacityListItem>

@@ -2,7 +2,7 @@ declare module '@types' {
   interface CommentDTO {
     id: number;
     postId: number;
-    author: number;
+    author: UserDTO;
     content: string;
     createdDateTime: string;
     updatedDateTime: string;

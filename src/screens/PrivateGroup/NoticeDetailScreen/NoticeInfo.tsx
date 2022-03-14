@@ -31,7 +31,7 @@ export const NoticeInfo = ({ notice }: Props) => {
       </Row>
 
       <HelpText mt="s04">
-        {formatCommon(notice.createdDateTime)} · {notice.author}
+        {formatCommon(notice.createdDateTime)} · {notice.author.name}
       </HelpText>
 
       <HeaderTitle weight="700" mt="s07">

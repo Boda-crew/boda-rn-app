@@ -14,7 +14,7 @@ export const NoticeScreen = () => {
   const [tabIndex, setTabIndex] = useState(0);
 
   const { shatteredNotices, isLoading, refetch } = useNoticeListState();
-
+  
   return (
     <Container>
       <ScreenTitle mt="s06" ml="s06">

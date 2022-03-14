@@ -24,7 +24,7 @@ export const Comment = ({
   ...props
 }: CommentProps) => {
   const { auth } = useAuth();
-  const isAuther = auth?.id === comment.author;
+  const isAuthor = auth?.id === comment.author.id;
 
   return (
     <AView {...props}>
@@ -32,7 +32,7 @@ export const Comment = ({
         <ContentTitle>{'익명 학생'}</ContentTitle>
         <HelpText ml="s03">{formatDuration(comment.createdDateTime)}</HelpText>
 
-        {isAuther && (
+        {isAuthor && (
           <>
             <HelpText> · </HelpText>
 
