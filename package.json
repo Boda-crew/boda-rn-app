@@ -10,6 +10,7 @@
     "test": "jest",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "clean:android": "cd android && ./gradlew clean && cd ../",
+    "clean:ios": "cd ios && pod deintegrate && pod cache clean --all && pod install  && cd ../",
     "check:codepush": "appcenter codepush deployment list --app bepyan/boda-ios -k && appcenter codepush deployment list --app bepyan/boda-aos -k",
     "check:release": "appcenter codepush deployment list -a bepyan/boda-ios && appcenter codepush deployment list -a bepyan/boda-aos",
     "release:staging": "appcenter codepush release-react -a bepyan/boda-ios -d Staging && appcenter codepush release-react -a bepyan/boda-aos -d Staging",
