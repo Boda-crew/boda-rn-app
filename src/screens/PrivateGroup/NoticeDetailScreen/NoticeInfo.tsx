@@ -16,9 +16,9 @@ interface Props {
 }
 
 export const NoticeInfo = ({ notice }: Props) => {
-  const academyPillText = notice.classrooms[0].academy.name;
+  const academyPillText = notice.classrooms[0]?.academy.name;
   const classroomPillText =
-    notice.classrooms[0].name +
+    notice.classrooms[0]?.name +
     (notice.classrooms.length > 1 ? `외 ${notice.classrooms.length - 1}` : '');
 
   return (

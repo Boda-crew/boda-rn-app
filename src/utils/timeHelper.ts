@@ -4,8 +4,10 @@ export const KR_TIME_OFFSET = 9 * 60 * 60 * 1000;
 
 export const KO_DAY = ['일', '월', '화', '수', '목', '금', '토'];
 
+export const safeDateTarget = (target: DateValue) => (!target ? new Date() : target);
+
 export const getKRDate = (target: DateValue) => {
-  return new Date(new Date(target).getTime() + KR_TIME_OFFSET);
+  return new Date(new Date(safeDateTarget(target)).getTime() + KR_TIME_OFFSET);
 };
 
 export const getDateData = (target: DateValue) => {

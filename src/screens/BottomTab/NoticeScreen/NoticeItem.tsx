@@ -28,7 +28,8 @@ export const NoticeItem = ({ notice, isPrimary, hideAcademy, style }: Props) => 
 
   useCommentListQuery(notice.id, data => setCommentCnt(data.length));
 
-  const navToNoticeDetail = () => nav.navigate('NoticeDetail', { notice });
+  const navToNoticeDetail = () =>
+    nav.navigate('NoticeDetail', { noticeId: notice.id });
 
   return (
     <OpacityListItem style={style} onPress={navToNoticeDetail}>

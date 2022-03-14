@@ -25,7 +25,7 @@ export const AssignmentItem = ({ assignment, isPrimary, style }: Props) => {
   useCommentListQuery(assignment.id, data => setCommentCnt(data.length));
 
   const navToAssignmentDetail = () =>
-    nav.navigate('AssignmentDetail', { assignment });
+    nav.navigate('AssignmentDetail', { assignmentId: assignment.id });
 
   return (
     <OpacityListItem style={style} onPress={navToAssignmentDetail}>

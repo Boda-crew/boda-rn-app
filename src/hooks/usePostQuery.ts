@@ -4,18 +4,49 @@ import { API } from '@services';
 import { useCommentListStore } from '@stores';
 import { PostDTO } from '@types';
 
-export const usePostQuery = (props: { post: PostDTO }) => {
-  const queryClient = useQueryClient();
-  const [post, setPost] = useState(props.post);
+const initPost: PostDTO = {
+  id: 0,
+  title: '로딩중...',
+  author: {
+    id: 0,
+    certified: false,
+    createdDateTime: '',
+    updatedDateTime: '',
+    name: '',
+    phone: '',
+    type: '관리자',
+  },
+  classrooms: [],
+  createdDateTime: '',
+  updatedDateTime: '',
+  content: '',
+  textbook: '',
+  type: '',
+};
 
-  const { commentList, isLoading } = useCommentListStore(post.id);
+export const usePostQuery = (postId: number) => {
+  const queryClient = useQueryClient();
+  const [post, setPost] = useState<PostDTO>(initPost);
+
+  const { isLoading: isPostLoading, refetch: refetchPost } = useQuery(
+    ['read_post_by_id', post.id],
+    () => API.read_post_by_id(postId),
+    {
+      onSuccess: ({ data }) => setPost(data),
+    },
+  );
+
+  const {
+    commentList,
+    isLoading: isCommentLoading,
+    refetch: refetchCommentList,
+  } = useCommentListStore(postId);
   const classTeacherIdList = post.classrooms.map(classroom => classroom.teacher.id);
 
-  useQuery(['read_post_by_id', post.id], () => API.read_post_by_id(post.id), {
-    onSuccess: ({ data }) => setPost(data),
-  });
-
-  useEffect(() => setPost(props.post), [props]);
+  useEffect(() => {
+    refetchCommentList();
+    refetchPost();
+  }, [postId]);
 
   const onRefreshPost = () => {
     queryClient.invalidateQueries(['read_post_by_id', post.id]);
@@ -26,7 +57,8 @@ export const usePostQuery = (props: { post: PostDTO }) => {
     post,
     classTeacherIdList,
     commentList,
-    isLoading,
+    isPostLoading,
+    isCommentLoading,
     onRefreshPost,
   };
 };

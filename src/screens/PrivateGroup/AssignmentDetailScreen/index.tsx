@@ -12,17 +12,20 @@ export const AssignmentDetailScreen = () => {
     post: assignment,
     classTeacherIdList,
     commentList,
-    isLoading,
+    isPostLoading,
+    isCommentLoading,
     onRefreshPost,
-  } = usePostQuery({
-    post: params.assignment,
-  });
+  } = usePostQuery(params.assignmentId);
 
   return (
-    <AScrollView refreshing={isLoading} onRefresh={onRefreshPost}>
+    <AScrollView
+      refreshing={isPostLoading || isCommentLoading}
+      onRefresh={onRefreshPost}
+    >
       <AssignmentInfo assignment={assignment} />
       <Separator />
       <CommentLayout
+        isLoading={isCommentLoading}
         postId={assignment.id}
         commentList={commentList}
         classTeacherIdList={classTeacherIdList}

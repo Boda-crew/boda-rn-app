@@ -13,12 +13,12 @@ declare module '@types' {
 
   type PrivateParamList = {
     HomeTab: NavigatorScreenParams<BottomTabParamList>;
-    NoticeDetail: { notice: PostDTO };
+    NoticeDetail: { noticeId: number };
     CommentDetail: { comment: CommentDTO };
 
     Assignment: undefined;
     AssignmentTotal: { academyName: string; classroomName: string };
-    AssignmentDetail: { assignment: PostDTO };
+    AssignmentDetail: { assignmentId: number };
 
     Setting: undefined;
   };

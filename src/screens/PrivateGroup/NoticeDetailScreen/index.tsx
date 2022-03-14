@@ -13,15 +13,20 @@ export const NoticeDetailScreen = () => {
     post: notice,
     commentList,
     classTeacherIdList,
-    isLoading,
+    isCommentLoading,
+    isPostLoading,
     onRefreshPost,
-  } = usePostQuery({ post: params.notice });
+  } = usePostQuery(params.noticeId);
 
   return (
-    <AScrollView refreshing={isLoading} onRefresh={onRefreshPost}>
+    <AScrollView
+      refreshing={isPostLoading || isCommentLoading}
+      onRefresh={onRefreshPost}
+    >
       <NoticeInfo notice={notice} />
       <Separator />
       <CommentLayout
+        isLoading={isCommentLoading}
         postId={notice.id}
         commentList={commentList}
         classTeacherIdList={classTeacherIdList}
