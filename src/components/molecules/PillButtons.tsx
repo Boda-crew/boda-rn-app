@@ -53,7 +53,7 @@ export const LikeButton = ({ rated, selected, ...props }: LikeButtonProps) => {
   const color = selected ? palette.primary : undefined;
 
   return (
-    <PillButton {...props} style={[{ borderColor: color }, props.style]}>
+    <PillButton {...props} style={[!!color && { borderColor: color }, props.style]}>
       <Icon color={color} name={selected ? 'like' : 'like-outline'} />
       <AText color={color} weight="700" style={{ marginLeft: 6 }}>
         {rated}

@@ -6,10 +6,17 @@ declare module '@types' {
     content: string;
     createdDateTime: string;
     updatedDateTime: string;
+    goodUserIdList: number[];
+    reComments: ReCommentDTO[];
   }
 
   interface CommentRequestDTO {
     author: number;
     content: string;
+  }
+
+  interface LikeCommentDTO {
+    commentId: number;
+    userId: number;
   }
 }

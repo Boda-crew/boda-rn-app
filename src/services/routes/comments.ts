@@ -1,4 +1,4 @@
-import { CommentDTO, CommentRequestDTO } from '@types';
+import { CommentDTO, CommentRequestDTO, LikeCommentDTO, ReCommentDTO } from '@types';
 import { _axios } from '../AxiosService';
 
 export const create_comment = (postId: number, data: CommentRequestDTO) => {
@@ -9,9 +9,32 @@ export const create_comment = (postId: number, data: CommentRequestDTO) => {
   });
 };
 
+export const create_recomment = (commentId: number, data: CommentRequestDTO) => {
+  return _axios<CommentDTO>({
+    url: `/posts/${commentId}/comments`,
+    method: 'POST',
+    data,
+  });
+};
+
+export const like_comment = (data: LikeCommentDTO) => {
+  return _axios<CommentDTO[]>({
+    url: `/good/comment`,
+    method: 'POST',
+    data,
+  });
+};
+
 export const read_all_comments = () => {
   return _axios<CommentDTO[]>({
     url: `/comments`,
+    method: 'GET',
+  });
+};
+
+export const read_recomments_by_comment_id = (commentId: number) => {
+  return _axios<ReCommentDTO[]>({
+    url: `/comments/${commentId}/re-comments`,
     method: 'GET',
   });
 };

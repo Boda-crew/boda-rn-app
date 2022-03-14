@@ -1,4 +1,5 @@
-import React from 'react';
+import { useAuth } from '@stores';
+import React, { useMemo } from 'react';
 import { AView, Wrapper } from '../atoms';
 import { Comment, CommentProps, ReplyButton, LikeButton } from '../molecules';
 
@@ -15,18 +16,28 @@ export const CommentItem = ({
   onPressReply,
   ...props
 }: Props) => {
+  const { auth } = useAuth();
+
   const commentProps: CommentProps = {
     comment,
     onPressEdit,
     onPressDelete,
   };
 
+  const isSelected = useMemo(() => {
+    return comment.goodUserIdList.some(id => id === auth?.id);
+  }, [comment]);
+
   return (
     <AView {...props}>
       <Comment {...commentProps} />
       <Wrapper mt="s05" fd="row" ignoreFrist childStyle={{ ml: 's03' }}>
-        <LikeButton selected={true} rated={10} onPress={onPressLike} />
-        <ReplyButton cnt={3} onPress={onPressReply} />
+        <LikeButton
+          selected={isSelected}
+          rated={comment.goodUserIdList.length}
+          onPress={onPressLike}
+        />
+        <ReplyButton cnt={comment.reComments.length} onPress={onPressReply} />
       </Wrapper>
     </AView>
   );

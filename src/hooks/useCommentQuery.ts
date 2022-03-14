@@ -1,7 +1,7 @@
+import { useMutation, useQueryClient } from 'react-query';
 import { API } from '@services';
 import { useAuth } from '@stores';
 import { CommentDTO } from '@types';
-import { useMutation, useQueryClient } from 'react-query';
 
 export const useCommentQuery = () => {
   const { auth } = useAuth();
@@ -53,9 +53,22 @@ export const useCommentQuery = () => {
     },
   );
 
+  const likeCommentMutation = useMutation(
+    async (comment: CommentDTO) => {
+      if (!auth) throw Error('잘못된 인증');
+
+      await API.like_comment({ userId: auth.id, commentId: comment.id });
+      return comment.postId;
+    },
+    {
+      onSuccess: refreshCommentList,
+    },
+  );
+
   return {
     createCommentMutation,
     editCommentMutation,
     deleteCommentMutation,
+    likeCommentMutation,
   };
 };

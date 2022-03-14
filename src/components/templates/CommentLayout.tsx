@@ -16,8 +16,12 @@ export const CommentLayout = ({ comments }: Props) => {
   const nav = useNavigation();
   const [editCommentTarget, setEditCommentTarget] = useState<CommentDTO>();
 
-  const { createCommentMutation, editCommentMutation, deleteCommentMutation } =
-    useCommentQuery();
+  const {
+    createCommentMutation,
+    editCommentMutation,
+    deleteCommentMutation,
+    likeCommentMutation,
+  } = useCommentQuery();
 
   const navToCommentDetail = (comment: CommentDTO) =>
     nav.navigate('CommentDetail', { comment });
@@ -45,6 +49,10 @@ export const CommentLayout = ({ comments }: Props) => {
     });
   };
 
+  const onToggleLike = (comment: CommentDTO) => {
+    likeCommentMutation.mutate(comment);
+  };
+
   return (
     <AView pv="s08">
       <Row ph="s06">
@@ -69,6 +77,7 @@ export const CommentLayout = ({ comments }: Props) => {
             onPressEdit={() => setEditCommentTarget(comment)}
             onPressReply={() => navToCommentDetail(comment)}
             onPressDelete={() => onPressDelete(comment)}
+            onPressLike={() => onToggleLike(comment)}
             pv="s06"
             mh="s06"
             style={{
