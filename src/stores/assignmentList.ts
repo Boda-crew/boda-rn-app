@@ -2,6 +2,7 @@ import { useQuery } from 'react-query';
 import { atom, selector, useRecoilState, useRecoilValue } from 'recoil';
 import { API } from '@services';
 import { PostDTO } from '@types';
+import { sortCreatedDateTimeByNewest } from '@utils';
 
 const assignmentListState = atom<PostDTO[]>({
   key: 'assignmentListState',
@@ -49,13 +50,7 @@ export const useAssignmentListState = () => {
   const { isLoading, refetch } = useQuery('read_all_posts', API.read_all_posts, {
     onSuccess: ({ data }) =>
       setAssignmentList(
-        data
-          .filter(v => v.type === '과제')
-          .sort(
-            (a, b) =>
-              new Date(b.createdDateTime).getTime() -
-              new Date(a.createdDateTime).getTime(),
-          ),
+        data.filter(v => v.type === '과제').sort(sortCreatedDateTimeByNewest),
       ),
   });
 

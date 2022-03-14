@@ -2,6 +2,7 @@ import { useQuery } from 'react-query';
 import { atom, selector, useRecoilValue, useSetRecoilState } from 'recoil';
 import { API } from '@services';
 import { PostDTO } from '@types';
+import { compareTime, sortCreatedDateTimeByNewest } from '@utils';
 
 const noticeListState = atom<PostDTO[]>({
   key: 'noticeListAtom',
@@ -47,13 +48,7 @@ export const useNoticeListState = () => {
   const { isLoading, refetch } = useQuery('read_all_posts', API.read_all_posts, {
     onSuccess: ({ data }) =>
       setNoticeList(
-        data
-          .filter(v => v.type === '공지')
-          .sort(
-            (a, b) =>
-              new Date(b.createdDateTime).getTime() -
-              new Date(a.createdDateTime).getTime(),
-          ),
+        data.filter(v => v.type === '공지').sort(sortCreatedDateTimeByNewest),
       ),
   });
 

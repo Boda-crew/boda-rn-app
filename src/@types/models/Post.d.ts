@@ -7,8 +7,8 @@ declare module '@types' {
     content: string;
     type: string;
     classrooms: ClassroomDTO[];
-    createdDateTime: DateValue;
-    updatedDateTime: DateValue;
+    createdDateTime: string;
+    updatedDateTime: string;
   }
 
   interface PostCreateDTO {

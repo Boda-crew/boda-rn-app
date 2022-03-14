@@ -2,7 +2,7 @@ import { useQuery } from 'react-query';
 import { atom, useRecoilState } from 'recoil';
 import { API } from '@services';
 import { CommentDTO } from '@types';
-import { compareTime } from '@utils';
+import { sortCreatedDateTimeByNewest } from '@utils';
 
 export const commentListStore = atom<CommentDTO[]>({
   key: 'commentListStore',
@@ -22,7 +22,7 @@ export const useCommentListQuery = (
           if (a.goodUserIdList.length !== b.goodUserIdList.length)
             return b.goodUserIdList.length - a.goodUserIdList.length;
 
-          return compareTime(b.createdDateTime, a.createdDateTime);
+          return sortCreatedDateTimeByNewest(a, b);
         });
         onSuccess(sortedData);
       },

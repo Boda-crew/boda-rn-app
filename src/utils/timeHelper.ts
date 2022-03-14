@@ -73,3 +73,10 @@ export const formatDuration = (target: DateValue, now: DateValue = new Date()) =
 export const compareTime = (a: DateValue, b: DateValue) => {
   return new Date(a).getTime() - new Date(b).getTime();
 };
+
+export const sortCreatedDateTimeByNewest = (
+  a: { createdDateTime: string },
+  b: { createdDateTime: string },
+) => {
+  return compareTime(b.createdDateTime, a.createdDateTime);
+};
