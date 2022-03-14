@@ -1,9 +1,16 @@
 import { DateValue } from '@types';
 
+export const KR_TIME_OFFSET = 9 * 60 * 60 * 1000;
+
 export const KO_DAY = ['일', '월', '화', '수', '목', '금', '토'];
 
+export const getKRDate = (target: DateValue) => {
+  return new Date(new Date(target).getTime() + KR_TIME_OFFSET);
+};
+
 export const getDateData = (target: DateValue) => {
-  const time = new Date(target);
+  const time = getKRDate(target);
+
   return {
     year: time.getFullYear(),
     month: time.getMonth() + 1,
@@ -53,7 +60,7 @@ export const formatCommon = (target: DateValue) => {
  */
 export const formatDuration = (target: DateValue, now: DateValue = new Date()) => {
   const second = Math.floor(
-    (new Date(now).getTime() - new Date(target).getTime()) / 1000,
+    (new Date(now).getTime() - getKRDate(target).getTime()) / 1000,
   );
   if (second < 60) return `${second}초 전`;
 
