@@ -3,7 +3,7 @@ import { AuthService, StorageService } from '@services';
 import { UserDTO } from '@types';
 
 const fakeUser: UserDTO = {
-  id: 2,
+  id: 5,
   name: '테스트',
   type: '관리자',
   certified: true,
@@ -26,7 +26,7 @@ export const useBootAuth = () => {
 
     AuthService.setAuthToken(token);
     // API: get whoami
-    AuthService.setUserId(2);
+    AuthService.setUserId(fakeUser.id);
     setAuthUser(fakeUser);
   };
 
@@ -38,10 +38,10 @@ export const useAuthActions = () => {
 
   const login = async ({ phone }: { phone: string }) => {
     // API: login 성공시
-    const userId = 2;
+    const userId = 5;
 
     AuthService.setAuthToken(phone);
-    AuthService.setUserId(userId);
+    AuthService.setUserId(fakeUser.id);
 
     setAuthUser(fakeUser);
   };
