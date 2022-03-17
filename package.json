@@ -5,6 +5,8 @@
   "license": "MIT",
   "scripts": {
     "android": "react-native run-android",
+    "android:release": "yarn android --variant=release",
+    "android:build": "cd android && ./gradlew clean && ./gradlew bundleRelease && open ./app/build/outputs/bundle/release && cd ../",
     "ios": "react-native run-ios",
     "ios:device": "yarn ios --device",
     "start": "react-native start",
