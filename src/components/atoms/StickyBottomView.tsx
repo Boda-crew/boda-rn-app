@@ -12,7 +12,7 @@ interface StickyBottomProps extends KeyboardAvoidingViewProps {
 }
 export const StickyBottomView = ({ box = true, ...props }: StickyBottomProps) => (
   <KeyboardAvoidingView
-    behavior="padding"
+    behavior="height"
     {...props}
     style={[
       {
