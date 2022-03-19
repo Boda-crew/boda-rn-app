@@ -46,6 +46,13 @@ export const read_comments_by_post_id = (postId: number) => {
   });
 };
 
+export const read_comment_by_comment_id = (postId: number, commentId: number) => {
+  return _axios<CommentDTO>({
+    url: `/posts/${postId}/comments/${commentId}`,
+    method: 'GET',
+  });
+};
+
 export const update_comment = (
   postId: number,
   commentId: number,

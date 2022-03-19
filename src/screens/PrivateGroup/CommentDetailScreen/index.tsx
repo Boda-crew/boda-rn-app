@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useQuery } from 'react-query';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import {
   AScrollView,
   AText,
@@ -10,71 +12,73 @@ import {
   WriteCommentForm,
 } from '@components';
 import { palette } from '@styles';
-import { useNavigation, useRoute } from '@react-navigation/native';
 import { CommentDTO, PrivateRouteProps, ReCommentDTO } from '@types';
-import { useRecommentListStore } from '@stores';
-import { useRecommentQuery } from '@hooks';
+import { useCommentQuery, useRecommentQuery } from '@hooks';
+import { API } from '@services';
 
 export const CommentDetailScreen = () => {
-  const nav = useNavigation();
-  const {
-    params: { comment },
-  } = useRoute<PrivateRouteProps<'CommentDetail'>>();
+  const { params } = useRoute<PrivateRouteProps<'CommentDetail'>>();
 
+  const [comment, setComment] = useState(params.comment);
+  const [editComment, setEditComment] = useState(false);
   const [editRecommentTarget, setEditRecommentTarget] = useState<ReCommentDTO>();
-  const { recommentList, isLoading, refetch } = useRecommentListStore(comment.id);
-  const { createRecommentMutation, deleteRecommentMutation, editRecommentMutation } =
-    useRecommentQuery();
 
-  const onSubmitCreate = (content: string) => {
-    createRecommentMutation.mutate({
-      commentId: comment.id,
-      content,
-    });
-  };
+  useEffect(() => setComment(params.comment), [params]);
 
-  const onSubmitEdit = (content: string) => {
-    if (!editRecommentTarget) return;
+  const { isLoading, refetch } = useQuery(
+    ['read_comment_by_comment_id', comment.postId, comment.id],
+    () => API.read_comment_by_comment_id(comment.postId, comment.id),
+    {
+      onSuccess: ({ data }) => {
+        setComment(data);
+      },
+    },
+  );
 
-    editRecommentMutation.mutate({
-      commentId: editRecommentTarget.commentId,
-      recommentId: editRecommentTarget.id,
-      content,
-    });
-  };
+  const { onConfirmDeleteComment, onLikeComment, onSubmitEditComment } =
+    useCommentAction(comment);
 
-  const onConfirmDelete = (recomment: ReCommentDTO) => {
-    nav.navigate('Confirm', {
-      isDanger: true,
-      text: '정말 답글을 삭제하시겠습니까?',
-      onConfirm: () => deleteRecommentMutation.mutate(recomment),
-    });
-  };
+  const {
+    onConfirmDeleteRecomment,
+    onSubmitCreateRecomment,
+    onSubmitEditRecomment,
+  } = useRecommentAction({ commentId: comment.id, editRecommentTarget });
 
   return (
     <AScrollView refreshing={isLoading} onRefresh={refetch}>
       <AView p="s06">
         <HeaderTitle weight="700">
-          답글 <AText pcolor="primary">{recommentList.length}</AText>
+          답글 <AText pcolor="primary">{comment.reComments.length}</AText>
         </HeaderTitle>
       </AView>
 
       <AView p="s06" bc="gray0">
-        <CommentItem comment={comment} />
+        <CommentItem
+          comment={comment}
+          onPressDelete={onConfirmDeleteComment}
+          onPressLike={onLikeComment}
+          onPressEdit={() => setEditComment(true)}
+        />
+        <KeyboardTextInput
+          open={editComment}
+          initText={comment.content}
+          onClose={() => setEditComment(false)}
+          onSubmit={onSubmitEditComment}
+        />
       </AView>
 
       <WriteCommentForm
         title="익명 답글 쓰기"
-        onSubmit={onSubmitCreate}
+        onSubmit={onSubmitCreateRecomment}
         mt="s07"
         mh="s06"
       />
 
-      {[...recommentList].map((recomment, i) => (
+      {[...comment.reComments].map((recomment, i) => (
         <Comment
           key={i}
           comment={recomment as unknown as CommentDTO}
-          onPressDelete={() => onConfirmDelete(recomment)}
+          onPressDelete={() => onConfirmDeleteRecomment(recomment)}
           onPressEdit={() => setEditRecommentTarget(recomment)}
           pv="s06"
           mh="s06"
@@ -89,8 +93,71 @@ export const CommentDetailScreen = () => {
         open={!!editRecommentTarget}
         initText={editRecommentTarget?.content}
         onClose={() => setEditRecommentTarget(undefined)}
-        onSubmit={onSubmitEdit}
+        onSubmit={onSubmitEditRecomment}
       />
     </AScrollView>
   );
+};
+
+const useCommentAction = (comment: CommentDTO) => {
+  const nav = useNavigation();
+  const { deleteCommentMutation, editCommentMutation, likeCommentMutation } =
+    useCommentQuery();
+
+  return {
+    onSubmitEditComment: (content: string) => {
+      editCommentMutation.mutate({
+        commentId: comment.id,
+        postId: comment.postId,
+        content,
+      });
+    },
+    onConfirmDeleteComment: () => {
+      nav.navigate('Confirm', {
+        isDanger: true,
+        text: '정말 댓글을 삭제하시겠습니까?',
+        onConfirm: () => deleteCommentMutation.mutate(comment),
+      });
+    },
+    onLikeComment: () => {
+      likeCommentMutation.mutate(comment);
+    },
+  };
+};
+
+const useRecommentAction = ({
+  commentId,
+  editRecommentTarget,
+}: {
+  commentId: number;
+  editRecommentTarget?: ReCommentDTO;
+}) => {
+  const nav = useNavigation();
+  const { createRecommentMutation, deleteRecommentMutation, editRecommentMutation } =
+    useRecommentQuery();
+
+  return {
+    onSubmitCreateRecomment: (content: string) => {
+      createRecommentMutation.mutate({
+        commentId,
+        content,
+      });
+    },
+    onSubmitEditRecomment: (content: string) => {
+      if (!editRecommentTarget) return;
+
+      editRecommentMutation.mutate({
+        commentId: editRecommentTarget.commentId,
+        recommentId: editRecommentTarget.id,
+        content,
+      });
+    },
+    onConfirmDeleteRecomment: (recomment: ReCommentDTO) => {
+      nav.navigate('Confirm', {
+        isDanger: true,
+        text: '정말 답글을 삭제하시겠습니까?',
+        onConfirm: () => deleteRecommentMutation.mutate(recomment),
+      });
+    },
+  };
 };
