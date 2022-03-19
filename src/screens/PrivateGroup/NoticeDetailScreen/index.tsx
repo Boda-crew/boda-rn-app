@@ -12,7 +12,6 @@ export const NoticeDetailScreen = () => {
   const {
     post: notice,
     commentList,
-    classTeacherIdList,
     isCommentLoading,
     isPostLoading,
     onRefreshPost,
@@ -27,9 +26,8 @@ export const NoticeDetailScreen = () => {
       <Separator />
       <CommentLayout
         isLoading={isCommentLoading}
-        postId={notice.id}
+        post={notice}
         commentList={commentList}
-        classTeacherIdList={classTeacherIdList}
       />
     </AScrollView>
   );

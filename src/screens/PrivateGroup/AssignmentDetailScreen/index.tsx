@@ -10,7 +10,6 @@ export const AssignmentDetailScreen = () => {
 
   const {
     post: assignment,
-    classTeacherIdList,
     commentList,
     isPostLoading,
     isCommentLoading,
@@ -26,9 +25,8 @@ export const AssignmentDetailScreen = () => {
       <Separator />
       <CommentLayout
         isLoading={isCommentLoading}
-        postId={assignment.id}
+        post={assignment}
         commentList={commentList}
-        classTeacherIdList={classTeacherIdList}
       />
     </AScrollView>
   );

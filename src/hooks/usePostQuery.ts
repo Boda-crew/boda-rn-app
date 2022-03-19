@@ -41,7 +41,6 @@ export const usePostQuery = (postId: number) => {
     isLoading: isCommentLoading,
     refetch: refetchCommentList,
   } = useCommentListStore(postId);
-  const classTeacherIdList = post.classrooms.map(classroom => classroom.teacher.id);
 
   useEffect(() => {
     refetchCommentList();
@@ -55,7 +54,6 @@ export const usePostQuery = (postId: number) => {
 
   return {
     post,
-    classTeacherIdList,
     commentList,
     isPostLoading,
     isCommentLoading,

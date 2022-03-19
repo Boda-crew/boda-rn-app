@@ -3,24 +3,18 @@ import { useNavigation } from '@react-navigation/native';
 
 import { useCommentQuery } from '@hooks';
 import { palette } from '@styles';
-import { CommentDTO } from '@types';
+import { CommentDTO, PostDTO } from '@types';
 
 import { AText, AView, HeaderTitle, Row } from '../atoms';
 import { CommentItem, WriteCommentForm } from '../organisms';
 import { KeyboardTextInput } from '../molecules';
 interface Props {
   isLoading?: boolean;
-  postId: number;
+  post: PostDTO;
   commentList: CommentDTO[];
-  classTeacherIdList?: number[];
 }
 
-export const CommentLayout = ({
-  isLoading,
-  postId,
-  commentList,
-  classTeacherIdList,
-}: Props) => {
+export const CommentLayout = ({ isLoading, post, commentList }: Props) => {
   const nav = useNavigation();
   const [editCommentTarget, setEditCommentTarget] = useState<CommentDTO>();
 
@@ -35,7 +29,7 @@ export const CommentLayout = ({
     nav.navigate('CommentDetail', { comment });
 
   const onSubmitCreate = (content: string) => {
-    createCommentMutation.mutate({ postId, content });
+    createCommentMutation.mutate({ postId: post.id, content });
   };
 
   const onPressDelete = (comment: CommentDTO) => {
@@ -80,23 +74,28 @@ export const CommentLayout = ({
         {isLoading ? (
           <AText>로딩중...</AText>
         ) : (
-          commentList.map((comment, idx) => (
-            <CommentItem
-              key={idx}
-              isClassTeacher={classTeacherIdList?.includes(comment.author.id)}
-              comment={comment}
-              onPressEdit={() => setEditCommentTarget(comment)}
-              onPressReply={() => navToCommentDetail(comment)}
-              onPressDelete={() => onPressDelete(comment)}
-              onPressLike={() => onToggleLike(comment)}
-              pv="s06"
-              mh="s06"
-              style={{
-                borderTopWidth: idx ? 1 : 0,
-                borderColor: palette.gray1,
-              }}
-            />
-          ))
+          commentList.map((comment, idx) => {
+            const isClassTeacher = post.classrooms.some(
+              classroom => classroom.teacher.id === comment.author.id,
+            );
+            return (
+              <CommentItem
+                key={idx}
+                isClassTeacher={isClassTeacher}
+                comment={comment}
+                onPressEdit={() => setEditCommentTarget(comment)}
+                onPressReply={() => navToCommentDetail(comment)}
+                onPressDelete={() => onPressDelete(comment)}
+                onPressLike={() => onToggleLike(comment)}
+                pv="s06"
+                mh="s06"
+                style={{
+                  borderTopWidth: idx ? 1 : 0,
+                  borderColor: palette.gray1,
+                }}
+              />
+            );
+          })
         )}
       </AView>
 
