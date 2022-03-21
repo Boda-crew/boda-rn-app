@@ -1,7 +1,6 @@
 import { atom, useRecoilValue, useSetRecoilState } from 'recoil';
-import { API, AuthService, StorageService } from '@services';
+import { API, AuthService, FCMService, StorageService } from '@services';
 import { UserDTO } from '@types';
-
 
 export const authStore = atom<UserDTO | null>({
   key: 'authStore',
@@ -29,7 +28,8 @@ export const useAuthActions = () => {
   const setAuthUser = useSetRecoilState(authStore);
 
   const login = async ({ phone }: { phone: string }) => {
-    const { data: user } = await API.login_user({ phone });
+    const token = await FCMService.getToken();
+    const { data: user } = await API.login_user({ phone, token });
 
     AuthService.setAuthToken(phone);
     AuthService.setUserId(user.id);

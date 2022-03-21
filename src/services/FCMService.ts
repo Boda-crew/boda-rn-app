@@ -52,16 +52,19 @@ export const backgroundListener = () =>
  * 기기의 토큰 얻는다.
  */
 export const getToken = async () => {
-  return Platform.OS === 'ios'
-    ? await messaging().getAPNSToken()
-    : await messaging().getToken();
+  const token =
+    Platform.OS === 'ios'
+      ? await messaging().getAPNSToken()
+      : await messaging().getToken();
+
+  return token ?? undefined;
 };
 
 export const saveTokenToDB = async (token: string) => {
   const userId = AuthService.getUserId();
   if (!userId) return;
 
-  //
+  // 토큰 저장 전용 API
 };
 
 export const registerDiviceToken = async () => {

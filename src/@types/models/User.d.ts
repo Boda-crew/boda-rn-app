@@ -19,6 +19,7 @@ declare module '@types' {
 
   interface UserLoginDTO {
     phone: string;
+    token?: string;
   }
 
   interface StudentDTO extends UserDTO {
