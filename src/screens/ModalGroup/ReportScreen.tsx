@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Pressable } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { Animated, Pressable } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import {
   AButton,
@@ -11,17 +11,33 @@ import {
   Row,
 } from '@components';
 import { palette } from '@styles';
+import { useSlideUpAnimation } from '@hooks';
 
 export const ReportScreen = () => {
   const nav = useNavigation();
   const [reason, setReason] = useState<string>(reportList[0].text);
 
+  const { animationStyle, onAppear, onDisapper } = useSlideUpAnimation();
+
+  useEffect(() => onAppear().start(), []);
+
+  const goBack = () => {
+    onDisapper().start();
+    nav.goBack();
+  };
+
   return (
-    <Pressable style={{ flex: 1 }} onPress={nav.goBack}>
-      <AView
-        mt="auto"
-        bc="white"
-        style={{ borderTopStartRadius: 24, borderTopEndRadius: 24 }}
+    <Pressable style={{ flex: 1 }} onPress={goBack}>
+      <Animated.View
+        style={[
+          animationStyle,
+          {
+            marginTop: 'auto',
+            backgroundColor: 'white',
+            borderTopStartRadius: 24,
+            borderTopEndRadius: 24,
+          },
+        ]}
       >
         <ContentTitle mt="s07" mb="s06" mh="s06">
           이 댓글을 신고하는 이유
@@ -47,8 +63,8 @@ export const ReportScreen = () => {
             </ATouchableHighlight>
           );
         })}
-        <AButton title="확인" ph="s06" mv="s06" onPress={() => nav.goBack()} />
-      </AView>
+        <AButton title="확인" ph="s06" mv="s06" onPress={goBack} />
+      </Animated.View>
     </Pressable>
   );
 };

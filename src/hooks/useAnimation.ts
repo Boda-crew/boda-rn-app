@@ -66,14 +66,15 @@ export const useAlertAnimation = () => {
 };
 
 /** */
-export const useSlideAnimation = () => {
+export const useSlideUpAnimation = () => {
+  const INIT_Y_POSITION = 500;
   const opacity = useRef(new Animated.Value(0)).current;
-  const translateY = useRef(new Animated.Value(500)).current;
+  const translateY = useRef(new Animated.Value(INIT_Y_POSITION)).current;
 
   const opacityAnimation = (value: number) =>
     Animated.timing(opacity, {
       toValue: value,
-      duration: 200,
+      duration: 150,
       useNativeDriver: true,
       easing: Easing.inOut(Easing.ease),
     });
@@ -81,7 +82,7 @@ export const useSlideAnimation = () => {
   const translateYAnimation = (value: number) =>
     Animated.timing(translateY, {
       toValue: value,
-      duration: 250,
+      duration: 200,
       useNativeDriver: true,
       easing: Easing.inOut(Easing.ease),
     });
@@ -96,7 +97,7 @@ export const useSlideAnimation = () => {
    * on unmount
    */
   const onDisapper = () =>
-    Animated.parallel([opacityAnimation(0), translateYAnimation(1000)]);
+    Animated.parallel([opacityAnimation(0), translateYAnimation(INIT_Y_POSITION)]);
 
   return {
     animationStyle: { opacity, transform: [{ translateY }] },
