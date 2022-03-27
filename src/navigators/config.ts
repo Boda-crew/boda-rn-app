@@ -33,6 +33,6 @@ export const verticalInterOption: StackNavigationOptions = {
 };
 
 export const horizontalInterOption: StackNavigationOptions = {
-  cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
   gestureDirection: 'horizontal',
+  cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
 };

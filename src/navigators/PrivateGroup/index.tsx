@@ -7,12 +7,12 @@ import {
   NoticeDetailScreen,
   AssignmentTotalScreen,
 } from '@screens';
-import { headerOptions, Root } from '../config';
+import { headerOptions, horizontalInterOption, Root } from '../config';
 import { BottomTabNavigator } from './BottomTabNavigator';
 
 export const PrivateGroup = () => {
   return (
-    <Root.Group screenOptions={{ ...headerOptions }}>
+    <Root.Group screenOptions={{ ...headerOptions, ...horizontalInterOption }}>
       <Root.Screen
         name="HomeTab"
         component={BottomTabNavigator}
