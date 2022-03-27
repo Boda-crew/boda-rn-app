@@ -1,6 +1,6 @@
 import React from 'react';
 import { forStackFade } from '@hooks';
-import { AlertScreen, ConfirmScreen } from '@screens';
+import { AlertScreen, ConfirmScreen, ReportScreen } from '@screens';
 import { palette } from '@styles';
 import { Root } from '../config';
 
@@ -16,6 +16,7 @@ export const ModalGroup = () => {
     >
       <Root.Screen name="Alert" component={AlertScreen} />
       <Root.Screen name="Confirm" component={ConfirmScreen} />
+      <Root.Screen name="Report" component={ReportScreen} />
     </Root.Group>
   );
 };

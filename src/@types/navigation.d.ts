@@ -43,6 +43,9 @@ declare module '@types' {
       isDanger?: boolean;
       onConfirm?: () => void;
     };
+    Report: {
+      commentId: number;
+    };
   };
 
   /**

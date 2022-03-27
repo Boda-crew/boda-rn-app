@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigation } from '@react-navigation/native';
 import { CommentDTO } from '@types';
 import { formatDuration, renderAnonymousUserName } from '@utils';
 import { useAuth } from '@stores';
@@ -27,7 +28,12 @@ export const Comment = ({
   ...props
 }: CommentProps) => {
   const { auth } = useAuth();
+  const nav = useNavigation();
   const isAuthor = auth?.id === comment.author.id;
+
+  const onPressReport = () => {
+    nav.navigate('Report', { commentId: comment.id });
+  };
 
   return (
     <AView {...props}>
@@ -38,18 +44,22 @@ export const Comment = ({
         )}
         <HelpText ml="s03">{formatDuration(comment.createdDateTime)}</HelpText>
 
-        {isAuthor && (
+        {isAuthor ? (
           <>
             <HelpText> · </HelpText>
-
             <ATouchableOpacity onPress={onPressEdit}>
               <HelpText>수정</HelpText>
             </ATouchableOpacity>
-
             <HelpText> · </HelpText>
-
             <ATouchableOpacity onPress={onPressDelete}>
               <HelpText pcolor="red3">삭제</HelpText>
+            </ATouchableOpacity>
+          </>
+        ) : (
+          <>
+            <HelpText> · </HelpText>
+            <ATouchableOpacity onPress={onPressReport}>
+              <HelpText>신고</HelpText>
             </ATouchableOpacity>
           </>
         )}
