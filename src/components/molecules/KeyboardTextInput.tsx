@@ -49,7 +49,7 @@ export const KeyboardTextInput = ({
     <Modal visible={open} animationType="slide" transparent>
       <Pressable style={StyleSheet.absoluteFill} onPress={onClose} />
 
-      <KeyboardAvoidingView behavior="position" style={styles.container}>
+      <KeyboardAvoidingView behavior="height" style={styles.container}>
         <AView style={styles.inputWrapper}>
           <TextInput
             ref={inputRef}
