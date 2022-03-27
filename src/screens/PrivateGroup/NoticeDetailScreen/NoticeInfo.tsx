@@ -16,10 +16,11 @@ interface Props {
 }
 
 export const NoticeInfo = ({ notice }: Props) => {
-  const academyPillText = notice.classrooms[0]?.academy.name;
-  const classroomPillText =
-    notice.classrooms[0]?.name +
-    (notice.classrooms.length > 1 ? `외 ${notice.classrooms.length - 1}` : '');
+  const academyPillText = notice.classrooms[0]?.academy.name ?? '...';
+  const classroomPillText = notice.classrooms[0]
+    ? notice.classrooms[0]?.name +
+      (notice.classrooms.length > 1 ? ` 외 ${notice.classrooms.length - 1}` : '')
+    : '...';
 
   return (
     <AView mt="s06" mb="s08" mh="s06">
@@ -27,7 +28,7 @@ export const NoticeInfo = ({ notice }: Props) => {
 
       <Row mt="s07">
         <Pill title={academyPillText} />
-        <Pill title={classroomPillText} ml="s03" />
+        <Pill title={classroomPillText ?? ''} ml="s03" />
       </Row>
 
       <HelpText mt="s04">
