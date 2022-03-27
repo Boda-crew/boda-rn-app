@@ -30,7 +30,7 @@ export const NoticeScreen = () => {
         onRefresh={refetch}
         views={
           !Object.keys(shatteredNotices).length
-            ? [{ name: '', child: <AText>로딩중...</AText> }]
+            ? [{ name: '', child: <></> }]
             : Object.keys(shatteredNotices).map(name => ({
                 name,
                 child: (
