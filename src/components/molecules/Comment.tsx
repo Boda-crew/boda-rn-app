@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigation } from '@react-navigation/native';
-import { CommentDTO } from '@types';
+import { CommentDTO, CommentType } from '@types';
 import { formatDuration, renderAnonymousUserName } from '@utils';
 import { useAuth } from '@stores';
 import {
@@ -14,15 +14,16 @@ import {
 } from '../atoms';
 import { Pill } from './Pill';
 export interface CommentProps extends AViewProps {
-  isClassTeacher?: boolean;
   comment: CommentDTO;
+  commentType: CommentType;
+  isClassTeacher?: boolean;
   onPressEdit?: () => void;
   onPressDelete?: () => void;
 }
 
 export const Comment = ({
-  isClassTeacher,
   comment,
+  isClassTeacher,
   onPressEdit,
   onPressDelete,
   ...props
@@ -32,7 +33,7 @@ export const Comment = ({
   const isAuthor = auth?.id === comment.author.id;
 
   const onPressReport = () => {
-    nav.navigate('Report', { commentId: comment.id });
+    nav.navigate('Report', { targetType: '댓글', targetId: comment.id });
   };
 
   return (

@@ -44,7 +44,8 @@ declare module '@types' {
       onConfirm?: () => void;
     };
     Report: {
-      commentId: number;
+      targetId: number;
+      targetType: ReportTargetType;
     };
   };
 

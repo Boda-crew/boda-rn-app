@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Animated, Pressable } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import {
   AButton,
   ATouchableHighlight,
@@ -12,12 +12,38 @@ import {
 } from '@components';
 import { palette } from '@styles';
 import { useSlideUpAnimation } from '@hooks';
+import { useMutation } from 'react-query';
+import { useAuth } from '@stores';
+import { API } from '@services';
+import { ModalRouteProps } from '@types';
 
 export const ReportScreen = () => {
   const nav = useNavigation();
+  const {
+    params: { targetId, targetType },
+  } = useRoute<ModalRouteProps<'Report'>>();
+  const { auth } = useAuth();
   const [reason, setReason] = useState<string>(reportList[0].text);
 
   const { animationStyle, onAppear, onDisapper } = useSlideUpAnimation();
+  const submitMutation = useMutation(
+    async () => {
+      if (!auth) throw Error('잘못된 인증');
+
+      await API.create_report({
+        reportedUserId: auth.id,
+        type: targetType,
+        targetId,
+        content: reason,
+      });
+    },
+    {
+      onSuccess: () => {
+        goBack();
+        nav.navigate('Alert', { text: '신고가 접수되었습니다.' });
+      },
+    },
+  );
 
   useEffect(() => onAppear().start(), []);
 
@@ -63,7 +89,13 @@ export const ReportScreen = () => {
             </ATouchableHighlight>
           );
         })}
-        <AButton title="확인" ph="s06" mv="s06" onPress={goBack} />
+        <AButton
+          title="확인"
+          ph="s06"
+          mv="s06"
+          loading={submitMutation.isLoading}
+          onPress={() => submitMutation.mutate()}
+        />
       </Animated.View>
     </Pressable>
   );

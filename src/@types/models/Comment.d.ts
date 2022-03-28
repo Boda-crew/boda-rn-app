@@ -1,4 +1,6 @@
 declare module '@types' {
+  type CommentType = '댓글' | '대댓글';
+
   interface CommentDTO {
     id: number;
     postId: number;

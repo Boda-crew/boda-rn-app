@@ -81,8 +81,9 @@ export const CommentLayout = ({ isLoading, post, commentList }: Props) => {
             return (
               <CommentItem
                 key={idx}
-                isClassTeacher={isClassTeacher}
                 comment={comment}
+                commentType="댓글"
+                isClassTeacher={isClassTeacher}
                 onPressEdit={() => setEditCommentTarget(comment)}
                 onPressReply={() => navToCommentDetail(comment)}
                 onPressDelete={() => onPressDelete(comment)}

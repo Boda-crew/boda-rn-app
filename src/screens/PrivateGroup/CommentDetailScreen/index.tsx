@@ -55,6 +55,7 @@ export const CommentDetailScreen = () => {
       <AView p="s06" bc="gray0">
         <CommentItem
           comment={comment}
+          commentType="댓글"
           onPressDelete={onConfirmDeleteComment}
           onPressLike={onLikeComment}
           onPressEdit={() => setEditComment(true)}
@@ -78,6 +79,7 @@ export const CommentDetailScreen = () => {
         <Comment
           key={i}
           comment={recomment as unknown as CommentDTO}
+          commentType="대댓글"
           onPressDelete={() => onConfirmDeleteRecomment(recomment)}
           onPressEdit={() => setEditRecommentTarget(recomment)}
           pv="s06"
