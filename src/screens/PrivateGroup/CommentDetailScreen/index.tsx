@@ -42,7 +42,11 @@ export const CommentDetailScreen = () => {
     onConfirmDeleteRecomment,
     onSubmitCreateRecomment,
     onSubmitEditRecomment,
-  } = useRecommentAction({ commentId: comment.id, editRecommentTarget });
+  } = useRecommentAction({
+    postId: comment.postId,
+    commentId: comment.id,
+    editRecommentTarget,
+  });
 
   return (
     <AScrollView refreshing={isLoading} onRefresh={refetch}>
@@ -80,7 +84,7 @@ export const CommentDetailScreen = () => {
           key={i}
           comment={recomment as unknown as CommentDTO}
           commentType="대댓글"
-          onPressDelete={() => onConfirmDeleteRecomment(recomment)}
+          onPressDelete={() => onConfirmDeleteRecomment(recomment.id)}
           onPressEdit={() => setEditRecommentTarget(recomment)}
           pv="s06"
           mh="s06"
@@ -128,9 +132,11 @@ const useCommentAction = (comment: CommentDTO) => {
 };
 
 const useRecommentAction = ({
+  postId,
   commentId,
   editRecommentTarget,
 }: {
+  postId: number;
   commentId: number;
   editRecommentTarget?: ReCommentDTO;
 }) => {
@@ -141,6 +147,7 @@ const useRecommentAction = ({
   return {
     onSubmitCreateRecomment: (content: string) => {
       createRecommentMutation.mutate({
+        postId,
         commentId,
         content,
       });
@@ -149,16 +156,22 @@ const useRecommentAction = ({
       if (!editRecommentTarget) return;
 
       editRecommentMutation.mutate({
+        postId,
         commentId: editRecommentTarget.commentId,
         recommentId: editRecommentTarget.id,
         content,
       });
     },
-    onConfirmDeleteRecomment: (recomment: ReCommentDTO) => {
+    onConfirmDeleteRecomment: (recommentId: number) => {
       nav.navigate('Confirm', {
         isDanger: true,
         text: '정말 답글을 삭제하시겠습니까?',
-        onConfirm: () => deleteRecommentMutation.mutate(recomment),
+        onConfirm: () =>
+          deleteRecommentMutation.mutate({
+            postId,
+            commentId,
+            recommentId,
+          }),
       });
     },
   };

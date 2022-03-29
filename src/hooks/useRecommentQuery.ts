@@ -1,22 +1,35 @@
 import { useMutation, useQueryClient } from 'react-query';
 import { API } from '@services';
 import { useAuth } from '@stores';
-import { ReCommentDTO } from '@types';
 
 export const useRecommentQuery = () => {
   const { auth } = useAuth();
   const queryClient = useQueryClient();
 
-  const refreshRecommentList = (commentId: number) => {
-    queryClient.invalidateQueries(['read_recomments_by_comment_id', commentId]);
+  const refreshRecommentList = ({
+    commentId,
+    postId,
+  }: {
+    commentId: number;
+    postId: number;
+  }) => {
+    queryClient.invalidateQueries(['read_comment_by_comment_id', postId, commentId]);
   };
 
   const createRecommentMutation = useMutation(
-    async ({ commentId, content }: { commentId: number; content: string }) => {
+    async ({
+      commentId,
+      postId,
+      content,
+    }: {
+      commentId: number;
+      postId: number;
+      content: string;
+    }) => {
       if (!auth) throw Error('잘못된 인증');
 
       await API.create_recomment(commentId, { author: auth.id, content });
-      return commentId;
+      return { postId, commentId };
     },
     {
       onSuccess: refreshRecommentList,
@@ -26,10 +39,12 @@ export const useRecommentQuery = () => {
   const editRecommentMutation = useMutation(
     async ({
       commentId,
+      postId,
       recommentId,
       content,
     }: {
       commentId: number;
+      postId: number;
       recommentId: number;
       content: string;
     }) => {
@@ -39,7 +54,7 @@ export const useRecommentQuery = () => {
         author: auth.id,
         content,
       });
-      return commentId;
+      return { postId, commentId };
     },
     {
       onSuccess: refreshRecommentList,
@@ -47,9 +62,17 @@ export const useRecommentQuery = () => {
   );
 
   const deleteRecommentMutation = useMutation(
-    async (recomment: ReCommentDTO) => {
-      await API.delete_recomment(recomment.commentId, recomment.id);
-      return recomment.commentId;
+    async ({
+      commentId,
+      postId,
+      recommentId,
+    }: {
+      commentId: number;
+      postId: number;
+      recommentId: number;
+    }) => {
+      await API.delete_recomment(commentId, recommentId);
+      return { postId, commentId };
     },
     {
       onSuccess: refreshRecommentList,
