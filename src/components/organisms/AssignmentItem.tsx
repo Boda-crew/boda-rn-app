@@ -35,7 +35,7 @@ export const AssignmentItem = ({ assignment, isPrimary, style }: Props) => {
         title={formatDate(assignment.createdDateTime)}
       />
 
-      <Wrapper ml="s06" style={{ flex: 1 }}>
+      <Wrapper ml="s06" mr="s03" style={{ flex: 1 }}>
         <ContentTitle mt="s02" numberOfLines={1}>
           {assignment.content}
         </ContentTitle>

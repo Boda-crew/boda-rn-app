@@ -38,13 +38,15 @@ export const NotificationItem = ({ item }: Props) => {
       <Row pl="s06" pv="s06" style={[{ alignItems: 'flex-start' }]}>
         <Icon name="announcement" color={palette.primary} style={{ marginTop: 4 }} />
 
-        <AView ml="s06" style={{ flex: 1 }}>
+        <AView ml="s06" mr="s03" style={{ flex: 1 }}>
           {/* <Row>
           <Pill title="오렌지 학원" />
           <Pill title="오렌지주스반" ml="s03" />
         </Row> */}
-          <ContentTitle>{item.title}</ContentTitle>
-          <ContentText mt="s03">{item.content}</ContentText>
+          <ContentTitle numberOfLines={1}>{item.title}</ContentTitle>
+          <ContentText mt="s03" numberOfLines={1}>
+            {item.content}
+          </ContentText>
           {/* <HelpText mt="s05">2021/3/31 오전 10:30</HelpText> */}
         </AView>
       </Row>

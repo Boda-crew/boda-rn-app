@@ -40,13 +40,15 @@ export const NoticeItem = ({ notice, isPrimary, hideAcademy, style }: Props) => 
         iconSize={{ width: 18, height: 18 }}
       />
 
-      <Wrapper ml="s06">
+      <Wrapper ml="s06" mr="s03" style={{ flex: 1 }}>
         <Row>
           {!hideAcademy && <Pill title={academy.name} mr="s03" />}
           <Pill title={classRoom.name} />
         </Row>
 
-        <ContentTitle mt="s03">{notice.title}</ContentTitle>
+        <ContentTitle mt="s03" numberOfLines={1}>
+          {notice.title}
+        </ContentTitle>
 
         <HelpText mt="s02">
           {formatClock(notice.createdDateTime)} · {notice.author.name} · 댓글{' '}
