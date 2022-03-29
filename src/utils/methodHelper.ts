@@ -1,3 +1,4 @@
+import { CommentDTO } from '@types';
 import ReactNativeHapticFeedback, {
   HapticFeedbackTypes,
 } from 'react-native-haptic-feedback';
@@ -24,3 +25,28 @@ export const extract = <T>(
 
   return result;
 };
+
+export const getDummyComment = ({
+  commentId,
+  postId,
+}: {
+  commentId: number;
+  postId: number;
+}): CommentDTO => ({
+  id: commentId,
+  postId,
+  author: {
+    id: 0,
+    certified: false,
+    createdDateTime: '',
+    updatedDateTime: '',
+    name: '',
+    phone: '',
+    type: '관리자',
+  },
+  content: '로딩중...',
+  createdDateTime: '',
+  updatedDateTime: '',
+  goodUserIdList: [],
+  reComments: [],
+});

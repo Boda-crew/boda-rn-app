@@ -1,13 +1,13 @@
 declare module '@types' {
+  type NotificationType = '공지' | '과제' | '댓글' | '대댓글';
+
   interface NotificationDTO {
-    id: number;
+    target: NotificationType;
     /**
-     * 댓글달림, 새로운 과제,
+     * 공지/62/댓글/01/대댓글/78
      */
-    type: number;
-    // label: string
+    targetString: string;
     title: string;
-    contnet: string;
-    create_date: string;
+    content: string;
   }
 }

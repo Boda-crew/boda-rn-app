@@ -1,11 +1,15 @@
 declare module '@types' {
+  type PostTargetType = '학생' | '학부모' | '모두';
+  type PostType = '과제' | '공지';
+
   interface PostDTO {
     id: number;
     author: UserDTO;
     title: string;
     textbook: string;
     content: string;
-    type: string;
+    target: PostTargetType;
+    type: PostDTO;
     classrooms: ClassroomDTO[];
     createdDateTime: string;
     updatedDateTime: string;
@@ -16,7 +20,7 @@ declare module '@types' {
     content: string;
     textbook: string;
     title: string;
-    type: string;
+    type: PostDTO;
   }
 
   interface PostUpdateDTO extends PostCreateDTO {

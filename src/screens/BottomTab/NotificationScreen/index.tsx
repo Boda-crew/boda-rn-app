@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import {
+  AView,
   Container,
   HelpText,
   ScreenTitle,
@@ -7,11 +8,13 @@ import {
   Wrapper,
 } from '@components';
 import { NotificationItem } from './NotificationItem';
+import { useNotificationListStore } from '@stores';
+import { NotificationDTO } from '@types';
 
 export const NotificationScreen = () => {
   const [tabIndex, setTabIndex] = useState(0);
 
-  const notificationList = [...new Array(10)];
+  const { notificationList, isLoading, refetch } = useNotificationListStore();
 
   return (
     <Container>
@@ -22,14 +25,12 @@ export const NotificationScreen = () => {
       <SegmentedTab
         selectedIdx={tabIndex}
         setSelectedIdx={setTabIndex}
+        refreshing={isLoading}
+        onRefresh={refetch}
         mt="s05"
         views={[
           {
             name: '전체',
-            child: <NotificationList notificationList={notificationList} />,
-          },
-          {
-            name: '사과학원',
             child: <NotificationList notificationList={notificationList} />,
           },
         ]}
@@ -38,14 +39,17 @@ export const NotificationScreen = () => {
   );
 };
 
-const NotificationList = ({ notificationList }: { notificationList: any[] }) => {
+const NotificationList = ({
+  notificationList,
+}: {
+  notificationList: NotificationDTO[];
+}) => {
   return (
-    <Wrapper pl="s06" pt="s06" ignoreFrist childStyle={{ mt: 's07' }}>
-      {notificationList.map((_, index) => (
-        <NotificationItem key={index} />
+    <AView>
+      {notificationList.map((item, index) => (
+        <NotificationItem key={index} item={item} />
       ))}
-
       {!notificationList.length && <HelpText>아직 알림이 없습니다</HelpText>}
-    </Wrapper>
+    </AView>
   );
 };

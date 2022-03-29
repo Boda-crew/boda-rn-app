@@ -3,34 +3,51 @@ import {
   ContentText,
   ContentTitle,
   HelpText,
+  HightlightListItem,
   Icon,
   Pill,
   Row,
 } from '@components';
+import { useNavigation } from '@react-navigation/native';
 import { palette } from '@styles';
-import { ViewStyleProps } from '@types';
+import { NotificationDTO, ViewStyleProps } from '@types';
+import { getDummyComment } from '@utils';
 import React from 'react';
 
 interface Props {
+  item: NotificationDTO;
   style?: ViewStyleProps;
 }
 
-export const NotificationItem = ({ style }: Props) => {
-  return (
-    <Row style={[{ alignItems: 'flex-start' }, style]}>
-      <Icon name="announcement" color={palette.primary} style={{ marginTop: 4 }} />
+export const NotificationItem = ({ item }: Props) => {
+  const nav = useNavigation();
+  const query = item.targetString.split('/');
 
-      <AView ml="s06" style={{ flex: 1 }}>
-        <Row>
+  const onPress = () => {
+    if (query.length < 2) return;
+
+    const commentId = +query[3];
+    const postId = +query[1];
+    nav.navigate('CommentDetail', {
+      comment: getDummyComment({ commentId, postId }),
+    });
+  };
+
+  return (
+    <HightlightListItem onPress={onPress}>
+      <Row pl="s06" pv="s06" style={[{ alignItems: 'flex-start' }]}>
+        <Icon name="announcement" color={palette.primary} style={{ marginTop: 4 }} />
+
+        <AView ml="s06" style={{ flex: 1 }}>
+          {/* <Row>
           <Pill title="오렌지 학원" />
           <Pill title="오렌지주스반" ml="s03" />
-        </Row>
-        <ContentTitle mt="s04">새로운 공지가 올라왔습니다</ContentTitle>
-        <ContentText mt="s03">
-          차량시간 변경: 안녕하세요, 현재 차량이 정...
-        </ContentText>
-        <HelpText mt="s05">2021/3/31 오전 10:30</HelpText>
-      </AView>
-    </Row>
+        </Row> */}
+          <ContentTitle>{item.title}</ContentTitle>
+          <ContentText mt="s03">{item.content}</ContentText>
+          {/* <HelpText mt="s05">2021/3/31 오전 10:30</HelpText> */}
+        </AView>
+      </Row>
+    </HightlightListItem>
   );
 };
