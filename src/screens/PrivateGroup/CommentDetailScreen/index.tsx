@@ -122,7 +122,8 @@ const useCommentAction = (comment: CommentDTO) => {
       nav.navigate('Confirm', {
         isDanger: true,
         text: '정말 댓글을 삭제하시겠습니까?',
-        onConfirm: () => deleteCommentMutation.mutate(comment),
+        onConfirm: () =>
+          deleteCommentMutation.mutate({ comment, onSuccess: nav.goBack }),
       });
     },
     onLikeComment: () => {

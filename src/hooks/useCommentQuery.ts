@@ -56,12 +56,21 @@ export const useCommentQuery = () => {
   );
 
   const deleteCommentMutation = useMutation(
-    async (comment: CommentDTO) => {
+    async ({
+      comment,
+      onSuccess,
+    }: {
+      comment: CommentDTO;
+      onSuccess?: () => void;
+    }) => {
       await API.delete_comment(comment.postId, comment.id);
-      return comment.postId;
+      return { postId: comment.postId, onSuccess };
     },
     {
-      onSuccess: refreshCommentList,
+      onSuccess: ({ postId, onSuccess }) => {
+        refreshCommentList(postId);
+        onSuccess?.();
+      },
     },
   );
 
