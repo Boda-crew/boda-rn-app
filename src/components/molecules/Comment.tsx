@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { CommentDTO, CommentType } from '@types';
 import { formatDuration, renderAnonymousUserName } from '@utils';
-import { useAuth } from '@stores';
+import { useAuth, useBloackedCommentIdList } from '@stores';
 import {
   ATouchableOpacity,
   AView,
@@ -10,6 +10,7 @@ import {
   ContentText,
   ContentTitle,
   HelpText,
+  Icon,
   Row,
 } from '../atoms';
 import { Pill } from './Pill';
@@ -30,10 +31,21 @@ export const Comment = ({
 }: CommentProps) => {
   const { auth } = useAuth();
   const nav = useNavigation();
+  const { blockedCommentIdList, toggleBlockedComment } = useBloackedCommentIdList();
+  const isBlocked = blockedCommentIdList.includes(comment.id);
   const isAuthor = auth?.id === comment.author.id;
 
   const onPressReport = () => {
     nav.navigate('Report', { targetType: '댓글', targetId: comment.id });
+  };
+
+  const onBlockComment = () => {
+    nav.navigate('Confirm', {
+      text: isBlocked ? '차단을 해제하시겠습니까?' : '해당 댓글을 차단하시겠습니까?',
+      onConfirm: async () => {
+        toggleBlockedComment(comment.id);
+      },
+    });
   };
 
   return (
@@ -62,11 +74,24 @@ export const Comment = ({
             <ATouchableOpacity onPress={onPressReport}>
               <HelpText>신고</HelpText>
             </ATouchableOpacity>
+            <HelpText> · </HelpText>
+            <ATouchableOpacity onPress={onBlockComment}>
+              <HelpText>차단</HelpText>
+            </ATouchableOpacity>
           </>
         )}
       </Row>
 
-      <ContentText mt="s03">{comment.content}</ContentText>
+      <AView mt="s03">
+        {isBlocked ? (
+          <Row ml="s02">
+            <Icon name="information" width={16} color="gray" />
+            <ContentText ml="s03">내가 차단한 댓글입니다.</ContentText>
+          </Row>
+        ) : (
+          <ContentText>{comment.content}</ContentText>
+        )}
+      </AView>
     </AView>
   );
 };

@@ -8,6 +8,7 @@ import { CommentDTO, PostDTO } from '@types';
 import { AText, AView, HeaderTitle, Row } from '../atoms';
 import { CommentItem, WriteCommentForm } from '../organisms';
 import { KeyboardTextInput } from '../molecules';
+import { Switch } from 'react-native';
 interface Props {
   isLoading?: boolean;
   post: PostDTO;
@@ -36,7 +37,7 @@ export const CommentLayout = ({ isLoading, post, commentList }: Props) => {
     nav.navigate('Confirm', {
       text: '해당 댓글을 삭제하시겠습니까?',
       isDanger: true,
-      onConfirm: () => deleteCommentMutation.mutate(comment),
+      onConfirm: () => deleteCommentMutation.mutate({ comment }),
     });
   };
 
