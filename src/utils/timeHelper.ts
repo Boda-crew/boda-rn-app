@@ -63,7 +63,7 @@ export const formatCommon = (target: DateValue) => {
  */
 export const formatDuration = (target: DateValue, now: DateValue = new Date()) => {
   const second = Math.floor(
-    (new Date(now).getTime() - getKRDate(target).getTime()) / 1000,
+    (new Date(now).getTime() - getKRDate(target).getTime()) / 1000 + 2,
   );
   if (second < 60) return `${second}초 전`;
 
