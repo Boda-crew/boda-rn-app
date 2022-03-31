@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
 import SplashScreen from 'react-native-splash-screen';
 import { RootNavigator } from '@navigators';
-import { useBootAuth, useBootBlockedCommentIdList } from '@stores';
+import { useBootAuth, useBootBlockedUserIdList } from '@stores';
 import { FCMService, NotiService } from '@services';
 
 export const App = () => {
   const { boostAuth } = useBootAuth();
-  const { boostBlockedCommentIdList } = useBootBlockedCommentIdList();
+  const { boostBlockedUserIdList: boostBlockedCommentIdList } = useBootBlockedUserIdList();
 
   useEffect(() => {
     FCMService.requestPushNotificationPermission();

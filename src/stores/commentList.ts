@@ -1,16 +1,11 @@
 import { useQuery } from 'react-query';
-import { atom, useRecoilState, useSetRecoilState } from 'recoil';
-import { API, StorageService } from '@services';
+import { atom, useRecoilState } from 'recoil';
+import { API } from '@services';
 import { CommentDTO } from '@types';
 import { sortCreatedDateTimeByNewest } from '@utils';
 
 export const commentListStore = atom<CommentDTO[]>({
   key: 'commentListStore',
-  default: [],
-});
-
-export const blockedCommentIdListStore = atom<number[]>({
-  key: 'blockedCommentIdListStore',
   default: [],
 });
 
@@ -41,34 +36,4 @@ export const useCommentListStore = (postId: number) => {
   const { isLoading, refetch } = useCommentListQuery(postId, setCommentList);
 
   return { commentList, isLoading, refetch };
-};
-
-export const useBootBlockedCommentIdList = () => {
-  const setBlockedCommentIdList = useSetRecoilState(blockedCommentIdListStore);
-
-  return {
-    boostBlockedCommentIdList: async () => {
-      const list = await StorageService.getItemAsync('blockedCommentList');
-      if (list) setBlockedCommentIdList(list);
-    },
-  };
-};
-
-export const useBloackedCommentIdList = () => {
-  const [blockedCommentIdList, setBlockedCommentIdList] = useRecoilState(
-    blockedCommentIdListStore,
-  );
-
-  return {
-    blockedCommentIdList,
-    toggleBlockedComment: async (commentId: number) => {
-      const isBlocked = blockedCommentIdList.includes(commentId);
-      const newList = isBlocked
-        ? blockedCommentIdList.filter(v => commentId !== v)
-        : [...blockedCommentIdList, commentId];
-
-      setBlockedCommentIdList(newList);
-      await StorageService.setItemAsync('blockedCommentList', newList);
-    },
-  };
 };

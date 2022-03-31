@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { CommentDTO, CommentType } from '@types';
 import { formatDuration, renderAnonymousUserName } from '@utils';
-import { useAuth, useBloackedCommentIdList } from '@stores';
+import { useAuth, useBloackedUserIdList } from '@stores';
 import {
   ATouchableOpacity,
   AView,
@@ -31,8 +31,8 @@ export const Comment = ({
 }: CommentProps) => {
   const { auth } = useAuth();
   const nav = useNavigation();
-  const { blockedCommentIdList, toggleBlockedComment } = useBloackedCommentIdList();
-  const isBlocked = blockedCommentIdList.includes(comment.id);
+  const { blockedUserIdList, toggleBlockedComment } = useBloackedUserIdList();
+  const isBlocked = blockedUserIdList.includes(comment.author.id);
   const isAuthor = auth?.id === comment.author.id;
 
   const onPressReport = () => {
@@ -43,7 +43,7 @@ export const Comment = ({
     nav.navigate('Confirm', {
       text: isBlocked ? '차단을 해제하시겠습니까?' : '해당 댓글을 차단하시겠습니까?',
       onConfirm: async () => {
-        toggleBlockedComment(comment.id);
+        toggleBlockedComment(comment.author.id);
       },
     });
   };

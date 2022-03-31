@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-type keyType = 'authToken' | 'blockedCommentList';
+type keyType = 'authToken' | 'blockedUserIdList';
 
 export const setItemAsync = async (key: keyType, value: any) => {
   try {
